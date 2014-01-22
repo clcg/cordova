@@ -1,0 +1,96 @@
+ <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+* Set Value
+*
+* Grabs a value from the POST array for the specified field so you can
+* re-populate an input field or textarea.  If Form Validation
+* is active it retrieves the info from the validation class. This
+* function will override CI's native set_value() function, allowing
+* all form elements to be repopulated and not just elements with
+* set rules.
+*
+* @access   public
+* @param   string
+* @return   mixed
+*/
+if ( ! function_exists('set_value'))
+{
+  function set_value($field = '', $default = '')
+  {
+      $OBJ =& _get_validation_object();
+
+      if ($OBJ === TRUE && isset($OBJ->_field_data[$field]))
+      {
+        return form_prep($OBJ->set_value($field, $default));
+      }
+      else
+      {
+        if ( ! isset($_POST[$field]))
+        {
+          return $default;
+        }
+
+        return form_prep($_POST[$field]);
+      }
+  }
+}
+
+/**
+* Expand All Accordions
+*
+* Calls upon a JS function to expand all Bootstrap 
+* accordions on a page.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   string   Proper JavaScript
+*/
+if ( ! function_exists('expand_all_accordions'))
+{
+  function expand_all_accordions()
+  {
+    return "<script>expandAllAccordions();</script>";
+  }
+}
+
+/**
+* Icon Edit
+*
+* Adds the Bootstrap icon 'icon-edit' with some extra markup.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int Variation unique ID 
+* @return   string   Proper HTML
+*/
+if ( ! function_exists('icon_edit'))
+{
+  function icon_edit()
+  {
+    return '<span class="popover-wrapper"><a href="#" class="edit-icon-wrapper" data-toggle="popover" data-placement="top" title="" data-content="What do you wanna say?" data-original-title="A Title"><i class="icon-pencil"></i></a></span>';
+  }
+}
+
+/**
+* Hidden
+*
+* Adds class "hidden" to an HTML element.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   mixed   Proper HTML, else NULL
+*/
+if ( ! function_exists('hidden'))
+{
+  function hidden($hide = TRUE)
+  {
+    if ($hide === TRUE || strtoupper($hide) === 'TRUE') {
+      return "hidden";
+    }
+    return NULL;
+  }
+}
+
+/* End of file MY_form_helper.php */
+/* Location: ./application/helpers/MY_form_helper.php */  

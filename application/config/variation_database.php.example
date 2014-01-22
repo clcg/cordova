@@ -1,0 +1,342 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * PLEASE READ THROUGH EVERYTHING THOROUGHLY BEFORE EDITING!
+ */
+
+/*
+|--------------------------------------------------------------------------
+| Contact Email
+|--------------------------------------------------------------------------
+|
+| If users have questions, who should they contact?
+|
+*/
+$config['contact_email'] = 'admin@example.com';
+
+/*
+|--------------------------------------------------------------------------
+| Variation Database Prefix
+|--------------------------------------------------------------------------
+|
+| The shorthand prefix for the variation database. If the name of the
+| database is the "Deafness Variation Database", then a reasonable prefix
+| would be 'dvd'. The prefix is used for naming of downloadable files,
+| website headers, etc.
+|
+*/
+$config['vd_prefix'] = 'vd'; // i.e. dvd (for Deafness Variation Database)
+
+/*
+|--------------------------------------------------------------------------
+| Variation Database Version
+|--------------------------------------------------------------------------
+|
+| Specify which version of the variation database you would like to use.
+| To automatically use the latest version, set this to 0 (this is recommended
+| unless you absolutely need to rollback to a previous version of the data).
+|
+*/
+$config['vd_version'] = 0; // i.e. 0, 3, 7, etc.
+
+/*
+|--------------------------------------------------------------------------
+| Variation Database Strings
+|--------------------------------------------------------------------------
+|
+| Common strings used for views, naming of downloadable files, etc.
+|
+*/
+$config['strings']['site_full_name']        = 'Variation Database'; // i.e Deafness Variation Database
+$config['strings']['site_short_name']        = strtoupper($config['vd_prefix']); // i.e. DVD
+$config['strings']['footer_info']        = 'University of Iowa'; // Insert any HTML if needed
+
+/*
+| -------------------------------------------------------------------------
+| Tables
+| -------------------------------------------------------------------------
+|
+| Database table names.
+|
+*/
+
+/**
+ * READ EVERYTHING ABOUT $config['tables']['vd_live'] BEFORE EDITING!!!
+ *
+ * Variation data that can be seen on the public website is held in the
+ * live table. Prior to releasing a new version, a backup of the current 
+ * live table will be made. Each version of the live table will have the 
+ * following naming scheme:
+ *     PREFIX + UNDERSCORE + INTEGER
+ * For example: variations_1, variations_2, variations_3, etc.
+ *
+ * Because the versions are dynamic (and configs defined here are static),
+ * the latest version will need to be determined elsewhere. Therefore, 
+ * the correct table name (based on the latest version) is determined in 
+ * application/core/MY_Model.php using the set_vd_live_table() function.
+ * HOWEVER, if you prefer to use a specific table instead, then enter it
+ * in the single quotes below.
+ *
+ * In short:
+ *   - Set to 'variations' to automatically determine the latest table,
+ *   - OR, speficy a table below.
+ *
+ * Unless you have a good reason to change it, it is best just to leave 
+ * this alone.
+ */
+$config['tables']['vd_live'] = 'variations'; // READ ABOVE before changing
+
+/**
+ * Variation data that has been edited with the editor interface will
+ * first be held in a queue before it is released. Specify the name of
+ * the table in the database for which the queued data will be held. 
+ *
+ * The same rules apply to $config['tables']['vd_queue'] as they do
+ * to $config['tables']['vd_live']. Read above for more info.
+ * 
+ * In short:
+ *   - Set to 'variations_queue' to automatically determine the latest table,
+ *   - OR, speficy a table below.
+ *
+ * Unless you have a good reason to change it, it is best just to leave 
+ * this alone.
+ */
+$config['tables']['vd_queue'] = 'variations_queue'; // READ ABOVE before changing
+
+/**
+ * This table holds data on the number of variants in each gene.
+ *
+ * The same rules apply to $config['tables']['variant_count'] as they do
+ * to $config['tables']['vd_live']. Read above for more info.
+ * 
+ * In short:
+ *   - Set to 'variant_count' to automatically determine the latest table,
+ *   - OR, speficy a table below.
+ *
+ * Unless you have a good reason to change it, it is best just to leave 
+ * this alone.
+ */
+$config['tables']['variant_count'] = 'variant_count'; // READ ABOVE before changing
+
+/**
+ * Table of variant reviews, including private comments and whether or not
+ * the variant has been confirmed for release.
+ *
+ * The same rules apply to $config['tables']['reviews'] as they do
+ * to $config['tables']['vd_live']. Read above for more info.
+ * 
+ * In short:
+ *   - Set to 'reviews' to automatically determine the latest table,
+ *   - OR, speficy a table below.
+ */
+$config['tables']['reviews'] = 'reviews'; // READ ABOVE before changing
+
+/**
+ * Table of database versions.
+ */
+$config['tables']['versions'] = 'versions'; // i.e. 'versions'
+
+/*
+|--------------------------------------------------------------------------
+| Pathogenicities
+|--------------------------------------------------------------------------
+|
+| Specify the available pathogenicity options such as 'Pathogenic',
+| 'Non-pathogenic', 'Unknown significance', etc.
+|
+*/
+$config['pathogenicities'] = array(
+   'Unknown significance',
+   'Unknown significance - possibly pathogenic',
+   'Unknown significance - predicted non-pathogenic',
+   'Non-pathogenic',
+   'Probable non-pathogenic',
+   'Probable pathogenic',
+   'Pathogenic',
+);
+
+/*
+|--------------------------------------------------------------------------
+| Minor Allele Frequencies
+|--------------------------------------------------------------------------
+|
+| Specify which minor allele frequencies you would like to show on the
+| website and import into the database. Comment out the ones you don't
+| want.
+|
+*/
+$config['frequencies'] = array(
+   'evs',         // Exome Variant Server (EVS)
+   '1000genomes', // 1000 Genomes
+//   'otoscope',    // OtoSCOPE
+);
+
+/*
+|--------------------------------------------------------------------------
+| Variant Evidence Summary
+|--------------------------------------------------------------------------
+|
+| Display/hide the variant evidence summary box on the variant page.
+|
+| display = TRUE
+| hide = FALSE
+|
+*/
+$config['variant_evidence_summary'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
+| Annotation Tool Path
+|--------------------------------------------------------------------------
+|
+| The annotation tool used to autofill some of the fields when a variant is
+| added through the editor interface. You must specify its path (either relative
+| or absolute). If you use a relative path, then it must be relative to the site's
+| root directory using the FCPATH constant (i.e. FCPATH/../annotation_tool/).
+|
+| IMPORTANT: Make sure that the entire annotation tool's directory recursively has
+| read and execute permissions for group 'other'.
+| Otherwise, you will be banging your head against the table at 5AM trying
+| to figure out why PHP will not run your script! Also make sure that the
+| input/output file has rwx permissions, or you'll be up till 6AM, too :)
+|
+| IMPORTANT: The annotation tool is a collection of small scripts, but its dependency
+| files are quite large (~31GB). If you are hosting more than one variation database on
+| a single server, it is recommended that this tool be placed in a common directory
+| that each site can reference instead of having a copy of the tool for each site.
+|
+| DON'T FORGET A TRAILING SLASH!
+|
+*/
+$config['annotation_path']        = '/opt/kafeen/'; // i.e. /opt/annotation_tool/
+
+/*
+|--------------------------------------------------------------------------
+| API Config
+|--------------------------------------------------------------------------
+|
+| Specify the following variables to be used with API queries.
+|
+*/
+
+/**
+ * Validation
+ *
+ * These are the allowed API parameters for 'format', 'type', and 'method'.
+ * The first element is the default option. Comment out the ones you don't
+ * want.
+ */
+$config['api']['format'] = array(
+    "tab",
+    "csv",
+    "json",
+    "xml",
+    "vcf"
+);
+$config['api']['type'] = array(
+    "position",
+    "exactposition",
+    "gene",
+    "genelist",
+    "variantlist"
+);
+$config['api']['method'] = array(
+    "plain",
+    "download"
+);
+
+/**
+ * Fields
+ *
+ * These are the fields to select from the database when 'type' is set to 
+ * any of the following:
+ *   - genelist
+ *   - variantlist
+ */
+$config['api']['genelist'] = array( // type=genelist
+    'gene',
+    'count',
+);
+$config['api']['variantlist'] = array( // type=variantlist
+    'variation',
+    'hgvs_protein_change',
+    'hgvs_nucleotide_change',
+    'variantlocale',
+    'pathogenicity',
+    'disease',
+    'pubmed_id',
+    'dbsnp',
+    'gene',
+    'evs_ea_ac',
+    'evs_ea_an',
+    'evs_aa_ac', 
+    'evs_aa_an',
+    'lrt_omega',
+    'phylop_score',
+    'phylop_pred',
+    'sift_score',
+    'sift_pred',
+    'polyphen2_score',
+    'polyphen2_pred',
+    'lrt_score',
+    'lrt_pred', 
+    'mutationtaster_score', 
+    'mutationtaster_pred', 
+    'id',
+);
+
+/*
+|--------------------------------------------------------------------------
+| Activity Log Path
+|--------------------------------------------------------------------------
+|
+| The full path to the file for logging user activity. The directory that
+| the log file is in must have write access for the web server.
+|
+| NOTE: log directories for other activity such as errors and debug 
+| messages are specified in application/config/config.php instead, not here.
+|
+*/
+$config['activity_log_path'] = APPPATH . 'logs/activity.log'; // i.e. APPPATH . 'log/activity.log'
+
+/*
+|--------------------------------------------------------------------------
+| External Authentication
+|--------------------------------------------------------------------------
+|
+| You can use external methods of authentication, which can be
+| useful for cases such as logging in via University servers,
+| LDAP, Google authentication, etc.
+|
+| To add your own, place your external authentication model in
+|   application/models/external_auth/PREFIX_auth_model.php
+| For example, if you are using Google authentication, then put it in
+|   application/models/external_auth/google_auth_model.php
+|
+| In your model create a function called authenticate(). This function
+| will automatically be called when you visit
+|   mysite.com/auth/ext/PREFIX
+|
+| The model should be in charge of:
+|   1) Authenticating the user via external means
+|   2) Logging in the user if they're registered to use the site
+|   3) Error handling (incorrect username/password, non-registered user, etc.)
+|
+| Enable an external method of authentication by specifying the
+| following in the array below:
+|   $key   = Name of the external auth model
+|   $value = Title to be displayed to the user
+| For example, if you have a Google auth model, enable it by adding
+|   'google' => 'Log in with Google'
+| Now, you can use it by going to
+|   mysite.com/auth/ext/google
+|
+| Leave the array blank (or comment out the entries) to disable
+| external authentication.
+*/
+$config['external_auth'] = array(
+//  'uiowa' => 'Log in with HawkID',
+);
+
+/* End of file variation_database.php */
+/* Location: ./application/config/variation_database.php */

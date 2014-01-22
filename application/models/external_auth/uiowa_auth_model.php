@@ -1,0 +1,94 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Uiowa_auth_model extends MY_Model {
+
+	/**
+	 * Authentication URL
+	 *
+	 * @var string
+	 */
+  public $auth_URL = '';
+
+	function __construct()
+	{
+		parent::__construct();
+    $this->auth_URL = site_url('auth/ext/uiowa');
+	}
+
+  /**
+   * Authenticate
+   * 
+   * Checks if the user has a valid username and password by:
+   *   1) Checking for proper authentication from UIowa, and
+   *   2) Checking if the user is allowed to use this site
+   *
+   * @author  David Dellsperger
+   * @author  Sean Ephraim
+   * @access  public
+   * @param   array  Array of variables to use
+   * @return  mixed  Username on success, else FALSE
+   */
+  public function authenticate($vars = NULL) {
+    if(isset($_GET['uip_ticket'])){
+      $uip_ticket = $_GET['uip_ticket'];
+      $url = "https://login.uiowa.edu/uip/checkticket.page?service=".$this->auth_URL."&uip_ticket=".$uip_ticket;
+      $rsp = file_get_contents($url);
+      $rsp = str_replace("\n", '&', $rsp);
+      parse_str($rsp); // Get the HawkID (username) from the response
+
+      if( ! isset($error)){
+		    $this->load->library('ion_auth');
+        if ($this->ion_auth->username_check($hawkid)) {
+          // Valid user!
+          $this->load->model('auth_model');
+          if ($this->auth_model->force_login($hawkid)) {
+		  	    // login successful!
+            $user = $this->ion_auth->user()->row();
+
+            // Who should the welcome message be addressed to?
+            if ($user->first_name) {
+              $name = $user->first_name;
+            }
+            else {
+              $name = $user->username;
+            }
+
+            // Set welcome message
+            if ($name) {
+		  	      $this->session->set_flashdata('success', 'Welcome, '.$name.'!');
+            }
+            else {
+		  	      $this->session->set_flashdata('success', 'Welcome!');
+            }
+
+            // Log the login!
+            $username = $user->username;
+            activity_log("User '$username' logged in", 'login');
+
+            redirect('variations/unreleased');
+          }
+          else {
+            // ERROR: could not login
+            $this->session->set_flashdata('error', 'There was an error logging in. Please try again.');
+          }
+        }
+        else {
+          // ERROR: non-registered user of this site
+          $this->session->set_flashdata('error', 'You are not registered to use this site.');
+        }
+      }
+      else {
+        // ERROR: UI login tools returned an error
+        $this->session->set_flashdata('error', "There was an error logging in: '$error'");
+      }
+      // Redirect to local login if an error occurred
+      redirect('login');
+    }
+    // Redirect to the UIowa login page
+    redirect('https://login.uiowa.edu/uip/login.page?service=' . $this->auth_URL);
+  }
+
+}
+
+/* End of file uiowa_auth_model.php */
+/* Location: ./application/models/external_auth/uiowa_auth_model.php */

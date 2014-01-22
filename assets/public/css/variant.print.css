@@ -1,0 +1,130 @@
+html,body {
+font:9px helvetica,arial,sans-serif
+}
+h1,h2,h3,h4,h5,h6 {
+margin:0;
+padding:0;
+font-family:helvetica,arial,geneva,sans-serif;
+}
+h1 {
+color:#336699;
+}
+h2 {
+color:#666;
+}
+h3 {
+font-size:14px;
+color:#990000;
+border-bottom:1px dotted #333;
+padding:80px 0 0 0;
+margin:5px 0;
+}
+h4 {
+font-size:12px;
+color:#CC0000;
+border-bottom:1px dotted #666;
+margin:5px 0;
+}
+h5 {
+font-size:11px;
+color:#FF0000;
+border-bottom:1px dotted #999;
+margin:5px 0;
+}
+h6 {
+font-size:10px;
+color:#FF3300;
+margin:5px 0;
+}
+a {
+text-decoration:none;
+color:#000;
+}
+
+/* Things to hide */
+#actions,
+.evidence-least,
+.evidence-most {
+display:none;
+}
+
+/* Masthead */
+#logo {
+color:#999;
+text-decoration:none;
+text-transform:uppercase;
+padding:5px 0;
+}
+
+/* Variant and info */
+#protein {
+border-top:1px solid #CCC;
+border-bottom:1px solid #CCC;
+margin:0 0 5px 0;
+padding:5px 0;
+}
+
+/* Table */
+table {
+width:100%;
+}
+table th {
+text-align:left;
+padding:3px;
+}
+table td {
+padding:3px;
+}
+.section-small th {
+width:150px;
+}
+
+#info {
+position:absolute;
+width:150px;
+top:80px;
+}
+#info th {
+width:70px;
+}
+#call {
+position:absolute;
+left:170px;
+top:80px;
+width:200px;
+}
+#call th {
+width:70px;
+}
+#evidence {
+position:absolute;
+left:390px;
+top:80px;
+}
+#evidence th {
+width:110px;
+}
+#evidence img {
+width:75px;
+}
+#frequency table td {
+width:33%;
+}
+
+/* Footer */
+#footer {
+display:block;
+border-top:1px solid #CCC;
+padding:5px 0;
+margin:5px 0;
+}
+
+/* Colors */
+.red          {background-color:#df4620;}
+.orange       {background-color:#FF9900;}
+.green        {background-color:#3db627;}
+.gray         {background-color:#999;}
+.red-light    {background-color:#f5c8bc;}
+.orange-light {background-color:#ffe0b3;}
+.green-light  {background-color:#d4f5ce;}
+.gray-light   {background-color:#DDD;}

@@ -1,0 +1,417 @@
+html,body {
+margin:0;
+padding:0;
+background:#eaeaea;
+font-family:helvetica,arial,geneva,sans-serif;
+}
+
+/* Headers */
+h1,h2,h3,h4,h5,h6 {
+margin:0;
+padding:0;
+font-family:helvetica,arial,geneva,sans-serif;
+}
+h1 {
+font-size:1.4em;
+margin:0 0 5px 0;
+color:#336699;
+}
+h2 {
+font-size:1em;
+line-height:125%;
+color:#666;
+}
+h3 {
+background:url(../img/variant-header-line1.png) center repeat-x;
+font-size:1em;
+margin:10px 0;
+clear:both;
+}
+h3 span {
+background:#eaeaea;
+padding:0 5px;
+color:#990000;
+}
+h4 {
+margin:0 0 10px 0;
+}
+h4 span {
+background:#FFF;
+color:#666;
+text-transform:uppercase;
+font:normal 0.65em/100% "lucida grande", "lucida sans unicode", lucida,helvetica,arial,geneva,sans-serif;
+padding:0 5px 0 0;
+letter-spacing:1px;
+}
+#frequency h5 {
+background:url(../img/variant-header-line2.png) center repeat-x;
+}
+#frequency h5 span {
+color:#CC0000;
+padding:0 5px 0 0;
+background:#FFF;
+}
+#frequency-small h5 {
+color:#CC0000;
+}
+h6 {
+color:#FF0000;
+}
+#protein {
+float:left;
+}
+
+/* Major elements */
+#variant {
+margin:0 auto;
+padding:5px 0;
+width: 650px;
+}
+.section {
+border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+background:white;
+padding:5px;
+margin:0 0 5px 0;
+clear:both;
+overflow:hidden;
+}
+
+/* Masthead */
+#masthead {
+margin:10px 0;
+overflow:hidden;
+}
+#logo span {
+float: left;
+font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+font-weight: 200;
+letter-spacing: 2px;
+color: #C0C0C0;
+font-size: 14px;
+}
+#logo {
+float:left;
+height:15px;
+width:95%;
+}
+#actions {
+float:right;
+padding:0 0 0 15px;
+}
+#actions a {
+text-decoration:none;
+font-size:0.75em;
+color:#999;
+text-transform:lowercase;
+}
+#actions a:hover {
+color:#000;
+}
+
+/* Info */
+#info {
+float:right;
+border-radius: 5px; 
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+background:white;
+padding:5px;
+}
+#info code {
+font:1em consolas,"lucida console",courier,monospace; 
+}
+#info table {
+font-size:0.7em;
+width:250px;
+border-top:1px solid #DDD;
+border-right:1px solid #DDD;
+}
+#info table th {
+width:90px;
+background:#e6e6e6;
+border-bottom:1px solid #DDD;
+text-align:left;
+padding:1px 3px;
+}
+#info table td {
+background:#FFF;
+border-bottom:1px solid #DDD;
+padding:1px 3px;
+}
+#info a {
+text-decoration:none;
+color:#333;
+padding:0 12px 0 0;
+background:url(../img/variant-external-link.png) right 0 no-repeat;
+}
+#info a:hover {
+color:#FF3300;
+}
+
+
+
+/* Top row */
+#toprow {
+clear:both;
+overflow:hidden;
+padding:5px 0 0 0;
+}
+.section-small {
+width:48%;
+border-radius: 5px; 
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+background:white;
+padding:5px;
+}
+
+/* Call */
+#call {
+float:left;
+border-radius: 5px; 
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+background:white;
+padding:5px;
+}
+#call table {
+font-size:0.7em;
+width:100%;
+border-top:1px solid #DDD;
+border-right:1px solid #DDD;
+}
+#call table th {
+width:85px;
+background:#e6e6e6;
+border-bottom:1px solid #DDD;
+text-align:left;
+padding:1px 3px;
+}
+#call table td {
+background:#FFF;
+border-bottom:1px solid #DDD;
+padding:1px 3px;
+}
+
+/* Evidence summary */
+#evidence {
+float:right;
+border-radius: 5px; 
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+padding:5px;
+}
+#evidence table {
+font-size:0.7em;
+width:100%;
+border-top:1px solid #DDD;
+border-right:1px solid #DDD;
+}
+#evidence table th {
+width:140px;
+background:#e6e6e6;
+border-bottom:1px solid #DDD;
+text-align:left;
+padding:1px 3px;
+}
+#evidence table td {
+background:#FFF;
+border-bottom:1px solid #DDD;
+padding:1px 3px;
+}
+#evidence table td img {
+margin:0 0 0 20px;
+}
+.evidence-least {
+float:left;
+display:block;
+width:20px;
+color:#CCC;
+}
+.evidence-most {
+float:right;
+display:block;
+width:20px;
+color:#CCC;
+padding:0 3px 0 0;
+}
+
+
+/* Variant scores */
+#scores table {
+font-size:0.7em;
+margin:0 auto;
+width:100%;
+border-top:1px solid #DDD;
+border-left:1px solid #DDD;
+}
+#scores table tr th {
+width:250px;
+background:#e6e6e6;
+text-align:left;
+padding:5px;
+border-bottom:1px solid #CCC;
+border-right:1px solid #CCC;
+vertical-align:top;
+}
+#scores table tr td {
+padding:5px;
+border-bottom:1px solid #DDD;
+border-right:1px solid #CCC;
+vertical-align:top;
+color:#FFF;
+}
+.scores-numbers td {
+color:#000!important;
+}
+
+/* Population frequency */
+#frequency table {
+font-size: 0.7em;
+}
+#frequency table caption {
+display:none;
+}
+#frequency table {
+width:100%;
+}
+#frequency table tbody td {
+vertical-align:top;
+padding:2px;
+}
+#frequency table tbody td img {
+display:block;
+margin:0 0 3px 0;
+}
+#frequency table tbody td br {
+display:none;
+}
+#frequency table tbody td small {
+font-weight:bold;
+display:block;
+float:left;
+width:45px;
+height:20px;
+margin:0 5px 0 0;
+}
+#frequency table tbody td span {
+display:block;
+width:200px;
+color:#999;
+font-size:0.95em;
+}
+.lastrow td {
+border-bottom:0!important;
+}
+
+
+#frequency-small table th {
+width:125px;
+text-align:left;
+padding:0 10px 0 0;
+vertical-align:top;
+}
+#frequency-small table td {
+padding:0 0 0 0;
+}
+#frequency-small table td div {
+float:left;
+font-size:0.7em;
+padding:3px;
+width:65px;
+border-right:1px dotted #CCC;
+border-bottom:1px dotted #CCC;
+}
+#frequency-small table td div:hover {
+background:#EEE;
+cursor:pointer;
+}
+#frequency-small div img {
+margin:0 0 3px 0;
+}
+#frequency-small small {
+font-weight:bold;
+display:block;
+float:left;
+height:10px;
+margin:0 5px 0 0;
+}
+#frequency-small div strong {display:none;}
+#frequency-small table span {
+color:#666;
+font-size:0.95em;
+}
+#frequency-small p {
+font-size:0.65em;
+text-align:center;
+color:#999;
+}
+
+
+/* Comments */
+#comments p {
+font:normal 0.7em/100% helvetica,arial,geneva,sans-serif;
+}
+
+/* Footer */
+#footer {
+display:block;
+color:#999;
+width:300px;
+margin: 0 auto 20px auto;
+padding:25px 0 5px 45px;
+font-size:0.65em;
+background:url(../img/ui-logo-info.png) 0 18px no-repeat;
+}
+#footer code {
+font:bold 1em consolas,"lucida console",courier,monospace; 
+color:#666;
+}
+#footer a {
+text-decoration: none;
+color: #9F999F;
+}
+
+/* Colors */
+.red          {background-color:#df4620;}
+.orange       {background-color:#FF9900;}
+.green        {background-color:#3db627;}
+.gray         {background-color:#666666;}
+.red-light    {background-color:#f5c8bc;}
+.orange-light {background-color:#ffe0b3;}
+.green-light  {background-color:#d4f5ce;}
+.gray-light   {background-color:#DDD;}
+.last         {border-bottom:none!important;}
+
+
+
+/* EXTERNAL CSS */
+
+/* TIPSY */
+.tipsy { font-size: 10px; position: absolute; padding: 5px; z-index: 100000; }
+.tipsy-inner { background-color: #000; color: #FFF; max-width: 200px; padding: 5px 8px 4px 8px; text-align: center; }
+
+/* Rounded corners */
+.tipsy-inner { border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+
+/* Uncomment for shadow */
+/*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
+
+.tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }
+
+/* Rules to colour arrows */
+.tipsy-arrow-n { border-bottom-color: #000; }
+.tipsy-arrow-s { border-top-color: #000; }
+.tipsy-arrow-e { border-left-color: #000; }
+.tipsy-arrow-w { border-right-color: #000; }
+
+.tipsy-n .tipsy-arrow { top: 0px; left: 50%; margin-left: -5px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent; }
+.tipsy-nw .tipsy-arrow { top: 0; left: 10px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent;}
+.tipsy-ne .tipsy-arrow { top: 0; right: 10px; border-bottom-style: solid; border-top: none;  border-left-color: transparent; border-right-color: transparent;}
+.tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -5px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+.tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+.tipsy-se .tipsy-arrow { bottom: 0; right: 10px; border-top-style: solid; border-bottom: none; border-left-color: transparent; border-right-color: transparent; }
+.tipsy-e .tipsy-arrow { right: 0; top: 50%; margin-top: -5px; border-left-style: solid; border-right: none; border-top-color: transparent; border-bottom-color: transparent; }
+.tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: -5px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; }

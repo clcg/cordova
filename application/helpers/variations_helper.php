@@ -1,0 +1,697 @@
+ <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+* New Variant Notice
+*
+* This is for use on the "Unreleased changes" page.
+* If parameter is TRUE, the HTML for a 'new variant' notice is returned,
+* otherwise NULL is returned.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    boolean  Display new variant notice or not?
+* @return   string   HTML string
+*/
+if ( ! function_exists('new_variant_notice'))
+{
+  function new_variant_notice($display)
+  {
+    if ($display) {
+      return '<small class="notice-new-variant"><i class="icon-info-sign"></i><i> new variant</i></small>';
+    }
+    return NULL;
+  }
+}
+
+/**
+* Unreleased Changes Notice
+*
+* This is for use on the variant edit form.
+* If this variant is found in the queue, the HTML for an 'unreleased changes exist' notice 
+* is returned, otherwise NULL is returned.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int Variation unique ID 
+* @return   mixed
+*/
+if ( ! function_exists('unreleased_changes_notice'))
+{
+  function unreleased_changes_notice($id)
+  {
+		// Initialize db tables data
+		$tables = get_instance()->config->item('tables');
+
+    $result = get_instance()->variations_model->get_unreleased_changes($id);
+
+    // Last edit date
+    $review = get_instance()->variations_model->get_variant_review_info($id);
+    if ( ! empty($review)) {
+      $last_edit = $review->updated;
+    }
+
+    if ( ! empty($result[$id]['changes'])) {
+      $href = site_url("variations/unreleased/#accordion-variant-changes-$id"); 
+      $html = '';
+      $html .= '<p class="notice rounded">';
+      $html .= '    <a class="close" data-dismiss="alert" href="#">&times;</a>';
+      $html .= '    This variant contains unreleased changes. Changed fields are highlighted below, or <a href="'.$href.'">click here</a> to see list of changes.';
+
+      if ($last_edit !== NULL) {
+        // Add last update date if available
+        $last_edit = date('j F o', strtotime($last_edit));
+        $html .= '    <br/>';
+        $html .= "    <small>Last edited on: $last_edit</small>";
+      }
+      $html .= '</p>';
+      return $html;
+    }
+    return NULL;
+  }
+}
+
+/**
+* Undesired Comments Notice
+*
+* This is for use on the variant edit form. If the 'comments' field
+* contains the text "Manual curation in progress", then this notice
+* will urge the user to change the comments accordingly.
+* If parameter is TRUE, the HTML for a 'unreleased changes exist' notice 
+* is returned, otherwise NULL is returned.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int Variation unique ID 
+* @return   mixed
+*/
+if ( ! function_exists('undesired_comments_notice'))
+{
+  function undesired_comments_notice($id)
+  {
+    $undesired_text = "Manual curation in progress";
+    $variant = get_instance()->variations_model->get_variant_by_id($id);
+    if (stristr($variant->comments, $undesired_text) !== FALSE) {
+      $html = ''
+            . '<p class="warning rounded">'
+            . '    <a class="close" data-dismiss="alert" href="#">&times;</a>'
+            . '    If this variant has been manually curated, please edit the <a href="#comments">comments</a> to reflect this.'
+            . '</p>';
+      return $html;
+    }
+    return NULL;
+  }
+}
+
+/**
+* Deletion Notice
+*
+* This is for use on the variant edit form and the unreleased changes form.
+* If this variant is scheduled for deletion, the HTML for a 'scheduled for 
+* deletion' notice is returned, otherwise NULL is returned.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int   Variation unique ID 
+* @return   mixed HTML string or NULL
+*/
+if ( ! function_exists('deletion_notice'))
+{
+  function deletion_notice($variant_id)
+  {
+    $review = get_instance()->variations_model->get_variant_review_info($variant_id);
+    if ($review) {
+      $delete = $review->scheduled_for_deletion;
+      if ($delete) {
+        $html = ''
+          . '<p class="deletion-notice rounded">'
+          . '    <i class="icon-exclamation-sign"></i> This variant is scheduled for deletion upon the next release. To unschedule it, reset the changes <a href="'.site_url("variations/edit/$variant_id").'#reset-variant-changes">here</a>.'
+          . '</p>';
+        return $html;
+      }
+    }
+    return NULL;
+  }
+}
+
+
+/**
+* Informatics Team Comments
+*
+* Return the HTML for displaying the informatics team comments for
+* a specified variant. Returns NULL if variant has no comments.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int       Variation unique ID 
+* @param    boolean   If TRUE, do not wrap in HTML
+* @return   mixed
+*/
+if ( ! function_exists('informatics_team_comments'))
+{
+  function informatics_team_comments($variant_id, $comments_only = FALSE)
+  {
+    $review = get_instance()->variations_model->get_variant_review_info($variant_id);
+    if ($review) {
+      $comments = $review->informatics_comments;
+      if ($comments) {
+        if ($comments_only) {
+          return $comments;
+        }
+        $html = ''
+              . '<p class="informatics-comments-notice rounded">'
+              .     '<b><i class="icon-info-sign"></i> Comments for the informatics team:</b><br />'
+              .     $comments
+              . '</p>';
+        return $html;
+      }
+    }
+    return NULL;
+  }
+}
+
+/**
+* Variant Confirmation Status
+*
+* Checks whether or not a variant is confirmed for release.
+* This is specifically used for the confirmation checkboxes
+* on the 'unreleased changes' page in order to decide whether
+* or not a checkbox should be checked. Checked boxes indicate
+* that the variant is unconfirmed for release.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int Variation unique ID 
+* @return   mixed
+*/
+if ( ! function_exists('variant_confirmation_status'))
+{
+  function variant_confirmation_status($variant_id)
+  {
+    $review = get_instance()->variations_model->get_variant_review_info($variant_id);
+    if ($review) {
+      $confirmed_for_release = $review->confirmed_for_release;
+      if ($confirmed_for_release) {
+        return NULL;
+      }
+    }
+    return "checked";
+  }
+}
+/**
+* Highlight If Changed
+*
+* This is for use on the variant edit form.
+* Checks if a field for a specified variant has been edited. If it has,
+* the string 'highlight' will be returned, which will serve as the class
+* for the corresponding HTML element. If there are no changes, an empty
+* string will be returned.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    int Variant unique ID
+* @param    string The name of the field to check for changes
+* @return   string
+*/
+if ( ! function_exists('highlight_if_changed'))
+{
+  function highlight_if_changed($variant_id, $field)
+  {
+    $result = get_instance()->variations_model->get_unreleased_changes($variant_id);
+
+    if ( ! empty($result[$variant_id]['changes'])) {
+      $changes = $result[$variant_id]['changes'];
+      if (array_key_exists($field, $changes)) {
+        return 'highlight';
+      }
+    }
+    return '';
+  }
+}
+
+/**
+* Select Option If Matching
+*
+* This is for use on the variant edit form.
+* This function is used on HTML select elements in order to automatically
+* select the value that is currently stored in the database.
+* For example, if a variant has an associated pathogenicity (out of a
+* handful of possible pathogenicities), then the current pathogenicity
+* must be automatically selected every time the edit form is visited.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    string   Value 1 to compare for equality
+* @param    string   Value 2 to compare for equality
+* @return   string   Proper CSS
+*/
+if ( ! function_exists('select_option_if_matching'))
+{
+  function select_option_if_matching($value1, $value2)
+  {
+    if ($value1 === $value2) {
+      return 'selected="selected"';
+    }
+    else if ((string) $value1 === (string) $value2) {
+      // Special case for 0's
+      // |---> for some reason (0 !== 0) -- Why, PHP? Why? :/
+      return 'selected="selected"';
+    }
+    return '';
+  }
+}
+
+/**
+* Print Letter Table
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    string
+* @return   string
+*/
+if ( ! function_exists('print_letter_table'))
+{
+  function print_letter_table()
+  {
+    $selected_letter = get_instance()->uri->segment(2);
+    if ($selected_letter !== FALSE) {
+      // Sanitization handled by method
+      return get_instance()->variations_model->get_letter_table($selected_letter);
+    } 
+    else {
+      return get_instance()->variations_model->get_letter_table();
+    }
+  }
+}
+
+/**
+* Display Variant Frequencies
+*
+* Displays the proper HTML to show variant allele frequencies 
+* depending on the URI.
+*
+* If 'full' is a URI parameter (i.e. /variant/1769?full), then
+* the full frequency display is shown. If 'full' is not a parameter
+* then the small frequency display is shown.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   void
+*/
+if ( ! function_exists('display_variant_frequencies'))
+{
+  function display_variant_frequencies()
+  {
+    if (isset($_GET['full'])) {
+      // Load full view
+      get_instance()->load->view('/variations/variant/frequencies/freq_full.php');
+    } 
+    else {
+      // Load small view
+      get_instance()->load->view('/variations/variant/frequencies/freq_small.php');
+    }
+  }
+}
+
+/**
+* Display Variant Header
+*
+* Decides whether or not to display the header on the variant page.
+* If the user is viewing the variant in 'full' page mode then the
+* header will display, otherwise it won't.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   void
+*/
+if ( ! function_exists('display_variant_header'))
+{
+  function display_variant_header()
+  {
+    if (isset($_GET['full'])) {
+      get_instance()->load->view('/variations/variant/header.php');
+    } 
+  }
+}
+
+/**
+* Display Variant Footer
+*
+* Decides whether or not to display the footer on the variant page.
+* If the user is viewing the variant in 'full' page mode then the
+* footer will display, otherwise it won't.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   void
+*/
+if ( ! function_exists('display_variant_footer'))
+{
+  function display_variant_footer()
+  {
+    if (isset($_GET['full'])) {
+      get_instance()->load->view('/variations/variant/footer.php');
+    } 
+  }
+}
+
+/**
+* Include Variant JS
+*
+* Decides whether or not to include JavaScript on the variant page.
+* If the user is viewing the variant in 'small' page mode then the
+* JavaScript will load, otherwise it won't.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   void
+*/
+if ( ! function_exists('include_variant_js'))
+{
+  function include_variant_js()
+  {
+    if (isset($_GET['full'])) {
+      return '<script type="text/javascript" src="'.site_url('assets/public/js/script.js').'"></script>';
+    } 
+  }
+}
+
+/**
+* Include Proper Variant CSS
+*
+* Includes the proper links to CSS files depending on the URI.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   string Proper CSS links
+*/
+if ( ! function_exists('include_proper_variant_css'))
+{
+  function include_proper_variant_css()
+  {
+    if (isset($_GET['print'])) {
+      // Load print version...
+      $html = '<link rel="stylesheet" href="'.site_url("assets/public/css/variant.print.css").'" type="text/css" media="screen" title="Print Styles" charset="utf-8" />';
+    }
+    else {
+      // Otherwise load screen version...
+      $html = '<link rel="stylesheet" href="'.site_url("assets/public/css/variant.css").'" type="text/css" media="screen" title="Screen Styles" charset="utf-8" />';
+    }
+    return $html;
+  }
+}
+
+/**
+* Display Proper Logo
+*
+* Displays special logo text for the /doc and /help pages.
+* By default, all other pages will display the name of site.
+*
+* @author   Sean Ephraim
+* @access   public
+* @return   string Proper CSS links
+*/
+if ( ! function_exists('display_proper_logo'))
+{
+  function display_proper_logo()
+  {
+    if (uri_string() === 'help') {
+      $html = '<h1 id="help-logo"><span>How to use this site</span></h1>';
+    }
+    else if (uri_string() === 'doc') {
+      $html = '<h1 id="api-logo"><span>API Documentation</span></h1>';
+    }
+    else {
+      $strings = get_instance()->config->item('strings');
+      $html = '<h1 id="main-logo"><span>'.strtoupper($strings['site_full_name']).'</span></h1>';
+    }
+    return $html;
+  }
+}
+
+/**
+* Variant Form Input
+*
+* Returns a HTML text input element with a proper id, name, label
+* and default value. Also locks/unlocks the field for editing and
+* highlights the field if it has been changed in any way. By
+* default, the field is unlocked for editing.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    string   Field name (database name)
+* @param    string   Field label (human-readable name)
+* @param    mixed    Default value
+* @param    boolean  (optional) Editable field or not (default = TRUE)
+* @return   string   HTML text input element
+*/
+if ( ! function_exists('variant_form_input'))
+{
+  function variant_form_input($field, $label, $default_value, $editable = TRUE)
+  {
+    // Get the variation's unique ID from the URI
+    $variation_id = get_instance()->uri->segment(3);
+
+    $html  = '';
+    if ($editable === TRUE) {
+      $highlight = highlight_if_changed($variation_id, $field);
+      // Editable input
+      $html .= '<label for="'.$field.'">';
+      $html .=     $label.' <span class="edit-icon-wrapper"><i class="icon-pencil"></i></span>';
+      $html .= '</label>';
+      $html .= '<input id="'.$field.'" name="'.$field.'" type="text" class="input-xlarge '.$highlight.'" value="'.set_value($field, $default_value).'">';
+    }
+    else {
+      $highlight = ''; // Don't highlight uneditable input
+      // Uneditable input -- not actually input at all :0
+      $html .= "<div>$label</div>";
+      $html .= '<span id="'.$field.'" class="input-xlarge uneditable-input '.$highlight.'">'.$default_value.'</span>';
+    }
+    return $html;
+  }
+}
+
+/**
+* Variant Form Dropdown
+*
+* Returns a HTML dropdown element with a proper id, name, label,
+* options, and default selection. Also locks/unlocks the field for editing
+* and highlights the field if it has been changed in any way. By
+* default, the field is unlocked for editing.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    string   Field name (database name)
+* @param    string   Field label (human-readable name)
+* @param    array    Selectable options
+* @param    mixed    Default selection
+* @param    boolean  (optional) Editable field or not (default = TRUE)
+* @return   string   HTML dropdown element
+*/
+if ( ! function_exists('variant_form_dropdown'))
+{
+  function variant_form_dropdown($field, $label, $options, $default_selection, $editable = TRUE)
+  {
+    // Get the variation's unique ID from the URI
+    $variation_id = get_instance()->uri->segment(3);
+
+    // Did the user already try to submit this field (and an error was thrown)?
+    // ... if so, get that value back from POST
+    if (isset($_POST[$field])) {
+      $default_selection = $_POST[$field];
+    }
+
+    $html  = '';
+    if ($editable === TRUE) {
+      $highlight = highlight_if_changed($variation_id, $field);
+      // Editable input
+      $html .= '<label for="'.$field.'">';
+      $html .=     $label.' <span class="edit-icon-wrapper"><i class="icon-pencil"></i></span>';
+      $html .= '</label>';
+      $html .= '<select id="'.$field.'" name="'.$field.'" class="'.$highlight.'">';
+      foreach($options as $option) {
+        $html .= '  <option value="'.$option.'" '.select_option_if_matching($option, $default_selection).'>'.$option.'</option>';
+      }
+      $html .= '</select>';
+    }
+    else {
+      $highlight = ''; // Don't highlight uneditable input
+      // Uneditable input -- not actually input at all :0
+      $html .= "<div>$label</div>";
+      $html .= '<span id="'.$field.'" class="input-xlarge uneditable-input '.$highlight.'">'.$default_selection.'</span>';
+    }
+    return $html;
+  }
+}
+
+/**
+* Variant Form Dropdown
+*
+* Returns a HTML dropdown element with a proper id, name, label,
+* options, and default selection. Also locks/unlocks the field for editing
+* and highlights the field if it has been changed in any way. By
+* default, the field is unlocked for editing.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    string   Field name (database name)
+* @param    string   Field label (human-readable name)
+* @param    array    Selectable options
+* @param    mixed    Default selection
+* @param    boolean  (optional) Editable field or not (default = TRUE)
+* @return   string   HTML dropdown element
+*/
+if ( ! function_exists('unlock_all_fields_button'))
+{
+  function unlock_all_fields_button() {
+    if (isset($_GET['unlock']) && $_GET['unlock'] === 'true') {
+      $html = '<button id="unlock-all" class="rounded" type="button" data-toggle="modal" data-target="#modal-lock-confirm"><i class="icon-lock icon-white"></i> Lock autofill fields</button>';
+    }
+    else {
+      $html = '<button id="unlock-all" class="rounded" type="button" data-toggle="modal" data-target="#modal-unlock-confirm"><i class="icon-chevron-up icon-white"></i> Unlock all fields</button>';
+    }
+
+    return $html;
+  }
+}
+
+/**
+* Edit Allele Frequencies
+*
+* Display the minor allele frequency edit fields. This function will
+* dynamically generate HTML based on the configuration preferences for
+* minor allele frequencies. It will only display frequencies that the
+* user has configured to be displayed.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    object   Database record for the variation
+* @param    boolean  Editable fields or not
+* @return   string   HTML of input fields
+*/
+if ( ! function_exists('edit_allele_frequencies'))
+{
+  function edit_allele_frequencies($variation, $unlock) {
+    // Which frequencies should be shown?
+    $freqs = get_instance()->config->item('frequencies');
+
+    // Build a HTML string of allele frequency fields
+    $html = '';
+    if (count($freqs) > 0) {
+      // Begin collapsable accordion
+      $html .= '<div class="accordion" id="accordion-variant-freqs">';
+      $html .= '      <div class="accordion-group">';
+      $html .= '            <div class="accordion-heading">';
+      $html .= '                <a class="accordion-toggle rowlink" data-toggle="collapse" data-parent="#accordion-variant-freqs" href="#edit-variant-freqs">';
+      $html .= '                    <i class="icon-plus"></i> Variant Frequencies';
+      $html .= '                </a>';
+      $html .= '            </div>';
+      $html .= '            <div id="edit-variant-freqs" class="accordion-body collapse">';
+      $html .= '                <div class="accordion-inner">';
+      // EVS
+      if (in_array('evs', $freqs)) {
+        $html .= variant_form_input('evs_ea_ac', 'EVS European American Alternate Allele Count', $variation->evs_ea_ac, $unlock);
+        $html .= variant_form_input('evs_ea_an', 'EVS European American Total Allele Count', $variation->evs_ea_an, $unlock);
+        $html .= variant_form_input('evs_aa_ac', 'EVS African American Alternate Allele Count', $variation->evs_aa_ac, $unlock);
+        $html .= variant_form_input('evs_aa_an', 'EVS African American Total Allele Count', $variation->evs_aa_an, $unlock);
+      }
+      // OtoSCOPE
+      if (in_array('otoscope', $freqs)) {
+        $html .= variant_form_input('otoscope_ac', 'OtoSCOPE Alternate Allele Count', $variation->otoscope_ac, $unlock);
+        $html .= variant_form_input('otoscope_an', 'OtoSCOPE Total Allele Count', $variation->otoscope_an, $unlock);
+      }
+      // 1000 Genomes
+      if (in_array('1000genomes', $freqs)) {
+        $html .= variant_form_input('tg_acb_ac', '1000 Genomes African Caribbean in Barbados Alternate Allele Count', $variation->tg_acb_ac, $unlock);
+        $html .= variant_form_input('tg_acb_an', '1000 Genomes African Caribbean in Barbados Total Allele Count', $variation->tg_acb_an, $unlock);
+        $html .= variant_form_input('tg_asw_ac', '1000 Genomes African Ancestry in Southwest US Alternate Allele Count', $variation->tg_asw_ac, $unlock);
+        $html .= variant_form_input('tg_asw_an', '1000 Genomes African Ancestry in Southwest US Total Allele Count', $variation->tg_asw_an, $unlock);
+        $html .= variant_form_input('tg_cdx_ac', '1000 Genomes Chinese Dai in Xishuangbanna Alternate Allele Count', $variation->tg_cdx_ac, $unlock);
+        $html .= variant_form_input('tg_cdx_an', '1000 Genomes Chinese Dai in Xishuangbanna Total Allele Count', $variation->tg_cdx_an, $unlock);
+        $html .= variant_form_input('tg_ceu_ac', '1000 Genomes Utah residents, Northern and Western European Ancestry Alternate Allele Count', $variation->tg_ceu_ac, $unlock);
+        $html .= variant_form_input('tg_ceu_an', '1000 Genomes Utah residents, Northern and Western European Ancestry Total Allele Count', $variation->tg_ceu_an, $unlock);
+        $html .= variant_form_input('tg_chb_ac', '1000 Genomes Han Chinese in Beijing, China Alternate Allele Count', $variation->tg_chb_ac, $unlock);
+        $html .= variant_form_input('tg_chb_an', '1000 Genomes Han Chinese in Beijing, China Total Allele Count', $variation->tg_chb_an, $unlock);
+        $html .= variant_form_input('tg_chs_ac', '1000 Genomes Han Chinese South Alternate Allele Count', $variation->tg_chs_ac, $unlock);
+        $html .= variant_form_input('tg_chs_an', '1000 Genomes Han Chinese South Total Allele Count', $variation->tg_chs_an, $unlock);
+        $html .= variant_form_input('tg_clm_ac', '1000 Genomes Colombian in Medellin, Colombia Alternate Allele Count', $variation->tg_clm_ac, $unlock);
+        $html .= variant_form_input('tg_clm_an', '1000 Genomes Colombian in Medellin, Colombia Total Allele Count', $variation->tg_clm_an, $unlock);
+        $html .= variant_form_input('tg_fin_ac', '1000 Genomes Finnish from Finland Alternate Allele Count', $variation->tg_fin_ac, $unlock);
+        $html .= variant_form_input('tg_fin_an', '1000 Genomes Finnish from Finland Total Allele Count', $variation->tg_fin_an, $unlock);
+        $html .= variant_form_input('tg_gbr_ac', '1000 Genomes British from England and Scotland Alternate Allele Count', $variation->tg_gbr_ac, $unlock);
+        $html .= variant_form_input('tg_gbr_an', '1000 Genomes British from England and Scotland Total Allele Count', $variation->tg_gbr_an, $unlock);
+        $html .= variant_form_input('tg_gih_ac', '1000 Genomes Gujarati Indian in Houston, TX Alternate Allele Count', $variation->tg_gih_ac, $unlock);
+        $html .= variant_form_input('tg_gih_an', '1000 Genomes Gujarati Indian in Houston, TX Total Allele Count', $variation->tg_gih_an, $unlock);
+        $html .= variant_form_input('tg_ibs_ac', '1000 Genomes Iberian populations in Spain Alternate Allele Count', $variation->tg_ibs_ac, $unlock);
+        $html .= variant_form_input('tg_ibs_an', '1000 Genomes Iberian populations in Spain Total Allele Count', $variation->tg_ibs_an, $unlock);
+        $html .= variant_form_input('tg_jpt_ac', '1000 Genomes Japanese in Toyko, Japan Alternate Allele Count', $variation->tg_jpt_ac, $unlock);
+        $html .= variant_form_input('tg_jpt_an', '1000 Genomes Japanese in Toyko, Japan Total Allele Count', $variation->tg_jpt_an, $unlock);
+        $html .= variant_form_input('tg_khv_ac', '1000 Genomes Kinh in Ho Chi Minh City, Vietnam Alternate Allele Count', $variation->tg_khv_ac, $unlock);
+        $html .= variant_form_input('tg_khv_an', '1000 Genomes Kinh in Ho Chi Minh City, Vietnam Total Allele Count', $variation->tg_khv_an, $unlock);
+        $html .= variant_form_input('tg_lwk_ac', '1000 Genomes Luhya in Webuye, Kenya Alternate Allele Count', $variation->tg_lwk_ac, $unlock);
+        $html .= variant_form_input('tg_lwk_an', '1000 Genomes Luhya in Webuye, Kenya Total Allele Count', $variation->tg_lwk_an, $unlock);
+        $html .= variant_form_input('tg_mxl_ac', '1000 Genomes Mexican Ancestry in Los Angeles, CA Alternate Allele Count', $variation->tg_mxl_ac, $unlock);
+        $html .= variant_form_input('tg_mxl_an', '1000 Genomes Mexican Ancestry in Los Angeles, CA Total Allele Count', $variation->tg_mxl_an, $unlock);
+        $html .= variant_form_input('tg_pel_ac', '1000 Genomes Peruvian in Lima, Peru Alternate Allele Count', $variation->tg_pel_ac, $unlock);
+        $html .= variant_form_input('tg_pel_an', '1000 Genomes Peruvian in Lima, Peru Total Allele Count', $variation->tg_pel_an, $unlock);
+        $html .= variant_form_input('tg_pur_ac', '1000 Genomes Puerto Rican in Puerto Rico Alternate Allele Count', $variation->tg_pur_ac, $unlock);
+        $html .= variant_form_input('tg_pur_an', '1000 Genomes Puerto Rican in Puerto Rico Total Allele Count', $variation->tg_pur_an, $unlock);
+        $html .= variant_form_input('tg_tsi_ac', '1000 Genomes Toscani in Italia Alternate Allele Count', $variation->tg_tsi_ac, $unlock);
+        $html .= variant_form_input('tg_tsi_an', '1000 Genomes Toscani in Italia Total Allele Count', $variation->tg_tsi_an, $unlock);
+        $html .= variant_form_input('tg_yri_ac', '1000 Genomes Yoruba in Ibadan, Nigeria Alternate Allele Count', $variation->tg_yri_ac, $unlock);
+        $html .= variant_form_input('tg_yri_an', '1000 Genomes Yoruba in Ibadan, Nigeria Total Allele Count', $variation->tg_yri_an, $unlock);
+      }
+      // End collapsable accordion
+      $html .= '                </div>';
+      $html .= '            </div>';
+      $html .= '      </div>';
+      $html .= '</div>';
+    } // End if
+
+    return $html;
+  }
+}
+
+/**
+* Edit Evidence Summary
+*
+* Display the variant evidence summary edit fields. This function will
+* dynamically generate HTML based on the configuration preferences for
+* variant evidence summary. It will only display the evidence summary if
+* the user has configured it to do so.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    object   Database record for the variation
+* @param    boolean  Editable fields or not
+* @return   string   HTML of input fields
+*/
+if ( ! function_exists('edit_evidence_summary'))
+{
+  function edit_evidence_summary($variation) {
+    $display = get_instance()->config->item('variant_evidence_summary');
+    $html = '';
+    if ($display === TRUE) {
+      $evidence_summary_options = array('', 0, 1, 2, 3, 4, 5, 6);
+      $html .= '<div class="accordion span6" id="accordion-variant-evidence-summary">';
+      $html .= '      <div class="accordion-group">';
+      $html .= '          <div class="accordion-heading">';
+      $html .= '              <a class="accordion-toggle rowlink" data-toggle="collapse" data-parent="#accordion-variant-evidence-summary" href="#edit-variant-evidence-summary">';
+      $html .= '                  <i class="icon-minus"></i> Variant Evidence Summary';
+      $html .= '              </a>';
+      $html .= '          </div>';
+      $html .= '          <div id="edit-variant-evidence-summary" class="accordion-body collapse in">';
+      $html .= '              <div class="accordion-inner">';
+      $html .=                   variant_form_dropdown('summary_insilico', 'Summary Insilico', $evidence_summary_options, $variation->summary_insilico);
+      $html .=                   variant_form_dropdown('summary_frequency', 'Summary Frequency', $evidence_summary_options, $variation->summary_frequency);
+      $html .=                   variant_form_dropdown('summary_published', 'Summary Published', $evidence_summary_options, $variation->summary_published);
+      $html .= '              </div>';
+      $html .= '          </div>';
+      $html .= '      </div>';
+      $html .= '</div>';
+    }
+    return $html;
+  }
+}
+
+/* End of file variations_helper.php */
+/* Location: ./application/helpers/variations_helper.php */  

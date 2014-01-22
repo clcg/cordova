@@ -1,0 +1,880 @@
+html,body {
+height:100%;
+margin:0;
+padding:0;
+}
+iframe,
+#simplemodal-container {
+border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+}
+#simplemodal-container a.modalCloseImg {
+background:url(../img/modal-close.png) center no-repeat;
+width:40px;
+height:40px;
+display:inline;
+z-index:3200;
+position:absolute;
+top:-20px;
+right:-18px;
+cursor:pointer;
+}
+.success,
+.error,
+.warning {
+padding: 10px;
+font-weight: bold;
+display: block;
+border: 2px solid;
+max-width: 450px;
+margin-top: 10px;
+margin-left: 0px;
+}
+.success {
+color: #0e880e;
+background: #ccffcc;
+border-color: #66CC33;
+}
+.error {
+color: #fe0605;
+background: #ffcccc;
+border-color: #FF8888;
+}
+.warning {
+color: #CC9900;
+background: #FFFFCC;
+border-color: #FFCC00;
+}
+.rounded {
+-webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+        border-radius: 5px;
+}
+a.close {
+float: right;  
+margin-top:-12px;
+margin-right:-5px;
+color: #808080 !important;
+text-decoration: none !important;
+border: none !important;
+}
+/* First time visitors */
+#first-time {
+font-size:0.85em;
+background:#eaeff5 url(../img/first-time-icon.png) 5px 5px no-repeat;
+padding:5px 10px 5px 30px;
+margin:10px 0 0 0;
+border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+}
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* Contact box */
+#section-contact {
+font:0.8em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+width:400px;
+background:white;
+padding:5px 10px;
+border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+}
+#section-contact label {
+display:block;
+font:bold 1.1em/150% helvetica, arial, sans-serif;
+color:#000;
+}
+#section-contact input,
+#section-contact textarea {
+width:390px;
+border:1px solid #CCC;
+font:1em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+padding:5px;
+margin:0 0 10px 0;
+}
+#section-contact #contact-submit {
+display: block;
+text-align:center;
+font:bold 1.1em/150% helvetica, arial, sans-serif;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+background:#990000;
+color:#FFF;
+cursor:pointer;
+border:0!important;
+width:100%;
+padding-top: 5px;
+padding-bottom: 5px;
+text-decoration:none;
+margin-top:10px;
+}
+#section-contact #contact-submit:hover {
+background:#CC0000;
+}
+#section-contact small a {
+display:block;
+text-align:center;
+text-decoration:none;
+color:#666;
+}
+#section-contact small a:hover {
+color:#333;
+}
+#contact-name-error,
+#contact-email-error,
+#contact-comments-error {
+margin:-10px 0 10px 0;
+color:#CC0000;
+font-size:0.85em;
+}
+#contact-thanks {
+padding:5px;
+}
+
+/* Modal popup */
+#simplemodal-overlay {background-color:#000;}
+#simplemodal-container {}
+
+/* DVD Logo */
+#logo a span {
+display:none;
+}
+#logo a {
+display:block;
+width: 100%;
+height:95px;
+background:url(../img/logo.png) center no-repeat;
+margin:0 0 15px 0;
+}
+#logo a#logo-splash {
+background:url(../img/logo-ui-top.png) center no-repeat;    
+}
+
+/* S I D E B A R */
+#sidebar {
+background:#171717 url(../img/ui-logo.png) center bottom no-repeat;
+width:175px;
+min-height:100%;
+height:100%;
+position:fixed;
+color:white;
+}
+#sidebar-sorters fieldset {
+border:0;
+margin:0;
+padding:0;
+background:#171717;
+}
+#sidebar-sorters fieldset legend {
+padding:5px 0;
+margin:0;
+font:bold 1.1em/100% helvetica, arial, sans-serif;
+letter-spacing:-1px;
+border-bottom:1px dotted #424242;
+text-align:center;
+color:#CCC;
+width:100%;
+cursor:pointer;
+background:#171717;
+}
+#sidebar-sorters fieldset legend:hover {
+color:#FFF;
+cursor:pointer;
+}
+#sidebar-sorters div {
+margin-bottom:15px;
+font:0.7em/100% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+color:#999;
+}
+
+/* Gene Letters */
+#sidebar-sorters-alphabet table {
+width:100%;
+border-collapse:collapse;
+background:#171717;
+}
+#sidebar-sorters-alphabet table tr td {
+font:bold 1.2em/200% helvetica, arial, sans-serif;
+text-transform:uppercase;
+color:#333;
+text-align:center;
+width:12.5%;
+border-right:1px solid #333;
+border-bottom:1px solid #333;
+}
+#sidebar-sorters-alphabet table tr td.side-right {
+border-right:0;
+}
+#sidebar-sorters-alphabet table tr td.side-bottom {
+border-bottom:0;
+}
+#sidebar-sorters-alphabet table tr td a {
+display:block;
+width:100%;
+height:100%;
+text-decoration:none;
+color:#999;
+}
+#sidebar-sorters-alphabet table tr td a:hover {
+background:#FF0000;
+color:#FFF;
+}
+#sidebar-sorters-alphabet table tr td a.active-letter {
+background:#CC0000;
+color:white;
+}
+
+/* Information */
+#sidebar-sorters-information {
+padding:10px 0 0 0;
+}
+#sidebar-sorters-information ul {
+margin:0;
+padding:0;
+}
+#sidebar-sorters-information ul li {
+line-height:150%;
+}
+#sidebar-sorters-information ul li a {
+display:block;
+padding:0 0 0 15px;
+margin:0 0 0 5px;
+text-decoration:none;
+color:#999;
+}
+#sidebar-sorters-information ul li a:hover {
+color:#FF6600;
+background:url(../img/misc-bullet.png) center left no-repeat!important;
+}
+
+/* Glossary */
+#sidebar-sorters-glossary dl {
+font:1em/140% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+padding:10px 10px 0 10px;
+margin:0;
+}
+#sidebar-sorters-glossary dt {
+font-weight:bold;
+color:#FFF;
+}
+#sidebar-sorters-glossary dd {
+margin:0 0 10px 10px;
+color:#999;
+}
+
+/* Version */
+#sidebar-version {
+text-align:center;
+margin:15px 0 0 0 !important;
+position:absolute;
+bottom:3px;
+}
+#sidebar-version li {
+font:0.85em/140% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+color:#666;
+list-style-type:none;
+margin:0 0 0 10px;
+}
+
+
+/* M U T A T I O N   T A B L E S */
+#mutation-tables {
+margin-left:1px;
+padding:10px 0 10px 0;
+}
+
+/* Fieldset container */
+#mutation-tables fieldset {
+border:0;
+padding:5px 0 10px 3px;
+}
+#mutation-tables fieldset legend {
+font:1.5em/100% helvetica, arial, sans-serif;
+color:#FF0000;
+cursor:pointer;
+width:99%;
+background:url(../img/legend-collapsible-back.png) center left no-repeat !important;
+}
+#mutation-tables fieldset legend strong {
+background:#FFF;
+margin-left:25px;
+font-size: 24px;
+}
+#mutation-tables fieldset legend:hover {
+color:#FF6600;
+}
+#mutation-tables fieldset legend.collapsed {
+background:url(../img/legend-collapsed-back.png) center left no-repeat !important;
+}
+#mutation-tables fieldset legend.collapsed:hover {
+color:#FF3300;
+}
+#mutation-tables fieldset legend span {
+float:right;
+font:normal 9.6px/100% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+margin:7px 0 0 0;
+background:white;
+}
+#mutation-tables fieldset legend span a {
+text-decoration:none;
+color:#999;
+padding:0 3px;
+border: 0px;
+}
+#mutation-tables fieldset legend span a:hover {
+color:#000;
+}
+
+/* A single table */
+#mutation-tables table {
+border-collapse:collapse;
+width:100%;
+border-bottom:1px solid #CCC;
+}
+#mutation-tables table thead tr th {
+font:bold 14.4px/120% helvetica, arial, sans-serif;
+text-align:left;
+color:#666;
+vertical-align:top;
+border-right:1px solid #CCC;
+border-bottom:1px solid #CCC;
+padding:5px 20px 5px 5px;
+cursor:pointer;
+background:#FFF url(../img/table-sort-arrow-double.png) top right no-repeat;
+}
+
+#mutation-tables table thead .header-link       {width:10px; background:none; padding:0;}
+#mutation-tables table thead .top-border        {border-top:1px solid #CCC;}
+#mutation-tables table thead .header-protein    {width:130px;}
+#mutation-tables table thead .header-nucleotide {width:130px;}
+#mutation-tables table thead .header-locale     {width:40px;}
+#mutation-tables table thead .header-position   {width:100px;}
+#mutation-tables table thead .header-variant    {width:120px;}
+#mutation-tables table thead .header-pubmed     {width:50px;}
+#mutation-tables table thead .header-omim       {width:50px;}
+#mutation-tables table thead .header-dbsnp      {width:50px;}
+#mutation-tables table tbody tr td {
+font:0.9em/100% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+padding:5px;
+border-right:1px solid #CCC;
+vertical-align:top;
+}
+#mutation-tables table tbody tr td a {
+color:#000;
+text-decoration:none;
+border: 0px;
+}
+#mutation-tables table tbody tr td.external-link {
+padding:4px 2px 2px 2px;
+border-left:1px solid #CCC;
+}
+#mutation-tables table tbody tr td.external-link:hover {
+background:#FF3300!important;
+}
+#mutation-tables table tbody tr td.external-link a span {
+display:none;
+}
+#mutation-tables table tbody tr td.external-link a {
+display:block;
+width:15px;
+height:15px;
+background:url(../img/external-link.png) center no-repeat;
+border:1px solid #EEE;
+}
+#mutation-tables table tbody tr td.external-link a:hover {
+border:1px solid #FFF!important;
+}
+#mutation-tables table .odd {
+background:#EEE;
+}
+#mutation-tables table thead th.headerSortDown {
+color:#333;
+background:#FFEEAA url(../img/table-sort-arrow-down.png) top right no-repeat;
+}
+#mutation-tables table thead th.headerSortUp {
+color:#333;
+background:#FFEEAA url(../img/table-sort-arrow-up.png) top right no-repeat;
+}
+#mutation-tables table tbody tr:hover {
+background-color:#FFEEAA!important;
+cursor:pointer;
+}
+#mutation-tables table tbody tr:hover td.external-link {
+background:#FF9900;
+}
+#mutation-tables table tbody tr:hover td.external-link a {
+background:url(../img/external-link-hover.png) center no-repeat;
+border:1px solid #FFCC00;
+}
+
+/* Ajax info rows */
+#mutation-tables table .info {
+border-top:1px solid #EEE;
+border-bottom:1px solid #EEE;
+}
+#mutation-tables table .info td:hover {
+background:white!important;
+cursor:default!important;
+}
+
+/* Gene download links */
+#mutation-tables small.download-gene {
+display:block;
+padding: 0 10px 5px 0;
+font:0.7em/100% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+text-transform:lowercase;
+text-align:center;
+}
+#mutation-tables small.download-gene strong {
+text-transform:uppercase;
+color:#CCC;
+}
+#mutation-tables small.download-gene a {
+text-decoration:none;
+color:#666;
+}
+#mutation-tables small.download-gene a:hover {
+color:#000;
+}
+
+/* P A G E  C O N T E N T */
+/* Main logo */
+#main-logo,
+#api-logo,
+#help-logo {
+background:#F2F2F2;
+width:100%;
+height:95px;
+max-height:95px;
+margin:0 0 0 0;
+}
+#main-logo span,
+#api-logo span,
+#help-logo span {
+float: left;
+font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+font-weight: 100;
+letter-spacing: 2px;
+color: #CC0000;
+font-size: 39px;
+margin-left:185px;
+margin-top: 3px;
+}
+#main-logo span {
+max-width: 500px;
+}
+#api-logo span {
+max-width: 300px;
+}
+#help-logo span {
+max-width: 250px;
+}
+
+/* API tweaks table */
+table#api-params {
+font:0.95em/150% consolas, "lucida console", courier, monospace;
+border-left:1px solid #CCC;
+text-align:left;
+}
+table#api-params caption {
+display:none;
+}
+table#api-params thead th {
+font:0.9em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+vertical-align:top;
+background:#666;
+color:#FFF;
+padding:1px 3px;
+border-right:1px solid #999;
+}
+table#api-params tbody th {
+font:bold 1.0em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+vertical-align:top;
+background:#F2F2F2;
+padding:1px 3px;
+border-bottom:1px solid #CCC;
+}
+table#api-params tbody td {
+vertical-align:top;
+border-bottom:1px dotted #CCC;
+border-right:1px dotted #CCC;
+padding:1px 3px;
+}
+table#api-params .api-desc {
+font:0.9em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+}
+table#api-params .api-desc code {
+background:#fffbe1;
+padding:1px;
+}
+table#api-params .api-desc ol {
+margin:3px;
+padding:0 25px;
+}
+table#api-params tbody td ul {
+margin:0 0 0 15px;
+padding:0;
+}
+table#api-params tbody td ul li {
+list-style-image:url(../img/misc-bullet.png);
+margin:0;
+padding:0;
+}
+
+/* Page Content */
+#content {
+font:0.8em/150% "lucida grande","lucida sans unicode",lucida,helvetica,arial,sans-serif;
+margin-left:175px;
+padding:0 10px 10px 10px;
+}
+.width500 {
+width:500px !important;
+}
+.width750 {
+width:750px !important;
+}
+#content h2 {
+font:bold 1.6em/100% helvetica, arial, sans-serif;
+border-bottom:1px solid #CCC;
+color:#990000;
+margin:10px 0;
+padding:2px 0;
+}
+#content h3 {
+font:bold 1.4em/100% helvetica, arial, sans-serif;
+border-bottom:1px dotted #CCC;
+color:#CC0000;
+margin:10px 0;
+padding:2px 0;
+}
+#content a {
+text-decoration:none;
+color:#336699;
+border-bottom:1px solid #CCC;
+}
+#content ul {
+margin:0 30px;
+padding:0;
+}
+#content ul li {
+margin:3px 0;
+list-style-image:url(../img/sort-bullet-add.png);
+}
+#content table {
+width:100%;
+}
+#content code.api-call {
+background:#fffbe1;
+padding:2px;
+}
+#content code.api-tweak-appended {
+color:#666;
+}
+#content pre {
+background:#F2F2F2;
+padding:10px;
+font:1em/150% consolas, "lucida console", courier, monospace;
+}
+#content code {
+font:1em/125% consolas, "lucida console", courier, monospace;
+}
+
+/* Miscellaneous */
+.red    {color:#FF3300;}
+.blue   {color:#336699;}
+.green  {color:#44ab09;}
+.orange {color:#FF6600;}
+.black  {color:#000;}
+
+/* Copyright */
+#copyright {
+background:#666;
+width:100%;
+position:fixed;
+bottom:0;
+font:0.7em/100% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+margin: 0 0 0 175px;
+color:#CCC;
+opacity:0.90;
+filter:alpha(opacity=90); /* For IE8 and earlier */
+border-top:1px solid #CCC;
+padding-top: 3px;
+padding-bottom: 3px;
+}
+#copyright a {
+text-decoration:none;
+color:#FFF;
+}
+#copyright a:hover {
+border-bottom:1px dotted #CCC;
+}
+#copyright p {
+margin:0px;
+padding:2px 5px;
+}
+#copyright br {display:none;}
+
+/* API Page: Columns returned */
+table.api-columns {
+font:0.85em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+/* font:0.95em/150% consolas, "lucida console", courier, monospace;*/
+border-left:1px solid #CCC;
+text-align:left;
+margin:0 0 10px 0;
+}
+table.api-columns caption {
+font:bold 1.2em/120% helvetica, arial, sans-serif;
+color:#FF3300;
+padding:5px 0;
+background:#EEE;
+
+}
+table.api-columns thead th {
+font:1em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+vertical-align:top;
+background:#666;
+color:#FFF;
+padding:1px 3px;
+border-right:1px solid #999;
+}
+table.api-columns tbody td {
+vertical-align:top;
+border-bottom:1px dotted #CCC;
+border-right:1px dotted #CCC;
+padding:1px 3px;
+}
+table.api-columns .api-columns-field {
+width:135px;
+}
+table.api-columns .api-columns-field-narrow {
+width:75px;
+}
+
+/* API Page: Versions */
+table#api-versions {
+font:0.85em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+/* font:0.95em/150% consolas, "lucida console", courier, monospace;*/
+border-left:1px solid #CCC;
+text-align:left;
+}
+table#api-versions thead th {
+font:1em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+vertical-align:top;
+background:#666;
+color:#FFF;
+padding:1px 3px;
+border-right:1px solid #999;
+}
+table#api-versions tbody td {
+vertical-align:top;
+border-bottom:1px dotted #CCC;
+border-right:1px dotted #CCC;
+padding:1px 3px;
+}
+table#api-versions tbody th {
+font:bold 1.0em/150% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+vertical-align:top;
+background:#F2F2F2;
+padding:1px 3px;
+border-bottom:1px solid #CCC;
+}
+
+
+/* Help page */
+#content-help {
+padding:0 0 10px 0;
+}
+#content-help .float-left,
+#content-help .float-right {
+padding:5px;
+background:#EEE;
+border:1px solid #CCC;
+border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+}
+#content-help .float-left {
+float:left;
+margin:0 20px 0 0;
+}
+#content-help .float-right {
+float:right !important;
+margin:0 0 0 20px;
+}
+#content-help p {
+clear:both;
+}
+#content-help p span {
+display:block;
+padding:55px 0 0 0;
+}
+#content-help {
+overflow:hidden;
+}
+#content-help dt {
+font-weight:bold;
+}
+
+
+
+/* ------------- EXTERNAL CSS ------------- */
+/* Copy and paste any external CSS here. E.g. CSS files from a
+   jQuery library. Everything will be compressed nicely :) */
+
+/* JQUERY SHADOW */
+
+/**
+ * @preserve Copyright 2011 Syd Lawrence ( www.sydlawrence.com ).
+ * Version: 0.1
+ *
+ * Licensed under MIT and GPLv2.
+ *
+ * For use with jquery.shadow plugin
+ *
+ * Adapted from Nicholas Gallagher's CSS drop shadows without images demo
+ * http://nicolasgallagher.com/css-drop-shadows-without-images/demo/
+ *
+ */
+
+/* Shared styles */
+        
+.jquery-shadow {
+	position:relative;
+	-webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+	   -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	        box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.jquery-shadow:before,
+.jquery-shadow:after {
+    content:"";
+    position:absolute; 
+    z-index:-2;
+}
+
+/* Lifted corners */
+.jquery-shadow-lifted:before,
+.jquery-shadow-lifted:after { 
+    bottom:15px;
+    left:10px;
+    width:50%;
+    height:20%;
+    max-width:300px;
+    -webkit-box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);   
+       -moz-box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+            box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+    -webkit-transform:rotate(-3deg);    
+       -moz-transform:rotate(-3deg);   
+        -ms-transform:rotate(-3deg);   
+         -o-transform:rotate(-3deg);
+            transform:rotate(-3deg);
+}
+.jquery-shadow-lifted:after {
+    right:10px; 
+    left:auto;
+    -webkit-transform:rotate(3deg);   
+       -moz-transform:rotate(3deg);  
+        -ms-transform:rotate(3deg);  
+         -o-transform:rotate(3deg);
+            transform:rotate(3deg);
+}
+
+/* Perspective */
+.jquery-shadow-perspective:before {
+    left:80px;
+    bottom:5px;
+    width:50%;
+    height:35%;
+    max-width:200px;
+    -webkit-box-shadow:-80px 0 8px rgba(0, 0, 0, 0.4);
+       -moz-box-shadow:-80px 0 8px rgba(0, 0, 0, 0.4);
+            box-shadow:-80px 0 8px rgba(0, 0, 0, 0.4);
+    -webkit-transform:skew(50deg);
+       -moz-transform:skew(50deg);
+        -ms-transform:skew(50deg);
+         -o-transform:skew(50deg);
+            transform:skew(50deg);
+    -webkit-transform-origin:0 100%;
+       -moz-transform-origin:0 100%;
+        -ms-transform-origin:0 100%;
+         -o-transform-origin:0 100%;
+            transform-origin:0 100%;
+}
+.jquery-shadow-perspective:after {
+    display:none;
+}
+
+/* Side shadows */
+.jquery-shadow-sides:before {
+    top:10px;
+    bottom:10px;
+    left:0;
+    right:50%;
+    -webkit-box-shadow:0 0 15px rgba(0,0,0,0.6);
+    -moz-box-shadow:0 0 15px rgba(0,0,0,0.6);
+    box-shadow:0 0 15px rgba(0,0,0,0.6);
+    -moz-border-radius:10px / 100px;
+    border-radius:10px / 100px;
+}
+.jquery-shadow-sides-vt-2:before {
+    right:0;
+}
+.jquery-shadow-sides-hz-1:before {
+    top:50%;
+    bottom:0;
+    left:10px;
+    right:10px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+}
+.jquery-shadow-sides-hz-2:before {
+    top:0;
+    bottom:0;
+    left:10px;
+    right:10px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+}
+
+ /* Raised shadow - no pseudo-elements needed */
+        .jquery-shadow-raised {
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+/* Rotated box */
+.jquery-shadow-rotated :first-child:before {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#fff;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+p.label-radio-pair,
+p.label-checkbox-pair {
+  display: inline-block;
+  margin: 0px;
+}
+p.label-radio-pair input,
+p.label-checkbox-pair input {
+  max-width: 10%;
+  float: left;
+}
+p.label-radio-pair label,
+p.label-checkbox-pair label {
+  max-width: 85%;
+  float: left;
+}
