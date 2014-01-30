@@ -10,6 +10,13 @@ class MY_Model extends CI_Model {
 		$this->load->database();
     $this->load->config('variation_database');
 
+    // Initialize database tables (if they don't exist)
+    if ( ! $this->db->table_exists('variations_0')) {
+      die('Doesnt exist!');
+      $this->load->library('migration');
+      $this->migration->latest();
+    }
+
 		// Database version number
 		$this->version = $this->get_db_version_num();
 
