@@ -603,8 +603,50 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('variations_0', TRUE);
 
-#    $this->dbforge->create_table('variations_queue_0', TRUE);
-#    $this->dbforge->create_table('versions', TRUE);
+    # Variations queue table
+    # NOTE: This is the EXACT same structure as the variations_0
+    #       table (described above) except that the 'id' field
+    #       is not auto-incremented.
+    $fields['id']['auto_increment'] = FALSE;
+    $this->dbforge->add_field($fields);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('variations_queue_0', TRUE);
+
+    # Versions table
+    $fields = array(
+      'id' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+          'auto_increment' => TRUE
+      ),
+      'version' => array(
+          'type' => 'FLOAT',
+          'null' => FALSE,
+      ),
+      'created' => array(
+          'type' => 'DATETIME',
+          'null' => FALSE,
+      ),
+      'updated' => array(
+          'type' => 'DATETIME',
+          'null' => FALSE,
+      ),
+      'variants' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'genes' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+    );
+    $this->dbforge->add_field($fields);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('versions', TRUE);
   }
  
   public function down(){
