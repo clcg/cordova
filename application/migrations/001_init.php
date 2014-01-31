@@ -101,7 +101,104 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_key('variant_id');
     $this->dbforge->create_table('reviews_0', TRUE);
 
-#        $this->dbforge->create_table('users', TRUE);
+    # Users table
+    $fields = array(
+      'id' => array(
+          'type' => 'INT',
+          'constraint' => 8, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+          'auto_increment' => TRUE
+      ),
+      'ip_address' => array(
+          'type' => 'VARBINARY',
+          'constraint' => 16, 
+          'null' => FALSE,
+      ),
+      'username' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => FALSE,
+      ),
+      'password' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 80, 
+          'null' => FALSE,
+      ),
+      'salt' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 40, 
+          'null' => TRUE,
+      ),
+      'email' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => FALSE,
+      ),
+      'activation_code' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 40, 
+          'null' => TRUE,
+      ),
+      'forgotten_password_code' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 40, 
+          'null' => TRUE,
+      ),
+      'forgotten_password_time' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'unsigned' => TRUE,
+          'null' => TRUE,
+      ),
+      'remember_code' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 40, 
+          'null' => TRUE,
+      ),
+      'created_on' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+      ),
+      'last_login' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'unsigned' => TRUE,
+          'null' => TRUE,
+      ),
+      'active' => array(
+          'type' => 'TINYINT',
+          'constraint' => 1, 
+          'unsigned' => TRUE,
+          'null' => TRUE,
+      ),
+      'first_name' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 50, 
+          'null' => TRUE,
+      ),
+      'last_name' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 50, 
+          'null' => TRUE,
+      ),
+      'company' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'phone' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 20, 
+          'null' => TRUE,
+      ),
+    );
+    $this->dbforge->add_field($fields);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('users', TRUE);
+
 #        $this->dbforge->create_table('users_groups', TRUE);
 #        $this->dbforge->create_table('variant_count_0', TRUE);
 #        $this->dbforge->create_table('variations_0', TRUE);
