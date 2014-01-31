@@ -12,9 +12,14 @@ class MY_Model extends CI_Model {
 
     // Initialize database tables (if they don't exist)
     if ( ! $this->db->table_exists('variations_0')) {
-      die('Doesnt exist!');
       $this->load->library('migration');
-      $this->migration->latest();
+      if ( ! $this->migration->latest())
+      {
+        show_error($this->migration->error_string());
+      }
+      $html = 'Database tables have been intialized.';
+      $this->session->set_flashdata('success', $html);
+//      redirect($this->uri->uri_string()); // reload the page
     }
 
 		// Database version number
