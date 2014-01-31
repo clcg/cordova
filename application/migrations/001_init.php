@@ -199,11 +199,62 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('users', TRUE);
 
-#        $this->dbforge->create_table('users_groups', TRUE);
-#        $this->dbforge->create_table('variant_count_0', TRUE);
-#        $this->dbforge->create_table('variations_0', TRUE);
-#        $this->dbforge->create_table('variations_queue_0', TRUE);
-#        $this->dbforge->create_table('versions', TRUE);
+    # Users groups table
+    $fields = array(
+      'id' => array(
+          'type' => 'INT',
+          'constraint' => 8, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+          'auto_increment' => TRUE
+      ),
+      'user_id' => array(
+          'type' => 'INT',
+          'constraint' => 8, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+      ),
+      'group_id' => array(
+          'type' => 'INT',
+          'constraint' => 8, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+      ),
+    );
+    $this->dbforge->add_field($fields);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->add_key('user_id');
+    $this->dbforge->add_key('group_id');
+    $this->dbforge->create_table('users_groups', TRUE);
+
+    # Variant count table
+    $fields = array(
+      'id' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+          'auto_increment' => TRUE
+      ),
+      'gene' => array(
+          'type' => 'CHAR',
+          'constraint' => 10, 
+          'null' => TRUE,
+      ),
+      'count' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'null' => TRUE,
+          'default' => 0,
+      ),
+    );
+    $this->dbforge->add_field($fields);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('variant_count_0', TRUE);
+
+#    $this->dbforge->create_table('variations_0', TRUE);
+#    $this->dbforge->create_table('variations_queue_0', TRUE);
+#    $this->dbforge->create_table('versions', TRUE);
   }
  
   public function down(){

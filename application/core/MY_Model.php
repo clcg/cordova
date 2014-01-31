@@ -11,7 +11,7 @@ class MY_Model extends CI_Model {
     $this->load->config('variation_database');
 
     // Initialize database tables (if they don't exist)
-    if ( ! $this->db->table_exists('variations_0')) {
+    if ( ! $this->db->table_exists('versions')) {
       $this->load->library('migration');
       if ( ! $this->migration->latest())
       {
