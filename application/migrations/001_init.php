@@ -1,6 +1,24 @@
 <?php
 
 class Migration_Init extends CI_Migration {
+  /**
+   * Up
+   *
+   * This will create the following tables:
+   *   - groups
+   *   - login_attempts
+   *   - migrations
+   *   - reviews_0
+   *   - users
+   *   - users_groups
+   *   - variant_count_0
+   *   - variations_0
+   *   - variations_queue_0
+   *   - versions
+   *
+   * @author Sean Ephraim
+   * @access public
+   */
   public function up(){
     # Groups table
     $fields = array(
@@ -25,6 +43,18 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_field($fields);
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('groups', TRUE);
+    # Insert core groups
+    $data = array(
+      array(
+        'name' => 'admin',
+        'description' => 'Administrator',
+      ),
+      array(
+        'name' => 'members',
+        'description' => 'General User',
+      )
+    );
+    $this->db->insert_batch('groups', $data); 
 
     # Login attempts table
     $fields = array(
@@ -198,6 +228,17 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_field($fields);
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('users', TRUE);
+    # Insert admin user
+    $data = array(
+      'username' => 'admin',
+      'password' => '$2a$08$lADIGrpu0qE8TFo9zj0gKO5xEQktINAAwYS7Fs1JKtMqGGnB9GeXe',
+      'email' => 'admin@admin.com',
+      'created_on' => '1268889823',
+      'last_login' => '1268889823',
+      'active' => 1,
+      'first_name' => 'Admin',
+    );
+    $this->db->insert('users', $data); 
 
     # Users groups table
     $fields = array(
@@ -226,6 +267,20 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_key('user_id');
     $this->dbforge->add_key('group_id');
     $this->dbforge->create_table('users_groups', TRUE);
+    # Insert admin's groups
+    $data = array(
+      array(
+        'id' => 1,
+        'user_id' => 1,
+        'group_id' => 1,
+      ),
+      array(
+        'id' => 2,
+        'user_id' => 1,
+        'group_id' => 2,
+      ),
+    );
+    $this->db->insert_batch('users_groups', $data); 
 
     # Variant count table
     $fields = array(
@@ -647,8 +702,27 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->add_field($fields);
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('versions', TRUE);
+    # Insert initial version info
+    $data = array(
+      'id' => 0,
+      'version' => 0,
+      'created' => date("Y-m-d H:i:s"),
+      'updated' => date("Y-m-d H:i:s"),
+      'variants' => 0,
+      'genes' => 0,
+    );
+    $this->db->insert('versions', $data); 
   }
  
+  /**
+   * Down
+   *
+   * This will drop all the tables created with the
+   * up() function.
+   *
+   * @author Sean Ephraim
+   * @access public
+   */
   public function down(){
     $this->dbforge->drop_table('login_attempts', TRUE);
     $this->dbforge->drop_table('reviews_0', TRUE);
