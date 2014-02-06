@@ -194,7 +194,6 @@ class Variations_model extends MY_Model {
     if (empty($annot_path)) die("The path to the annotation tool has not been configured. Please contact the administrator.\n");
     if ( ! file_exists($annot_path.'bin/ASAP-dedup_test-1.18.dev.jar')) die("The annotation tool cannot be found. Please contact the administrator.\n");
     if ( ! file_exists($run_script)) die("The script to run annotation cannot be found. Please contact the administrator.\n");
-#    if ( ! is_executable($run_script)) die("The web server does not have permission to run annotation. Please contact the administrator.");
 
     /* BEGIN RUNNING ANNOTATION */
 
@@ -263,7 +262,12 @@ class Variations_model extends MY_Model {
         'hgvs_nucleotide_change' => $annot_result['hgvs_nucleotide_change'],
         'hgvs_protein_change'    => $annot_result['hgvs_protein_change'],
         'variantlocale'          => $annot_result['variantlocale'],
+        'pathogenicity'          => $annot_result['pathogenicity'],
+        'dbsnp'                  => $annot_result['dbsnp'],
+        'phylop_score'           => $annot_result['phylop_score'],
+        'phylop_pred'            => $annot_result['phylop_pred'],
         'sift_score'             => $annot_result['sift_score'],
+        'sift_pred'              => $annot_result['sift_pred'],
         'polyphen2_score'        => $annot_result['polyphen2_score'],
         'polyphen2_pred'         => $annot_result['polyphen2_pred'],
         'lrt_score'              => $annot_result['lrt_score'],
@@ -272,7 +276,7 @@ class Variations_model extends MY_Model {
         'mutationtaster_pred'    => $annot_result['mutationtaster_pred'],
         'gerp_nr'                => $annot_result['gerp_nr'],
         'gerp_rs'                => $annot_result['gerp_rs'],
-        'phylop_score'           => $annot_result['phylop_score'],
+        'gerp_pred'              => $annot_result['gerp_pred'],
         'lrt_omega'              => $annot_result['lrt_omega'],
         'evs_ea_ac'              => $annot_result['evs_ea_ac'],
         'evs_ea_an'              => $annot_result['evs_ea_an'],
@@ -320,157 +324,36 @@ class Variations_model extends MY_Model {
         'tg_yri_an'              => $annot_result['tg_yri_an'],
     );
     
-    // Extra data from dbNSFP that could be useful (put into comments)
-    $dbnsfp_extras = array();
-
-    // Set the dbSNP ID
-    if (strpos($annot_result['dbsnp'],";") !== FALSE) {
-      // Annotation returned multiple dbSNP IDs -- only use the first
-      $all_dbsnps = explode(';', $annot_result['dbsnp']);
-      $data['dbsnp'] = array_shift($all_dbsnps);
-      $dbnsfp_extras[] = 'More dbSNP IDs: ' . implode(', ', $all_dbsnps);
-    }
-    else {
-      // Annotation only returned one dbSNP ID
-      $data['dbsnp'] = $annot_result['dbsnp'];
-    }
-    
-// TODO edit the output from here on down (prediction interpretations should be taken directly from kafeen)
-    // More dbNSFP goodies (only add if they're not empty)
-    $dbnsfp_extras[] = ! empty($annot_result['gene_full_name'])       ? 'Gene full name: ' . $annot_result['gene_full_name'] : NULL;
-    $dbnsfp_extras[] = ! empty($annot_result['function_description']) ? 'Function description: ' . $annot_result['function_description'] : NULL;
-    $dbnsfp_extras[] = ! empty($annot_result['disease_description'])  ? 'Disease description: ' . $annot_result['disease_description'] : NULL;
-    $dbnsfp_extras = array_filter($dbnsfp_extras);
-    
-    $total_num_scores = 0; // Total number of prediction scores
-    $num_path_scores = 0; // Total number of pathogenic predictions
-
-    // SIFT (interpreted) prediction
-    if ($data['sift_score'] !== NULL) {
-      $total_num_scores++;
-      if ($data['sift_score'] < 0.05) {
-        $data['sift_pred'] = 'D'; // Damaging
-        $num_path_scores++;
-      }
-      else {
-        $data['sift_pred'] = 'T'; // Tolerated
-      }
-    }
-    else {
-      $data['sift_pred']   = NULL;
-    }
-    
-    // GERP++ (interpreted) prediction
-    if ($data['gerp_rs'] !== NULL) {
-      $total_num_scores++;
-      if ($data['gerp_rs'] > 0) {
-        $data['gerp_pred'] = 'C'; // Conserved
-        $num_path_scores++;
-      }
-      else {
-        $data['gerp_pred'] = 'N'; // Non-conserved
-      }
-    }
-    else {
-      $data['gerp_pred']   = NULL;
-    }
-    
-    // phyloP (interpreted) prediction
-    if ($data['phylop_score'] !== NULL) {
-      $total_num_scores++;
-      if ($data['phylop_score'] > 1) {
-        $data['phylop_pred'] = 'C'; // Conserved
-        $num_path_scores++;
-      }
-      else {
-        $data['phylop_pred'] = 'N'; // Non-conserved
-      }
-    }
-    else {
-      $data['phylop_pred']   = NULL;
-    }
-
-    // Polyphen-2 prediction
-    if ($data['polyphen2_pred'] !== NULL) {
-      $total_num_scores++;
-      if ($data['polyphen2_pred'] == 'D' || $data['polyphen2_pred'] == 'P') {
-        $num_path_scores++;
-      }
-    }
-
-    // MutationTaster prediction
-    if ($data['mutationtaster_pred'] !== NULL) {
-      $total_num_scores++;
-      if ($data['mutationtaster_pred'] == 'A' || $data['mutationtaster_pred'] == 'D') {
-        $num_path_scores++;
-      }
-    }
-
-    // LRT prediction
-    if ($data['lrt_pred'] !== NULL) {
-      $total_num_scores++;
-      if ($data['lrt_pred'] == 'D') {
-        $num_path_scores++;
-      }
-    }
-
-    // Compute overall predicted pathogenicity if at least 5 scores
-    if ($total_num_scores >= 5) {
-      $overall_path_score = (float) ($num_path_scores/$total_num_scores);
-      if ($overall_path_score >= 0.6) {
-        // >= 60% means predicted pathogenic
-        $data['pathogenicity'] = 'Unknown significance - predicted pathogenic';
-      }
-      else {
-        // < 60% means predicted non-pathogenic
-        $data['pathogenicity'] = 'Unknown significance - predicted non-pathogenic';
-      }
-    }
-    else {
-      // Not enough scores to predict pathogenicity
-      $data['pathogenicity'] = 'Unknown significance';
-    }
-
     // Credits for the comments
     $credits = array();
     $freqs = $this->config->item('frequencies'); // frequencies to display
     $keys = array_keys($data);
-    // ESP6500 credit (NOTE: we use all freq. or none)
+    // ESP6500 credit
     if (in_array('evs', $freqs)) {
       if ($this->give_credit_to('evs', $data)) {
         $credits[] = 'ESP6500';
       }
     }
-    // 1000 Genomes credit (NOTE: we use all freq. or none)
+    // 1000 Genomes credit
     if (in_array('1000genomes', $freqs)) {
       if ($this->give_credit_to('tg', $data)) {
         $credits[] = '1000 Genomes';
       }
     }
-    // OtoSCOPE credit (NOTE: we use all freq. or none)
+    // OtoSCOPE credit
     if (in_array('otoscope', $freqs)) {
       if ($this->give_credit_to('otoscope', $data)) {
         $credits[] = 'OtoSCOPE';
       }
     }
-    // dbNSFP2 credit (find out if any data was used from it)
-    if ($data['sift_score'] !== NULL || $data['polyphen2_score'] !== NULL
-           || $data['lrt_score'] !== NULL || $data['mutationtaster_score'] !== NULL
-           || $data['gerp_rs'] !== NULL || $data['phylop_score'] !== NULL
-           || $data['lrt_score'] !== NULL || $data['dbsnp'] !== NULL
-           || ! empty($dbnsfp_extras)) {
-      $credits[] = 'dbNSFP 2';
-    }
+    // Always give credit to dbNSFP 2
+    $credits[] = 'dbNSFP 2';
     $credits = array_filter($credits);
 
     // Put together the comments
     $comments = array('Manual curation in progress.');
     if ( ! empty($credits)) {
       $comments[] = 'Record generated from: ' . implode(', ', $credits) . '.';
-      // Add any extra info from dbNSFP
-      if ( ! empty($dbnsfp_extras)) {
-//        $comments[] = 'Additional info from dbNSFP 2 -- ' . implode(' | ', $dbnsfp_extras);
-      }
     }
     $data['comments'] = implode(' ', $comments);
 
