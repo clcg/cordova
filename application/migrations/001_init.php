@@ -463,6 +463,16 @@ class Migration_Init extends CI_Migration {
           'constraint' => 11,
           'null' => TRUE,
       ),
+      'otoscope_ac' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'otoscope_an' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
       'tg_acb_ac' => array(
           'type' => 'INT',
           'constraint' => 11,

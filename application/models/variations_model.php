@@ -183,21 +183,20 @@ class Variations_model extends MY_Model {
 
     // Path to annotation tool and associated files
     $annot_path = $this->config->item('annotation_path');
-    $run_script = 'run.sh';
-    $id = rand().rand(); // unique ID (needed to avoid file collisions)
-    $f_in = "tmp/variation-$id"; // annotation input file
-    $f_out = $f_in.'.annotation'; // final annotation output
-    $f_sample_out = $f_out.'.0.txt'; // Sample output file (not final output, used for error-checking)
+    $ruby_path = $this->config->item('ruby_path');
+    $run_script = $annot_path.'kafeen.rb';
+    $id = random_string('unique'); // unique ID (needed to avoid file collisions)
+    $f_in = $annot_path."tmp/$id.in"; // annotation input file
+    $f_out = $annot_path."tmp/$id.out"; // annotation output file
+    $f_errors = $annot_path."tmp/$id.error_log"; // annotation errors file
 
     /* Is the annotation tool installed and properly referenced? */
     if (empty($annot_path)) die("The path to the annotation tool has not been configured. Please contact the administrator.\n");
     if ( ! file_exists($annot_path.'bin/ASAP-dedup_test-1.18.dev.jar')) die("The annotation tool cannot be found. Please contact the administrator.\n");
-    if ( ! file_exists($annot_path.$run_script)) die("The script to run annotation cannot be found. Please contact the administrator.\n");
-    if ( ! is_executable($annot_path.$run_script)) die("The web server does not have permission to run annotation. Please contact the administrator.");
+    if ( ! file_exists($run_script)) die("The script to run annotation cannot be found. Please contact the administrator.\n");
+#    if ( ! is_executable($run_script)) die("The web server does not have permission to run annotation. Please contact the administrator.");
 
     /* BEGIN RUNNING ANNOTATION */
-    $original_dir = getcwd(); // don't lose the current working directory
-    chdir($annot_path); // Working directory must be changed to annotation tool's root directory
 
     // Delete old input/output files if they exist (just to be safe)
     $this->remove_temp_files($f_in);
@@ -210,28 +209,31 @@ class Variations_model extends MY_Model {
     if ( ! chmod($f_in, 0777)) die("Annotation input file must have correct permissions. Please contact the administrator.");
 
     // Run annotation (logs are written to $annot_path/tmp/log)
-    exec("./$run_script -p -i $f_in -o $f_out > tmp/log 2>&1");
-
-    $contents = file_get_contents($f_sample_out);
-    $contents = explode("\t", $contents);
-    // Check if annotation returned an error
-    if (in_array('ERROR_NOT_SUPPORTED_MUTATION_TYPE', $contents)) {
-      // ERROR: unsupported mutation type
-      $this->remove_temp_files($f_in);
-      return -400;
+    if ($ruby_path == '') {
+      $ruby_path = 'ruby'; // use default location if blank
     }
+    exec("$ruby_path $run_script --progress --in $f_in --out $f_out > ".$annot_path."tmp/log 2>&1");
+    
+    // Check if annotation returned an error
+    if (file_exists($f_errors)) {
+      $contents = file_get_contents($f_errors);
+      if (strpos($contents, 'ERROR_NOT_SUPPORTED_MUTATION_TYPE')) {
+        // ERROR: unsupported mutation type
+        $this->remove_temp_files($f_in);
+        return -400;
+      }
 
-    if (in_array('ERROR_NO_MATCHING_REFSEQ', $contents)) {
-      // ERROR: no matching refseq (annotation returned nothing)
-      $this->remove_temp_files($f_in);
-      return -501;
+      if (strpos($contents, 'ERROR_NO_MATCHING_REFSEQ')) {
+        // ERROR: no matching refseq (annotation returned nothing)
+        $this->remove_temp_files($f_in);
+        return -501;
+      }
     }
     
+    // Get annotation data and cleanup
     $contents = file_get_contents($f_out);
-    // Cleanup
     $this->remove_temp_files($f_in);
 
-    chdir($original_dir); // Change working directory back to original
     /* END RUNNING ANNOTATION */
 
     if (empty($contents)) {
@@ -251,7 +253,7 @@ class Variations_model extends MY_Model {
         $annot_result[$key] = NULL;
       }
     }
-    
+
     /**
      * NOTE: Each key is the exact same name of a column in the database.
      */
@@ -333,6 +335,7 @@ class Variations_model extends MY_Model {
       $data['dbsnp'] = $annot_result['dbsnp'];
     }
     
+// TODO edit the output from here on down (prediction interpretations should be taken directly from kafeen)
     // More dbNSFP goodies (only add if they're not empty)
     $dbnsfp_extras[] = ! empty($annot_result['gene_full_name'])       ? 'Gene full name: ' . $annot_result['gene_full_name'] : NULL;
     $dbnsfp_extras[] = ! empty($annot_result['function_description']) ? 'Function description: ' . $annot_result['function_description'] : NULL;

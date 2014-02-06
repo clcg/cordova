@@ -186,7 +186,7 @@ $config['variant_evidence_summary'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Annotation Tool Path
+| Annotation Tool Paths
 |--------------------------------------------------------------------------
 |
 | The annotation tool used to autofill some of the fields when a variant is
@@ -194,21 +194,23 @@ $config['variant_evidence_summary'] = FALSE;
 | or absolute). If you use a relative path, then it must be relative to the site's
 | root directory using the FCPATH constant (i.e. FCPATH/../annotation_tool/).
 |
-| IMPORTANT: Make sure that the entire annotation tool's directory recursively has
-| read and execute permissions for group 'other'.
-| Otherwise, you will be banging your head against the table at 5AM trying
-| to figure out why PHP will not run your script! Also make sure that the
-| input/output file has rwx permissions, or you'll be up till 6AM, too :)
+| If you are using kafeen for annotation and you installed Ruby via RVM then you may need to
+| specify the absolute path to Ruby or problems may occur. You can find the full path by typing in
+|     which ruby
+| from the command-line. Paste the response in the single quotes below.
 |
-| IMPORTANT: The annotation tool is a collection of small scripts, but its dependency
-| files are quite large (~31GB). If you are hosting more than one variation database on
+| IMPORTANT: Make sure that the entire annotation tool's directory recursively has
+| read and execute permissions for group 'other' (chmod o+rx). Also make sure that the
+| tmp directory has read, write and executable permissions for group 'other' (chmod o+rwx).
+|
+| IMPORTANT: The annotation tool is a small script, but its dependency
+| files are quite large (~10GB). If you are hosting more than one variation database on
 | a single server, it is recommended that this tool be placed in a common directory
 | that each site can reference instead of having a copy of the tool for each site.
 |
-| DON'T FORGET A TRAILING SLASH!
-|
 */
-$config['annotation_path']        = '/opt/kafeen/'; // i.e. /opt/annotation_tool/
+$config['annotation_path'] = '/opt/kafeen/'; // i.e. /opt/annotation_tool/
+$config['ruby_path'] = ''; // i.e. /usr/local/rvm/rubies/ruby-1.9.3-p484/bin/ruby
 
 /*
 |--------------------------------------------------------------------------
