@@ -1526,7 +1526,8 @@ EOF;
   /**
    * Get Variant Display Variables
    *
-   * @author Nikhil Anand, Sean Ephraim
+   * @author Nikhil Anand
+   * @author Sean Ephraim
    * @param  string Letter of gene
    * @return array  Data variables to load into the view
    */
@@ -1791,6 +1792,18 @@ EOF;
     }
     
     return $data;
+  }
+
+  /**
+   * Num Variants In Queue
+   *
+   * Returns total number rows in the variant queue table.
+   *
+   * @author Sean Ephraim
+   * @return int Number of rows in the variant queue table
+   */
+  public function num_variants_in_queue() {
+    return $this->db->count_all($this->tables['vd_queue']);
   }
 }
 

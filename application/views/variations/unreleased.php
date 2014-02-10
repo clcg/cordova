@@ -1,4 +1,5 @@
 <?php
+echo $page_links;
 $attributes = array('id' => 'form-release-changes', 
                     'class' => 'rounded',
                    );

@@ -19,7 +19,7 @@ class MY_Model extends CI_Model {
       }
       $html = 'Database tables have been intialized.';
       $this->session->set_flashdata('success', $html);
-//      redirect($this->uri->uri_string()); // reload the page
+      redirect($this->uri->uri_string()); // reload the page
     }
 
 		// Database version number
@@ -223,6 +223,35 @@ class MY_Model extends CI_Model {
     // put the name back together
     $next_name = join('_', $parts);
     return $next_name;
+  }
+
+  /**
+   * Get IDs Within Range
+   *
+   * Returns an array of IDs within a range of rows
+   * in the database table. This is good for pagination.
+   *
+   * For example, if you specify your range as
+   *   get_ids_within_range($this->tables['vd_queue'], 0, 10) {
+   * You will get the variant IDs for the first 10 rows of the
+   * queue table (rows 0-9).
+   *
+   * @author Sean Ephraim
+   * @param string Database table name
+   * @param int Starting row
+   * @param int Number of rows total (from/including the starting row)
+   * @return array Unique IDs
+   */
+  public function get_ids_within_range($table, $start_pos, $limit = 1) {
+    $result = $this->db->select('id')
+                       ->get($table, $limit, $start_pos)
+                       ->result();
+    $ids = array();
+    // Create a nice array from the result
+    foreach ($result as $row) {
+      array_push($ids, $row->id);
+    }
+    return $ids;
   }
 
   /**
