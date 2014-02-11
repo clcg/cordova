@@ -241,9 +241,9 @@ class Variations extends MY_Controller {
     $this->load->library('pagination');
     $config['base_url'] = site_url('variations/unreleased');
     $config['total_rows'] = $this->variations_model->num_variants_in_queue();
-    $config['per_page'] = 50; 
+    $config['per_page'] = 4; 
     $config['use_page_numbers'] = TRUE;
-    $config['num_links'] = 5;
+    $config['num_links'] = 8;
     // Configure tags to comply with Bootstrap pagination
     $config['full_tag_open'] = '<div class="pagination"><ul>';
     $config['full_tag_close'] = '</ul></div>';
@@ -290,7 +290,10 @@ class Variations extends MY_Controller {
       $data['header'] = 'No new changes have been made';
     }
     else {
-      $data['header'] = 'Unreleased changes';
+      $range_limit_1 = $start_pos + 1;
+      $range_limit_2 = $start_pos + count($variant_ids);
+      $num_unreleased = $this->variations_model->num_variants_in_queue();
+      $data['header'] = "$num_unreleased Unreleased changes | Showing $range_limit_1 - $range_limit_2";
     }
     $this->load->view($this->editor_layout, $data);
   }

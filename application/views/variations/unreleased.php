@@ -56,6 +56,7 @@ echo form_open('variations/submit', $attributes);
             </label>
         </div>
     <?php endforeach; ?>
+    <?php echo $page_links; ?>
     <!-- "Release changes" button (hide if no variant changes exist) -->
     <div id="release-changes-wrapper" class="rounded <?php echo hidden(empty($variants)); ?>">
         <h4>Ready to release these changes?</h4> 
