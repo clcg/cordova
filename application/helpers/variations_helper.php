@@ -51,7 +51,7 @@ if ( ! function_exists('unreleased_changes_notice'))
     }
 
     if ( ! empty($result[$id]['changes'])) {
-      $href = site_url("variations/unreleased/#accordion-variant-changes-$id"); 
+      $href = site_url("variations/unreleased/variation/$id"); 
       $html = '';
       $html .= '<p class="notice rounded">';
       $html .= '    <a class="close" data-dismiss="alert" href="#">&times;</a>';

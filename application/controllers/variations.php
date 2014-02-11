@@ -226,75 +226,82 @@ class Variations extends MY_Controller {
   /**
    * Show unreleased
    *
+   * // TODO update params and description
    * Show all of the unreleased changes made to the variant data.
    *
    * @author Sean Ephraim
    * @access public
    */
-  public function show_unreleased($page_num = 1) {
+  public function show_unreleased($mode = 'page', $id = 1) {
     redirect_all_nonmembers();
 
     $data['title'] = 'Unreleased changes';
     $data['content'] = 'variations/unreleased';
 
-    // TODO Configure pagination
-    $this->load->library('pagination');
-    $config['base_url'] = site_url('variations/unreleased');
-    $config['total_rows'] = $this->variations_model->num_variants_in_queue();
-    $config['per_page'] = 4; 
-    $config['use_page_numbers'] = TRUE;
-    $config['num_links'] = 8;
-    // Configure tags to comply with Bootstrap pagination
-    $config['full_tag_open'] = '<div class="pagination"><ul>';
-    $config['full_tag_close'] = '</ul></div>';
-    $config['first_tag_open'] = '<li>';
-    $config['first_tag_close'] = '</li>';
-    $config['last_tag_open'] = '<li>';
-    $config['last_tag_close'] = '</li>';
-    $config['next_link'] = '&raquo;';
-    $config['next_tag_open'] = '<li>';
-    $config['next_tag_close'] = '</li>';
-    $config['prev_link'] = '&laquo;';
-    $config['prev_tag_open'] = '<li>';
-    $config['prev_tag_close'] = '</li>';
-    $config['cur_tag_open'] = '<li class="active"><a href="#">';
-    $config['cur_tag_close'] = '</a></li>'; 
-    $config['num_tag_open'] = '<li>';
-    $config['num_tag_close'] = '</li>';
-    $this->pagination->initialize($config); 
-    $data['page_links'] = $this->pagination->create_links();
-
-    // Get variant IDs within specified range
-    $start_pos = ($page_num - 1)*$config['per_page'];
-    $variant_ids = $this->variations_model->get_ids_within_range($this->tables['vd_queue'], $start_pos, $config['per_page']);
-
-    // Query variant changes individually, then push them onto array
-    $data['variants'] = array();
-    foreach ($variant_ids as $variant_id) {
-//      if ($variant_id === NULL) {
-//        // No variant ID specified, so get changes for all variants
-//        $data['variants'] = $this->variations_model->get_unreleased_changes();
-//      }
-//      else {
-//        // Get changes for single variant
-//        $data['variants'] = $this->variations_model->get_unreleased_changes($variant_id);
-//      }
-//print_r($data['variants']);
-//die();
-      $changes = $this->variations_model->get_unreleased_changes($variant_id);
-      array_push($data['variants'], array_shift($changes)); // Take first (and only) result, push onto array
+    if ($mode === 'variation') {
+      // Get changes for single variant
+      $data['page_links'] = ''; // Hide page numbers for this
+      $data['variants'] = $this->variations_model->get_unreleased_changes($id);
+    }
+    else {
+      // TODO Configure pagination
+      $page_num = $id;
+      $this->load->library('pagination');
+      $config['base_url'] = site_url('variations/unreleased/page');
+      $config['total_rows'] = $this->variations_model->num_variants_in_queue();
+      $config['per_page'] = 10; 
+      $config['use_page_numbers'] = TRUE;
+      $config['uri_segment'] = 4;
+      $config['num_links'] = 8;
+      // Configure tags to comply with Bootstrap pagination
+      $config['full_tag_open'] = '<div class="pagination"><ul>';
+      $config['full_tag_close'] = '</ul></div>';
+      $config['first_tag_open'] = '<li>';
+      $config['first_tag_close'] = '</li>';
+      $config['last_tag_open'] = '<li>';
+      $config['last_tag_close'] = '</li>';
+      $config['next_link'] = '&raquo;';
+      $config['next_tag_open'] = '<li>';
+      $config['next_tag_close'] = '</li>';
+      $config['prev_link'] = '&laquo;';
+      $config['prev_tag_open'] = '<li>';
+      $config['prev_tag_close'] = '</li>';
+      $config['cur_tag_open'] = '<li class="active"><a href="#">';
+      $config['cur_tag_close'] = '</a></li>'; 
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+      $this->pagination->initialize($config); 
+      $data['page_links'] = $this->pagination->create_links();
+      // Get variant IDs within specified range
+      $start_pos = ($page_num - 1)*$config['per_page'];
+      $variant_ids = $this->variations_model->get_ids_within_range($this->tables['vd_queue'], $start_pos, $config['per_page']);
+      // Query variant changes individually, then push them onto array
+      $data['variants'] = array();
+      foreach ($variant_ids as $variant_id) {
+        $changes = $this->variations_model->get_unreleased_changes($variant_id);
+        array_push($data['variants'], array_shift($changes)); // Take first (and only) result, push onto array
+      }
     }
 
+    // Create proper header (depending on whether or not changes occurred)
     if (empty($data['variants'])) {
       $data['variants'] = array();
       $data['header'] = 'No new changes have been made';
     }
     else {
-      $range_limit_1 = $start_pos + 1;
-      $range_limit_2 = $start_pos + count($variant_ids);
-      $num_unreleased = $this->variations_model->num_variants_in_queue();
-      $data['header'] = "$num_unreleased Unreleased changes | Showing $range_limit_1 - $range_limit_2";
+      if ($mode === 'variation') {
+        // Header for single variation
+        $data['header'] = "Unreleased changes for this variation";
+      }
+      else {
+        // Header for multiple variations
+        $range_limit_1 = $start_pos + 1;
+        $range_limit_2 = $start_pos + count($variant_ids);
+        $num_unreleased = $this->variations_model->num_variants_in_queue();
+        $data['header'] = "$num_unreleased Unreleased changes | Showing $range_limit_1 - $range_limit_2";
+      }
     }
+
     $this->load->view($this->editor_layout, $data);
   }
 

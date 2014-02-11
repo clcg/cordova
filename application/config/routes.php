@@ -68,6 +68,7 @@ $route['variations/add'] = 'variations/add';
 $route['variations/submit'] = 'variations/submit_changes';
 $route['variations/unreleased'] = 'variations/show_unreleased';
 $route['variations/unreleased/(:any)'] = 'variations/show_unreleased/$1';
+$route['variations/unreleased/(:any)/(:any)'] = 'variations/show_unreleased/$1/$2';
 $route['variations/(:any)'] = 'variations/show_variants/$1';
 $route['variations'] = 'variations/index';
 /* Public Pages */
