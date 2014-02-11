@@ -302,6 +302,9 @@ class Variations extends MY_Controller {
       }
     }
 
+    // Store this URL in order to reference back to it after saving
+    $this->session->set_flashdata('refer_url', current_url());
+
     $this->load->view($this->editor_layout, $data);
   }
 
@@ -410,7 +413,17 @@ class Variations extends MY_Controller {
         }
       }
     }
-    redirect('variations/unreleased');
+
+    // Redirect to proper page
+    $refer_url = $this->session->flashdata('refer_url');
+    if ( ! empty($refer_url)) {
+      // Return to reference URL
+      redirect($this->session->flashdata('refer_url'));
+    }
+    else {
+      // Return to default URL
+      redirect('variations/unreleased');
+    }
   }
 
   /** 
