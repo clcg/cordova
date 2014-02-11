@@ -249,27 +249,7 @@ class Variations extends MY_Controller {
       $this->load->library('pagination');
       $config['base_url'] = site_url('variations/unreleased/page');
       $config['total_rows'] = $this->variations_model->num_variants_in_queue();
-      $config['per_page'] = 10; 
-      $config['use_page_numbers'] = TRUE;
-      $config['uri_segment'] = 4;
-      $config['num_links'] = 8;
-      // Configure tags to comply with Bootstrap pagination
-      $config['full_tag_open'] = '<div class="pagination"><ul>';
-      $config['full_tag_close'] = '</ul></div>';
-      $config['first_tag_open'] = '<li>';
-      $config['first_tag_close'] = '</li>';
-      $config['last_tag_open'] = '<li>';
-      $config['last_tag_close'] = '</li>';
-      $config['next_link'] = '&raquo;';
-      $config['next_tag_open'] = '<li>';
-      $config['next_tag_close'] = '</li>';
-      $config['prev_link'] = '&laquo;';
-      $config['prev_tag_open'] = '<li>';
-      $config['prev_tag_close'] = '</li>';
-      $config['cur_tag_open'] = '<li class="active"><a href="#">';
-      $config['cur_tag_close'] = '</a></li>'; 
-      $config['num_tag_open'] = '<li>';
-      $config['num_tag_close'] = '</li>';
+      $config['per_page'] = 100; 
       $this->pagination->initialize($config); 
       $data['page_links'] = $this->pagination->create_links();
       // Get variant IDs within specified range
