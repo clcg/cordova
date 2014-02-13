@@ -226,11 +226,12 @@ class Variations extends MY_Controller {
   /**
    * Show unreleased
    *
-   * // TODO update params and description
-   * Show all of the unreleased changes made to the variant data.
+   * Show all of the unreleased changes made to the variation data.
    *
    * @author Sean Ephraim
    * @access public
+   * @param string Display mode: 'page' (for multiple variations) or 'variation' (for single)
+   * @param int Either the page number or the variation's unique ID (depending on the mode)
    */
   public function show_unreleased($mode = 'page', $id = 1) {
     redirect_all_nonmembers();
@@ -244,7 +245,6 @@ class Variations extends MY_Controller {
       $data['variants'] = $this->variations_model->get_unreleased_changes($id);
     }
     else {
-      // TODO Configure pagination
       $page_num = $id;
       $this->load->library('pagination');
       $config['base_url'] = site_url('variations/unreleased/page');
@@ -282,7 +282,7 @@ class Variations extends MY_Controller {
       }
     }
 
-    // Store this URL in order to reference back to it after saving
+    // Store this URL in order to refer back to it after saving
     $this->session->set_flashdata('refer_url', current_url());
 
     $this->load->view($this->editor_layout, $data);
@@ -313,13 +313,11 @@ class Variations extends MY_Controller {
       die("Hmmm... you must have wandered here by mistake.");
     }
 
-    // Save all changes
+    // Update confirmation status of all variants on this page
     $post = $this->input->post();
-    $variants = $this->variations_model->get_unreleased_changes();
-
-    // Update confirmation status of all variants in queue
+    $variants = (isset($post['variants-on-this-page'])) ? $post['variants-on-this-page'] : NULL;
     if (is_array($variants)) {
-      foreach ($variants as $variant_id => $value) {
+      foreach ($variants as $variant_id) {
         $old_review = $this->variations_model->get_variant_review_info($variant_id);
         $data['confirmed_for_release'] = TRUE;
         if (isset($post['unconfirmed-variants']) && array_search($variant_id, $post['unconfirmed-variants']) !== FALSE) {
@@ -358,11 +356,26 @@ class Variations extends MY_Controller {
        *       empty. If any checkboxes in the name of 'unconfirmed-variants' are checked,
        *       then this element will not be empty, and the attempt to release will fail.
        */
-      if (isset($_POST['unconfirmed-variants']) && count($_POST['unconfirmed-variants']) > 0
-             && $_POST['special-release'] === 'none') {
-        // Release failed! Not all variants have been confirmed for release.
-        $html = 'All changes must be confirmed prior to release. Check the boxes on the right side to confirm each change, or see the bottom of this page for special release options.';
-        $this->session->set_flashdata('error', $html);
+      if ($_POST['special-release'] === 'none') {
+        $found_unconfirmed = FALSE;
+        if (isset($_POST['unconfirmed-variants']) && count($_POST['unconfirmed-variants']) > 0) {
+          // ERROR: found unconfirmed variants on this page
+          $found_unconfirmed = TRUE;
+        }
+        // Check that all variants in queue have been confirmed for release
+        $all_queue_variants = $this->variations_model->get_unreleased_changes();
+        foreach ($all_queue_variants as $variant_id => $values) {
+          $variant_review = $this->variations_model->get_variant_review_info($variant_id);
+          if ($variant_review->confirmed_for_release == 0) {
+            // ERROR: found unconfirmed variants in the queue (not necessarily on this page)
+            $found_unconfirmed = TRUE;
+          }
+        }
+        if ($found_unconfirmed) {
+          // Release failed! Not all variants have been confirmed for release
+          $html = 'All changes must be confirmed prior to release. Check the boxes on the right side to confirm each change, or see the bottom of this page for special release options.';
+          $this->session->set_flashdata('error', $html);
+        }
       }
       else {
         if ($_POST['special-release'] === 'force-all' || $this->version == 0) {
@@ -396,13 +409,13 @@ class Variations extends MY_Controller {
 
     // Redirect to proper page
     $refer_url = $this->session->flashdata('refer_url');
-    if ( ! empty($refer_url)) {
-      // Return to reference URL
-      redirect($this->session->flashdata('refer_url'));
+    if (isset($_POST['release-changes']) || empty($refer_url)) {
+      // Return to default URL if there's no reference URL or after releasing changes
+      redirect('variations/unreleased');
     }
     else {
-      // Return to default URL
-      redirect('variations/unreleased');
+      // Return to reference URL
+      redirect($refer_url);
     }
   }
 
@@ -496,7 +509,8 @@ class Variations extends MY_Controller {
   * The pChart library that can be found in application/third_party/pChart/
   * More info on pChart at http://www.pchart.net/
   *
-  * @author   Nikhil Anand, Sean Ephraim
+  * @author   Nikhil Anand
+  * @author   Sean Ephraim
   * @access   public
   * @return   img     An image of a bar graph.
   */

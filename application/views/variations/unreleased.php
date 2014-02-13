@@ -53,6 +53,7 @@ echo form_open('variations/submit', $attributes);
             <label class="variant-change-confirm-label hold-change span1">
                 <i class="icon-off"></i>
                 <input name="unconfirmed-variants[]" value="<?php echo $variant['id']; ?>" class="variant-change-confirm" type="checkbox" <?php echo variant_confirmation_status($variant['id']) ?>/>
+                <input name="variants-on-this-page[]" value="<?php echo $variant['id']; ?>" class="hidden" type="checkbox" checked/>
             </label>
         </div>
     <?php endforeach; ?>
