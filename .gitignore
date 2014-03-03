@@ -1,7 +1,15 @@
+.DS_Store
+*~
 *.swp
 log/*.log
 application/config/config.php
 application/config/database.php
 application/config/variation_database.php
-.DS_Store
-*~
+
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess

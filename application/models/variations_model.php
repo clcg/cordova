@@ -589,6 +589,7 @@ class Variations_model extends MY_Model {
    */
   public function get_variant_by_id($id, $table = NULL)
   {
+    // Default table is the queue
     if ($table === NULL) {
       $table = $this->tables['vd_queue'];
     }
@@ -1526,15 +1527,22 @@ EOF;
   /**
    * Get Variant Display Variables
    *
+   * Get the variables for the public view of a variant.
+   *
    * @author Nikhil Anand
    * @author Sean Ephraim
    * @param  string Letter of gene
    * @return array  Data variables to load into the view
    */
-  public function get_variant_display_variables($id) {
+  public function get_variant_display_variables($id, $table = NULL) {
+    // Default table is the queue
+    if ($table === NULL) {
+      $table = $this->tables['vd_live'];
+    }
+
     // Load variant data
     $id = trim($id);
-    $variant = $this->get_variant_by_id($id);
+    $variant = $this->get_variant_by_id($id, $table);
     $freqs = $this->config->item('frequencies'); // frequencies to display
 
     // Make variables out of array keys. Variable variables are AWESOME!
@@ -1567,7 +1575,7 @@ EOF;
       $data['comments'] = "<span>(no data)</span>";
     } 
     
-    // PhyloP
+    // phyloP
     if (is_numeric($data['phylop_score'])) {
       // Conservation threshold
       if ($data['phylop_score'] > 1) {

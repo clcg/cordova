@@ -245,6 +245,7 @@ class Variations extends MY_Controller {
       $data['variants'] = $this->variations_model->get_unreleased_changes($id);
     }
     else {
+      // Setup pagination for multiple variants
       $page_num = $id;
       $this->load->library('pagination');
       $config['base_url'] = site_url('variations/unreleased/page');
@@ -449,7 +450,7 @@ class Variations extends MY_Controller {
    * @return   void
    */
   public function show_variant($id) {
-    $data = $this->variations_model->get_variant_display_variables($id);
+    $data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
     $data['title'] = $data['variation'];
     $content = 'variations/variant/index';
 

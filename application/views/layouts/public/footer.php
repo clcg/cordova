@@ -6,7 +6,7 @@
     		<?php echo $footer_info ?> | <a href="<?php echo site_url('login') ?>">Curators</a>
     	</p>
     	<p>
-        Interested in setting up your own variation database? <a href="javascript://" class="contact-popup contact-cbcb">Let us know!</a>
+         Interested in setting up your own variation database? <a href="javascript://" class="contact-popup contact-cbcb">Let us know</a> or check out our free <a href="https://github.com/clcg/cordova">Cordova</a> software!
     	</p>
     </div>
 

@@ -15,7 +15,7 @@
 */
 $config['use_page_numbers'] = TRUE;
 $config['uri_segment'] = 4;
-$config['num_links'] = 8;
+$config['num_links'] = 6;
 // Configure all tags to comply with Bootstrap's pagination
 $config['full_tag_open'] = '<div class="pagination"><ul>';
 $config['full_tag_close'] = '</ul></div>';
