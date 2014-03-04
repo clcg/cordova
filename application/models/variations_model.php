@@ -429,7 +429,7 @@ class Variations_model extends MY_Model {
       }
     }
 
-    // SUCCESS: Variant does NOT exist in the database
+    // SUCCESS: Variant does NOT already exist in the database
     if ($manual_mode === TRUE) {
       // Manually set the variation
       $annot_data = array('variation' => $variation,
@@ -1144,12 +1144,12 @@ class Variations_model extends MY_Model {
   
           // Check if variation is already in the live and/or queue database 
           // --> assign 'new variant' label accordingly
-          $query_live = $this->db->get_where($this->tables['vd_live'], array('variation' => $queue_variant['variation'], 'hgvs_protein_change' => $queue_variant['hgvs_protein_change']), 1);
+          $query_live = $this->db->get_where($this->tables['vd_live'], array('id' => $queue_variant['id'], 'variation' => NULL), 1);
           if ($query_live->num_rows() > 0) {
-            $variants[$id]['is_new'] = FALSE;
+            $variants[$id]['is_new'] = TRUE;
           }
           else {
-            $variants[$id]['is_new'] = TRUE;
+            $variants[$id]['is_new'] = FALSE;
           }
   
           foreach ($queue_variant as $field => $value) {
