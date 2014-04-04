@@ -1,5 +1,5 @@
 # Cordova
-**C**urated **O**nline **R**eference **D**atabase **O**f **V**ariation **A**nnotations
+<b>C</b>urated <b>O</b>nline <b>R</b>eference <b>D</b>atabase <b>O</b>f <b>V</b>ariation <b>A</b>nnotations
 
 ## Application
 Cordova is an open source, web-based content management system for building and maintaining a database of genetic variations. It provides an interface for researchers to review and manually or computationally curate data prior to public release. Cordova offers a platform to share reliable genetic variation data for clinical diagnostics and the advancement of research.
