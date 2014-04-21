@@ -1,0 +1,91 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Email extends MY_Controller {
+
+  public function __construct() {
+    parent::__construct();
+  }
+
+  /**
+   * Index
+   *
+   * Handles emailing.
+   *
+   * @author  Sean Ephraim
+   * @access  public
+   * @return  void
+   */
+  public function index() {
+    // Protect from spambots
+    // |--> No parameters given? I smell shenanigans
+    // |--> If 'send' is set, then something's fishy (this is a hidden button)
+    if (empty($_POST) || isset($_POST['send'])) {
+      print "How may I help you?";
+      exit(10);
+    }
+    else {
+      // Email setup
+      $this->load->library('email');
+      $this->email->clear();
+      $config['mailtype'] = 'text';
+      $config['wordwrap'] = TRUE;
+      $config['newline'] = "\r\n";
+      $config['crlf'] = "\r\n";
+      $this->email->initialize($config);
+
+      $strings = $this->config->item('strings');
+      $site_full_name = $strings['site_full_name'];
+
+      $name = $_POST['name'];
+      $subject = "Contact request from: $site_full_name";
+      $to = $this->config->item('contact_email');
+      $from = $_POST['email'];
+      $comments = $_POST['comments'];
+
+      $message = "The following message was sent from a user of: $site_full_name\r\n\r\n"
+               . "Name: $name\r\n"
+               . "Reply-to: $from\r\n"
+               . "Comments: $comments\r\n";
+
+      // Send email to database curators
+      $this->email->subject($subject);
+      $this->email->to($to);
+      $this->email->from($from, $name);
+      $this->email->message($message);
+      if ( ! $this->email->send()) {
+        // ERROR sending to curators
+        $this->session->set_flashdata('email_error', TRUE);
+        redirect(base_url()); // reload page
+      }
+      else {
+        // Sent successfully
+        $this->session->set_flashdata('email_success', TRUE);
+      }
+
+      if (isset($_POST['contact-cbcb'])) {
+        // Send additional email to the CBCB regarding setting up a new database
+        $message .= "\r\nAdditional info: You are receiving this email because this user has expressed interest in setting up their own variation database. ";
+        $message .= "Please contact them with more information on how to do so. ";
+        $this->email->to('support@eng.uiowa.edu');
+        $this->email->message($message);
+
+        if ( ! $this->email->send()) {
+          // ERROR sending to CBCB
+          $this->session->set_flashdata('email_error', TRUE);
+          redirect(base_url()); // reload page
+        }
+        else {
+          // Sent successfully
+          $this->session->set_flashdata('email_success', TRUE);
+        }
+      }
+
+      redirect(base_url()); // reload page
+    }
+  }
+}
+
+
+
+
+

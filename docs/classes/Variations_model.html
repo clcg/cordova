@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>Cordova Developer Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">Cordova Developer Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">223</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1589503615"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1589503615" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/API.html">API</a></li>
+                                                    <li class="class"><a href="../classes/API_model.html">API_model</a></li>
+                                                    <li class="class"><a href="../classes/Auth.html">Auth</a></li>
+                                                    <li class="class"><a href="../classes/Auth_model.html">Auth_model</a></li>
+                                                    <li class="class"><a href="../classes/Email.html">Email</a></li>
+                                                    <li class="class"><a href="../classes/Genes.html">Genes</a></li>
+                                                    <li class="class"><a href="../classes/Genes_model.html">Genes_model</a></li>
+                                                    <li class="class"><a href="../classes/Migration_Init.html">Migration_Init</a></li>
+                                                    <li class="class"><a href="../classes/MY_Controller.html">MY_Controller</a></li>
+                                                    <li class="class"><a href="../classes/MY_Form_validation.html">MY_Form_validation</a></li>
+                                                    <li class="class"><a href="../classes/MY_Model.html">MY_Model</a></li>
+                                                    <li class="class"><a href="../classes/Pages.html">Pages</a></li>
+                                                    <li class="class"><a href="../classes/Pages_model.html">Pages_model</a></li>
+                                                    <li class="class"><a href="../classes/Uiowa_auth_model.html">Uiowa_auth_model</a></li>
+                                                    <li class="class"><a href="../classes/Variations.html">Variations</a></li>
+                                                    <li class="class"><a href="../classes/Variations_model.html">Variations_model</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>Variations_model</h1>
+                    <p><em></em></p>
+                    
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Variations_model.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_get_db_version_num" class="">get_db_version_num()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_get_all_db_version_info" class="">get_all_db_version_info()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_set_vd_live_table" class="">set_vd_live_table()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_set_vd_queue_table" class="">set_vd_queue_table()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_set_reviews_table" class="">set_reviews_table()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_set_variant_count_table" class="">set_variant_count_table()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_get_last_update_date" class="">get_last_update_date()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_get_new_version_name" class="">get_new_version_name()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_get_ids_within_range" class="">get_ids_within_range()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_copy_table" class="">copy_table()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_empty_table" class="">empty_table()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_remove_temp_files" class="">remove_temp_files()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_format_hg19_position" class="">format_hg19_position()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_dbsnp_id" class="">get_dbsnp_id()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_annotation_data" class="">get_annotation_data()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_give_credit_to" class="">give_credit_to()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_create_new_variant" class="">create_new_variant()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_remove_all_changes" class="">remove_all_changes()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_remove_from_queue_if_unchanged" class="">remove_from_queue_if_unchanged()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variants_by_gene" class="">get_variants_by_gene()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variants_by_gene_letter" class="">get_variants_by_gene_letter()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variant_by_id" class="">get_variant_by_id()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variants_by_position" class="">get_variants_by_position()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variant_review_info" class="">get_variant_review_info()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variant_reviews" class="">get_variant_reviews()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_variant_exists_in_table" class="">variant_exists_in_table()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variant_fields" class="">get_variant_fields()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_all_current_values" class="">get_all_current_values()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_copy_variant_into_queue" class="">copy_variant_into_queue()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_update_variant_in_queue" class="">update_variant_in_queue()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_push_data_live" class="">push_data_live()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_update_variant_review_info" class="">update_variant_review_info()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_all_variants" class="">get_all_variants()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_unreleased_changes" class="">get_unreleased_changes()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method__validate_variant_id" class="">_validate_variant_id()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_load_variant" class="">load_variant()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_letter_table" class="">get_letter_table()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_format_variants_table" class="">format_variants_table()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_load_gene" class="">load_gene()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_validate_gene_letter" class="">validate_gene_letter()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_get_variant_display_variables" class="">get_variant_display_variables()</a><br />
+                                                                    <a href="../classes/Variations_model.html#method_num_variants_in_queue" class="">num_variants_in_queue()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/MY_Model.html#property_version" class="">$version</a><br />
+                                                                    <a href="../classes/Variations_model.html#property_tables" class="">$tables</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/models.variations_model.php.html"><div class="path-wrapper">models/variations_model.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper"></div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                        <div class="namespace-wrapper">\CI_Model</div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/MY_Model.html">\MY_Model</a></div>
+                                                                                                    <div class="namespace-wrapper">\Variations_model</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                todo
+                            </th>
+                            <td>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_version" name="property_version" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$version</h3>
+                <pre class="signature">$version</pre>
+                <p><em></em></p>
+                
+
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tables" name="property_tables" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tables</h3>
+                <pre class="signature">$tables : array</pre>
+                <p><em>Array of database tables used.</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_db_version_num" name="method_get_db_version_num" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_db_version_num()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_db_version_num() : int</pre>
+                <p><em>Get DB Version Num</em></p>
+                <p>Returns the version number for the latest database if
+$config['vd_version'] is set to 0. Otherwise the specified
+version will be used.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    int
+                                            &mdash; <p>Correct version of the variation database</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_all_db_version_info" name="method_get_all_db_version_info" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_all_db_version_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_all_db_version_info() : object</pre>
+                <p><em>Get All DB Version Info</em></p>
+                <p>Returns the versioning info for the variation database.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>All DB version info</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set_vd_live_table" name="method_set_vd_live_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set_vd_live_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set_vd_live_table()</pre>
+                <p><em>Set VD Live Table</em></p>
+                <p>Sets the proper name of the variations table by determining the
+latest version of the database.</p>
+<p>Read more about it in application/config/variation_database.php.</p>
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set_vd_queue_table" name="method_set_vd_queue_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set_vd_queue_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set_vd_queue_table()</pre>
+                <p><em>Set VD Queue Table</em></p>
+                <p>Sets the proper name of the variations queue table by determining the
+latest version of the database.</p>
+<p>Read more about it in application/config/variation_database.php.</p>
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set_reviews_table" name="method_set_reviews_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set_reviews_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set_reviews_table()</pre>
+                <p><em>Set Reviews Table</em></p>
+                <p>Sets the proper name for the variant reviews table by determining the
+latest version of the database.</p>
+<p>Read more about it in application/config/variation_database.php.</p>
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set_variant_count_table" name="method_set_variant_count_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set_variant_count_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set_variant_count_table()</pre>
+                <p><em>Set Variant Count Table</em></p>
+                <p>Sets the proper name for the variant count table by determining the
+latest version of the database.</p>
+<p>Read more about it in application/config/variation_database.php.</p>
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_last_update_date" name="method_get_last_update_date" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_last_update_date()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_last_update_date()</pre>
+                <p><em>Get Last Update Date</em></p>
+                <p>Returns the correct date for when the database was last updated.</p>
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_new_version_name" name="method_get_new_version_name" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_new_version_name()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_new_version_name( <span class="argument">$cur_name</span>,  <span class="argument">$latest_version</span>) : string</pre>
+                <p><em>Get New Version Name</em></p>
+                <p>Returns the name of the next version of a table based on
+the current name.</p>
+<p>For example:
+   if current name = 'dvd_1'
+   then next name  = 'dvd_2'</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$cur_name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$latest_version </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>Next version of a table name</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_ids_within_range" name="method_get_ids_within_range" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_ids_within_range()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_ids_within_range( <span class="argument">$table</span>,  <span class="argument">$start_pos</span>,  <span class="argument">$limit</span>) : array</pre>
+                <p><em>Get IDs Within Range</em></p>
+                <p>Returns an array of IDs within a range of rows
+in the database table. This is good for pagination.</p>
+<p>For example, if you specify your range as
+  get_ids_within_range($this->tables['vd_queue'], 0, 10) {
+You will get the variant IDs for the first 10 rows of the
+queue table (rows 0-9).</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$start_pos </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$limit </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>Unique IDs</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_copy_table" name="method_copy_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">copy_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">copy_table( <span class="argument">$source</span>,  <span class="argument">$target</span>,  <span class="argument">$include_data</span>) : boolean</pre>
+                <p><em>Copy Table</em></p>
+                <p>Makes an exact copy of a table (structure and data).
+To only copy the structure (and not the data), set the
+3rd parameter to FALSE.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$source </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$target </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$include_data </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>TRUE on success, else FALSE</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_empty_table" name="method_empty_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">empty_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">empty_table( <span class="argument">$table</span>)</pre>
+                <p><em>Empty Table</em></p>
+                <p>Remove all data from a table, leaving structure intact.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/MY_Model.html"><div class="path-wrapper">\MY_Model</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_remove_temp_files" name="method_remove_temp_files" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">remove_temp_files()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">remove_temp_files( <span class="argument">$prefix</span>)</pre>
+                <p><em>Remove Temp Files</em></p>
+                <p>Removes all temporary files that get created during the annotation
+process. Any files that BEGIN with the provided string will be
+removed. For example if 'foo' is provided, then the bash command
+'rm foo*' will be performed.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$prefix </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_format_hg19_position" name="method_format_hg19_position" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">format_hg19_position()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">format_hg19_position( <span class="argument">$variation</span>,  <span class="argument">$for_dbnsfp</span>) : string</pre>
+                <p><em>Format Hg19 Position</em></p>
+                <p>This function will return the correct format for the
+Hg19 genomic position. This means:</p>
+<ul>
+<li>The user does not have to worry about case-sensitivity
+when entering a variation
+<ul>
+<li>i.e. "CHR1:41283868:g>a" vs. "chr1:41283868:G>A"</li>
+</ul>
+</li>
+<li>The user does not have to include "chr" in the name
+of the variation
+<ul>
+<li>i.e. "1:41283868:G>A" vs. "chr1:41283868:G>A"</li>
+</ul>
+</li>
+</ul>
+<p>If the second parameter ($for_dbnsfp) is TRUE, then the input
+will be formatted for use with dbNSFP. This means:</p>
+<ul>
+<li>chr1:41283868:G>A becomes 1 41283868 G A</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variation </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$for_dbnsfp </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>Genomic position (Hg19) (formatted)</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_dbsnp_id" name="method_get_dbsnp_id" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_dbsnp_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_dbsnp_id( <span class="argument">$variation</span>) : mixed</pre>
+                <p><em>Get dbSNP ID</em></p>
+                <p>Queries dbSNP in order to find a variant's dbSNP ID. This function will
+retrieve the HTML for a dbSNP result based on a variant's chromosome number/letter
+and chromosomal position.</p>
+<p><em>KNOWN ISSUE</em>: This function will only return a SNP ID if 1 (and only 1) SNP ID is</p>
+<pre><code>           associated with that position. Otherwise it will return NULL, even
+           if 2 or more SNP IDs exist.</code></pre>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variation </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>dbSNP ID if only 1 is found; else NULL if more than 1 found</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_annotation_data" name="method_get_annotation_data" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_annotation_data()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_annotation_data( <span class="argument">$variation</span>) : mixed</pre>
+                <p><em>Get Annotation Data</em></p>
+                <p>NOTE: This function should ONLY be used to <em>add</em> new data to the variation database.</p>
+<pre><code>  Never use this function for variants that already exist in the database
+  because it will take way too long (it pulls from several large databases).
+  For loading variant data that's already in the variation database, use
+  get_variant_by_id() or get_variants_by_position() instead (they pull from
+  the variation database, which is MUCH faster) as they are much more practical
+  to use with things like the API and views.</code></pre>
+<p>Uses the annotation tool to retrieve variant data based on the Genomic Position (Hg19).
+This function will run variant annotation, parse the variant data, and return the fields
+that are relevant to the database.</p>
+<p>Be sure to specify the path to the annotation tool in the
+application/config/variation_database.config file.</p>
+<p>Sample structure of the output array:
+$data['variation']
+$data['gene']
+$data['hgvs_nucleotide_change']
+$data['hgvs_protein_change']
+$data['variantlocale']</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variation </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>Array of fields to be autofilled; negative number on error</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_give_credit_to" name="method_give_credit_to" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">give_credit_to()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">give_credit_to( <span class="argument">$prefix</span>,  <span class="argument">$data</span>) : boolean</pre>
+                <p><em>Give Credit To</em></p>
+                <p>Decides whether or not credit should be given to certain data
+sources such as EVS, 1000 Genomes, etc. For example, if
+$data['evs_ea_an'] contains data, then credit should be given to
+EVS in the comments section. To test for this, an example call
+would be
+  give_credit<em>to('evs', $data)
+and if any array element in $data such that $data['evs</em>*'] is
+non-empty, then TRUE will be returned.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$prefix </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>TRUE if credit should be given, else FALSE</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_create_new_variant" name="method_create_new_variant" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">create_new_variant()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">create_new_variant( <span class="argument">$variation</span>,  <span class="argument">$manual_mode</span>) : int</pre>
+                <p><em>Create New Variant</em></p>
+                <p>Adds a variant to the database. This will first create an empty row
+in the live table in order to create a unique ID for the variant.
+Subsequently, the new record will get copied to the queue (in order
+to maintain the unique ID). Any real data will get added to this
+record in the queue and will not be seen on the live site until a
+batch release is performed.</p>
+<p>Setting the second parameter to TRUE allows you to turn on manual mode
+in order to insert a variant without any autofill data from annotation.
+Use this with care, as it also bypasses any checks for duplication
+or improper formatting.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variation </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$manual_mode </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    int
+                                            &mdash; <p>Variant ID (positive integer) on success; negative integer on error</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_remove_all_changes" name="method_remove_all_changes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">remove_all_changes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">remove_all_changes( <span class="argument">$id</span>)</pre>
+                <p><em>Remove Variant From Queue</em></p>
+                <p>This removes all variant changes from the queue. In addition
+it removes the empty row that was created for it in the live
+table as well as any review information for it.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_remove_from_queue_if_unchanged" name="method_remove_from_queue_if_unchanged" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">remove_from_queue_if_unchanged()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">remove_from_queue_if_unchanged( <span class="argument">$id</span>)</pre>
+                <p><em>Remove From Queue If Unchanged</em></p>
+                <p>If no changes for this variant exist, then it will
+be removed from the queue.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variants_by_gene" name="method_get_variants_by_gene" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variants_by_gene()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variants_by_gene( <span class="argument">$gene</span>) : object</pre>
+                <p><em>Get Variants By Gene</em></p>
+                <p>Get all variants for a gene.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$gene </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>Gene variations</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variants_by_gene_letter" name="method_get_variants_by_gene_letter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variants_by_gene_letter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variants_by_gene_letter( <span class="argument">$letter</span>) : object</pre>
+                <p><em>Get Variants By Gene Letter</em></p>
+                <p>Get all variants within a gene of the specified letter.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$letter </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>Gene variations</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variant_by_id" name="method_get_variant_by_id" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variant_by_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variant_by_id( <span class="argument">$id</span>,  <span class="argument">$table</span>) : mixed</pre>
+                <p><em>Get Variant By ID</em></p>
+                <p>Get all data for a single variant. The data in the queue
+takes precedence over the current data, therefore
+if the variant exists in the queue, it will be returned.
+If you don't want to query the queue table, then specify
+the name of the table you want to query as the second
+parameter.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>Variant data object or NULL</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variants_by_position" name="method_get_variants_by_position" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variants_by_position()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variants_by_position( <span class="argument">$position</span>,  <span class="argument">$table</span>,  <span class="argument">$fuzzy_search</span>) : mixed</pre>
+                <p><em>Get Variants By Position</em></p>
+                <p>Get all data for a variants at a position. The data in the queue
+takes precedence over the current data, therefore
+if the variant exists in the queue, it will be returned.
+If you don't want to query the queue table, then specify
+the name of the table you want to query as the second
+parameter. If the third parameter is TRUE, then fuzzy search
+will be used, meaning that "chr13:20" will actually search
+for "chr13:20*" and a variant such as "chr13:20796839" will be
+included in the return results.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$position </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$fuzzy_search </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>Variant data array or NULL</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variant_review_info" name="method_get_variant_review_info" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variant_review_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variant_review_info( <span class="argument">$variant_id</span>) : object</pre>
+                <p><em>Get Variant Review</em></p>
+                <p>Get all of the review information for a variant.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variant_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>Variant data object or NULL</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variant_reviews" name="method_get_variant_reviews" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variant_reviews()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variant_reviews() : object</pre>
+                <p><em>Get Variant Reviews.</em></p>
+                <p>Get the review information for all variants.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>Variant data object or NULL</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_variant_exists_in_table" name="method_variant_exists_in_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">variant_exists_in_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">variant_exists_in_table( <span class="argument">$id</span>,  <span class="argument">$table</span>) : boolean</pre>
+                <p><em>Variant Exists In Table</em></p>
+                <p>Check if a variant exists within a certain table.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variant_fields" name="method_get_variant_fields" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variant_fields()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variant_fields( <span class="argument">$table</span>) : array</pre>
+                <p><em>Get Variant Fields</em></p>
+                <p>Get all variant fields specified in the database.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>Fieldnames</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_all_current_values" name="method_get_all_current_values" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_all_current_values()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_all_current_values( <span class="argument">$field</span>,  <span class="argument">$table</span>) : array</pre>
+                <p><em>Get All Current Values</em></p>
+                <p>Get a list of all values currently stored in the
+database for a specific field.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$field </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>Current values in the DB</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_copy_variant_into_queue" name="method_copy_variant_into_queue" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">copy_variant_into_queue()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">copy_variant_into_queue( <span class="argument">$id</span>)</pre>
+                <p><em>Copy Variant Into Queue</em></p>
+                <p>Copies a variant from the live site into the queue.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_update_variant_in_queue" name="method_update_variant_in_queue" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">update_variant_in_queue()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">update_variant_in_queue( <span class="argument">$id</span>,  <span class="argument">$data</span>) : boolean</pre>
+                <p><em>Update Variant In Queue</em></p>
+                <p>For each $data key, check if it exists as a field in the
+queue. If it exists, update the value for the
+given ID. Otherwise, create that variant in the queue.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_push_data_live" name="method_push_data_live" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">push_data_live()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">push_data_live( <span class="argument">$confirmed_only</span>) : boolean</pre>
+                <p><em>Push Data Live</em></p>
+                <p>Pushes data to live production.</p>
+<p>Note that by default, the table with the highest version number
+will automatically be the production data. Therefore, for example,
+if you have variation data stored in tables 'dvd_1', 'dvd_2', and
+'dvd_3', then the 'dvd_3' data will be displayed on the public site.
+This function will:</p>
+<ul>
+<li>Copy the current production data (i.e. 'dvd_3') to a new table (i.e.
+'dvd_4'), then update the new table (i.e. 'dvd_4') to reflect the
+new changes.</li>
+<li>Update the 'versions' table</li>
+<li>Create a new 'variant<em>count</em>' table</li>
+<li>Backup the '_queue' table and 'reviews' table</li>
+<li>Clear the '_queue' table and 'reviews' table</li>
+</ul>
+<p>By default, only changes that have been confirmed for release are acutally
+released. As an optional first parameter, you can turn this setting off
+and release all changes regardless of confirmation status. To do this,
+pass in FALSE for the first parameter.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$confirmed_only </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>TRUE on success, else FALSE</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_update_variant_review_info" name="method_update_variant_review_info" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">update_variant_review_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">update_variant_review_info( <span class="argument">$variant_id</span>,  <span class="argument">$data</span>) : void</pre>
+                <p><em>Update Variant Review Info</em></p>
+                <p>Updates all of the review information for the variant.
+Review info is for staff use only and is never displayed
+to the public.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variant_id </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_all_variants" name="method_get_all_variants" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_all_variants()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_all_variants( <span class="argument">$table</span>) : object</pre>
+                <p><em>Get All Variants</em></p>
+                <p>Gets all the variant records in a table.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>All variant data in a specific table</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_unreleased_changes" name="method_get_unreleased_changes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_unreleased_changes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_unreleased_changes( <span class="argument">$variant_id</span>) : mixed</pre>
+                <p><em>Get Unreleased Changes</em></p>
+                <p>For each variant in the queue, get all differences between the
+unreleased queued data and the live data. Example output:</p>
+<pre><code>$variants[19]['id'] = 19
+             ['name'] = 'NM_012130:c.687G&gt;A'
+             ['changes']['pubmed_id']['live_value']  = 123
+                                     ['queue_value'] = 12345
+                        ['lrt_score']['live_value']  = 0.992
+                                     ['queue_value'] = 0.993
+             ['is_new'] = FALSE
+         [46]['id']     = 46
+             ['name']   = 'NM_012130:c.690C&gt;T'
+             ['changes']['pubmed_id']['live_value']  = NULL
+                                     ['queue_value'] = 9876
+             ['is_new'] = FALSE</code></pre>
+<p>Specify a variant ID in order to only get changes for that variant.
+If no ID is specified, then unreleased changes for all variants are returned.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variant_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>Array of unreleased changes; NULL if no changes exist</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method__validate_variant_id" name="method__validate_variant_id" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">_validate_variant_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">_validate_variant_id(string <span class="argument">$id</span>) : void</pre>
+                <p><em>Validate Variant ID</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_load_variant" name="method_load_variant" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">load_variant()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">load_variant( <span class="argument">$id</span>) : void</pre>
+                <p><em>Load Variant</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_letter_table" name="method_get_letter_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_letter_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_letter_table( <span class="argument">$selected_letter</span>) : string</pre>
+                <p><em>Get Letter Table</em></p>
+                <p>Generate the table of gene letters users can click on.
+Any letter that doesn't have any genes associated (yet) will not have a hyperlink.
+The links themselves are handled on the frontend (via AJAX).</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$selected_letter </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>HTML for gene letter table</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand, Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_format_variants_table" name="method_format_variants_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">format_variants_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">format_variants_table( <span class="argument">$variant_info</span>) : void</pre>
+                <p><em>Create a formatted table of variants for all genes starting with a given letter.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variant_info </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand (modified by Zachary Ladlie)</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_load_gene" name="method_load_gene" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">load_gene()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">load_gene(string <span class="argument">$letter</span>) : array</pre>
+                <p><em>Load all information in the variants table for all genes starting with a given letter.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$letter </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>Variation data to be displayed genes page</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand (modified by Zachary Ladlie)</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validate_gene_letter" name="method_validate_gene_letter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">validate_gene_letter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validate_gene_letter( <span class="argument">$letter</span>) : string</pre>
+                <p><em>Validate Gene Letter</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$letter </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>Letter of gene (sanitized)</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand (modified by Zachary Ladlie)</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_variant_display_variables" name="method_get_variant_display_variables" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_variant_display_variables()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_variant_display_variables( <span class="argument">$id</span>,  <span class="argument">$table</span>) : array</pre>
+                <p><em>Get Variant Display Variables</em></p>
+                <p>Get the variables for the public view of a variant.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>Data variables to load into the view</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Nikhil Anand</p>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_num_variants_in_queue" name="method_num_variants_in_queue" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">num_variants_in_queue()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">num_variants_in_queue() : int</pre>
+                <p><em>Num Variants In Queue</em></p>
+                <p>Returns total number rows in the variant queue table.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    int
+                                            &mdash; <p>Number of rows in the variant queue table</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">variations_model.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/models/variations_model.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on April 10th, 2014 at 22:08.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

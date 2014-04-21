@@ -1,0 +1,135 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * Login URL
+ *
+ * Determines whether the navigation should point to /login or /logout.
+ *
+ * @author Sean Ephraim
+ * @access	public
+ * @return string
+ */
+if ( ! function_exists('login_url')) {
+	function login_url() {
+    if ( ! get_instance()->ion_auth->logged_in()) {
+      return site_url('login');
+    }
+    else {
+      return site_url('logout');
+    }
+	}
+}
+
+/**
+ * Login Text
+ *
+ * Determines whether the navigation should contain 'Log in' or 'Log out'.
+ *
+ * @author Sean Ephraim
+ * @access	public
+ * @return	string
+ */
+if ( ! function_exists('login_text')) {
+	function login_text() {
+    if ( ! get_instance()->ion_auth->logged_in()) {
+      return "Log in";
+    }
+    else {
+      $user = get_instance()->user;
+      $name = $user->username;
+      return "$name&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Log out";
+    }
+	}
+}
+
+/**
+ * Redirect All Members
+ *
+ * Determines whether or not the user is logged in. If so, they are redirected to
+ * another URL. This is useful when you want to keep logged in members from
+ * accessing certain pages such as the login page.
+ *
+ * @author Sean Ephraim
+ * @access	public
+ * @param string The URI to redirect to
+ */
+if ( ! function_exists('redirect_all_members')) {
+	function redirect_all_members($uri = '/variations/unreleased') {
+    if (get_instance()->ion_auth->logged_in()) {
+      redirect($uri);
+    }
+	}
+}
+
+/**
+ * Redirect All Nonmembers
+ *
+ * Determines whether or not the user is logged in. If so, they are redirected to
+ * another URL. This is useful when you want to keep logged in members from
+ * accessing certain pages such as the login page.
+ *
+ * @author Sean Ephraim
+ * @access	public
+ * @param string The URI to redirect to
+ */
+if ( ! function_exists('redirect_all_nonmembers')) {
+	function redirect_all_nonmembers($uri = '/login') {
+    if ( ! get_instance()->ion_auth->logged_in()) {
+      get_instance()->session->set_flashdata('error', '<p>You must be logged in to view that page.<p>');
+      redirect($uri);
+    }
+	}
+}
+
+/**
+ * Redirect All Nonadmin
+ *
+ * Determines whether or not the user is an admin. If not, they are
+ * redirected elsewhere.
+ *
+ * @author  Sean Ephraim
+ * @access	public
+ * @param   string The URI to redirect to
+ * @return  void
+ */
+if ( ! function_exists('redirect_all_nonadmin')) {
+	function redirect_all_nonadmin($uri = '/auth') {
+    if ( ! get_instance()->ion_auth->is_admin()) {
+      get_instance()->session->set_flashdata('error', 'You must be an admin to view that page.');
+      redirect($uri);
+    }
+	}
+}
+
+/**
+ * Admin Toolbar
+ *
+ * Provides a toolbar for admin functionality.
+ *
+ * @author  Sean Ephraim
+ * @access	public
+ * @param   string   Proper HTML
+ */
+if ( ! function_exists('admin_toolbar')) {
+	function admin_toolbar() {
+    if (get_instance()->ion_auth->is_admin()) {
+      $html = ''
+            . '<div class="navbar navbar-inverse navbar-fixed-top">'
+            . '  <div class="navbar-inner">'
+            . '    <a class="brand" href="'.site_url('auth').'">Admin</a>'
+            . '    <ul class="nav">'
+            . '      <li><a href="'.site_url('auth').'">Users</a></li>'
+            . '      <li><a href="'.site_url('groups').'">Groups</a></li>'
+            . '      <li><a href="'.site_url('createuser').'">Add user</a></li>'
+            . '      <li><a href="'.site_url('creategroup').'">Add group</a></li>'
+            . '      <li><a href="'.site_url('logs').'">Activity logs</a></li>'
+            . '    </ul>'
+            . '  </div>'
+            . '</div>'
+            . '';
+      return $html;
+    }
+    return '';
+	}
+}
+
