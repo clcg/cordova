@@ -878,6 +878,7 @@ class Variations_model extends MY_Model {
    */
   public function push_data_live($confirmed_only = TRUE)
   {
+    // TODO for large number of variants, this exceeds PHP memory limit
     $new_records = $this->variations_model->get_all_variants($this->tables['vd_queue']);
 
     // Remove unconfirmed variants

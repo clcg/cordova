@@ -16,10 +16,10 @@ echo form_open('variations/submit', $attributes);
                   <div class="accordion-group">
                         <div class="accordion-heading">
                             <a class="accordion-toggle rowlink" data-toggle="collapse" data-parent="#accordion-variant-changes-<?php echo $variant['id']; ?>" href="#variant-changes-<?php echo $variant['id']; ?>">
-                                <i class="icon-minus"></i> <b><?php echo $variant['name']; ?></b><?php echo new_variant_notice($variant['is_new']); ?>
+                                <i class="icon-plus"></i> <b><?php echo $variant['name']; ?></b><?php echo new_variant_notice($variant['is_new']); ?>
                             </a>
                         </div>
-                        <div id="variant-changes-<?php echo $variant['id']; ?>" class="accordion-body collapse in">
+                        <div id="variant-changes-<?php echo $variant['id']; ?>" class="accordion-body collapse">
                             <div class="accordion-inner">
                                 <?php echo deletion_notice($variant['id']); ?>
                                 <!-- Table of changes (only display if changes exist) -->
