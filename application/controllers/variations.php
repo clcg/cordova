@@ -328,7 +328,7 @@ class Variations extends MY_Controller {
         $this->variations_model->update_variant_review_info($variant_id, $data);
 
         // Log the activity if the review changed
-        if ($data['confirmed_for_release'] != (bool) $old_review->confirmed_for_release) {
+        if ( ! empty($old_review) && $data['confirmed_for_release'] != (bool) $old_review->confirmed_for_release) {
           $username = $this->ion_auth->user()->row()->username;
           $variation = $this->db->get_where($this->tables['vd_queue'], array('id' => $variant_id))->row_array();
           $gene = empty($variation['gene']) ? 'MISSING_GENE' : $variation['gene'];
