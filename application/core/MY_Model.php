@@ -41,7 +41,7 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @return int      Correct version of the variation database
+   * @return int Correct version of the variation database
    */
   public function get_db_version_num() {
     $version = $this->config->item("vd_version");
@@ -255,6 +255,33 @@ class MY_Model extends CI_Model {
   }
 
   /**
+   * Get All Current Values
+   *
+   * Get a list of all values currently stored in the
+   * database for a specific field.
+   *
+   * @author Sean Ephraim
+   * @access public
+   * @param  string Field name
+   * @param  string (optional) Table name
+   * @return array Current values in the DB
+   */
+  public function get_all_current_values($field, $table = NULL) {
+    if ($table === NULL) {
+      $table = $this->tables['vd_live'];
+    }
+    $query = $this->db->distinct()
+                      ->select($field)
+                      ->get($table);
+    $values = array();
+    // Extract just the field values from the query
+    foreach ($query->result_array() as $key => $value) {
+      $values[] = $value[$field];
+    }
+    return $values;
+  }
+
+  /**
    * Copy Table
    *
    * Makes an exact copy of a table (structure and data).
@@ -276,7 +303,9 @@ class MY_Model extends CI_Model {
     // Sanitize input
     $source = mysql_real_escape_string(stripslashes($source));
     $target = mysql_real_escape_string(stripslashes($target));
+    // Copy table structure
     $this->db->query("CREATE TABLE $target LIKE $source");
+    // Copy table data
     if ($include_data) {
       $this->db->query("INSERT INTO $target SELECT * FROM $source");
     }

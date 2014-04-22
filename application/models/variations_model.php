@@ -747,33 +747,6 @@ class Variations_model extends MY_Model {
   }
 
   /**
-   * Get All Current Values
-   *
-   * Get a list of all values currently stored in the
-   * database for a specific field.
-   *
-   * @author Sean Ephraim
-   * @access public
-   * @param  string Field name
-   * @param  string (optional) Table name
-   * @return array Current values in the DB
-   */
-  public function get_all_current_values($field, $table = NULL) {
-    if ($table === NULL) {
-      $table = $this->tables['vd_live'];
-    }
-    $query = $this->db->distinct()
-                      ->select($field)
-                      ->get($table);
-    $values = array();
-    // Extract just the field values from the query
-    foreach ($query->result_array() as $key => $value) {
-      $values[] = $value[$field];
-    }
-    return $values;
-  }
-
-  /**
    * Copy Variant Into Queue
    *
    * Copies a variant from the live site into the queue.
@@ -858,13 +831,14 @@ class Variations_model extends MY_Model {
    * if you have variation data stored in tables 'dvd_1', 'dvd_2', and
    * 'dvd_3', then the 'dvd_3' data will be displayed on the public site.
    * This function will:
-   *   - Copy the current production data (i.e. 'dvd_3') to a new table (i.e.
-   *     'dvd_4'), then update the new table (i.e. 'dvd_4') to reflect the
-   *     new changes.
+   *   - Copy the current production data (e.g. 'dvd_3') to a new table (e.g.
+   *     'dvd_4'), then update the new table (e.g. 'dvd_4') to reflect the
+   *     new changes
    *   - Update the 'versions' table
    *   - Create a new 'variant_count_' table
    *   - Backup the '_queue' table and 'reviews' table
-   *   - Clear the '_queue' table and 'reviews' table
+   *   - Clear the '_queue' table and 'reviews' table of variants that were
+   *     just released
    *
    * By default, only changes that have been confirmed for release are acutally
    * released. As an optional first parameter, you can turn this setting off
@@ -878,7 +852,9 @@ class Variations_model extends MY_Model {
    */
   public function push_data_live($confirmed_only = TRUE)
   {
-    // TODO for large number of variants, this exceeds PHP memory limit
+    // Set unlimited memory/time when retrieving all variants in the queue (queue could be quite large)
+    ini_set('memory_limit', '-1');
+    set_time_limit(0);
     $new_records = $this->variations_model->get_all_variants($this->tables['vd_queue']);
 
     // Remove unconfirmed variants
@@ -961,7 +937,6 @@ class Variations_model extends MY_Model {
 
     // Delete empty records from the new and previous live tables
     // --> if a record doesn't have a 'variation' or a 'hgvs_nucleotide_change' then it shouldn't be here
-    // Remove variants from the *new* live table that were scheduled for deletion
     $this->db->delete($this->tables['vd_live'], array('variation' => NULL, 'hgvs_nucleotide_change' => NULL));
     $this->db->delete($new_live_table, array('variation' => NULL, 'hgvs_nucleotide_change' => NULL));
 

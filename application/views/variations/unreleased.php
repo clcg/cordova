@@ -136,8 +136,18 @@ echo form_open('variations/submit', $attributes);
         </div>
     </div>
 
+    <!-- "Scroll to top" button -->
+    <a id="scroll-top" class="affix" href="#top" data-offset-top="50">
+      <i class="icon-chevron-up icon-white"></i>
+    </a>
+
     <!-- "Save changes" button -->
     <div id="affixed-save-wrapper" class="affix" data-offset-top="50">
         <button name="save-changes" class="btn btn-medium btn-primary" type="submit" value="Save">Save</button>
     </div>
+
+    <!-- "Scroll to bottom" button -->
+    <a id="scroll-bottom" class="affix" href="#bottom" data-offset-top="50">
+      <i class="icon-chevron-down icon-white"></i>
+    </a>
 </form>

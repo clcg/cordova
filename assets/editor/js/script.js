@@ -90,3 +90,13 @@ $("#add-variant-submit").click(function() {
   $("#form-add-variant").hide();
   $(".error, .success").hide();
 });
+/* Scroll to top */
+$("a[href='#top']").click(function() {
+  $("html, body").animate({ scrollTop: 0 }, "slow");
+  return false;
+});
+/* Scroll to bottom */
+$("a[href='#bottom']").click(function() {
+  $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+  return false;
+});
