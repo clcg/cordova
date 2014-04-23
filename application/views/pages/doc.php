@@ -163,7 +163,6 @@
           <th scope="col">Version</th>
           <th scope="col">Variants</th>
           <th scope="col">Genes</th>
-          <th scope="col">Created</th>
           <th scope="col">Updated</th>
         </tr>
       </thead>
@@ -174,7 +173,6 @@
                     <th scope="row">'.$v->version.'</th>
                     <td>'.number_format($v->variants).'</td>
                     <td>'.number_format($v->genes).'</td>
-                    <td>'.$v->created.'</td>
                     <td>'.$v->updated.'</td>
                   </tr>';
   

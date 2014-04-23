@@ -948,18 +948,14 @@ class Variations_model extends MY_Model {
       $this->db->delete($new_reviews_table, array('variant_id' => $delete_record->id));
     }
 
-    // Get latest version number
-    $query = $this->db
-                  ->select_max('version')
-                  ->limit(1)
-                  ->get($this->tables['versions']);
-    $latest_version = $query->row()->version;
+    // Get new version number
+    $new_version = ((int) $this->version) + 1;
 
     // Update versions table
     $datetime = date('Y-m-d H:i:s');
     $data = array(
       'id'       => NULL,
-      'version'  => $latest_version + 1,
+      'version'  => $new_version,
       'created'  => $datetime,
       'updated'  => $datetime,
       'variants' => $this->db->count_all($new_live_table),
@@ -989,8 +985,7 @@ class Variations_model extends MY_Model {
 
     // Log it!
     $username = $this->ion_auth->user()->row()->username;
-    $version = $latest_version + 1;
-    activity_log("User '$username' released a new version of the database -- Version $version", 'release');
+    activity_log("User '$username' released a new version of the database -- Version $new_version", 'release');
     
     return TRUE;
   }
