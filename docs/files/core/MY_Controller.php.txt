@@ -18,8 +18,8 @@ class MY_Controller extends CI_Controller {
 		$this->version = $this->variations_model->get_db_version_num();
 
     // Variables for ALL views
-    $data->version = $this->version;
-		$data->update_date = $this->variations_model->get_last_update_date();
+    $data->version = $this->variations_model->get_db_version_num(TRUE);
+		$data->update_date = date("j M Y", strtotime($this->variations_model->get_last_update_date()));
     $data->site_full_name = $strings['site_full_name'];
     $data->site_short_name = $strings['site_short_name'];
     $data->footer_info = $strings['footer_info'];

@@ -328,7 +328,7 @@ class Variations extends MY_Controller {
         $this->variations_model->update_variant_review_info($variant_id, $data);
 
         // Log the activity if the review changed
-        if ($data['confirmed_for_release'] != (bool) $old_review->confirmed_for_release) {
+        if ( ! empty($old_review) && $data['confirmed_for_release'] != (bool) $old_review->confirmed_for_release) {
           $username = $this->ion_auth->user()->row()->username;
           $variation = $this->db->get_where($this->tables['vd_queue'], array('id' => $variant_id))->row_array();
           $gene = empty($variation['gene']) ? 'MISSING_GENE' : $variation['gene'];
@@ -376,35 +376,35 @@ class Variations extends MY_Controller {
           // Release failed! Not all variants have been confirmed for release
           $html = 'All changes must be confirmed prior to release. Check the boxes on the right side to confirm each change, or see the bottom of this page for special release options.';
           $this->session->set_flashdata('error', $html);
+          redirect('variations/unreleased');
         }
       }
-      else {
-        if ($_POST['special-release'] === 'force-all' || $this->version == 0) {
-          // Release all variants regardless of confirmation status
-          $success = $this->variations_model->push_data_live(FALSE);
-        }
-        else {
-          // Only release the confirmed variants
-          $success = $this->variations_model->push_data_live();
-        }
 
-        if ($success === TRUE) {
-          // Successful release
-          $confirmed = '';
-          if ($_POST['special-release'] === 'force-confirmed') {
-            $confirmed = 'confirmed ';
-          }
-          $html = '<p>'
-                . '    <p><i class="icon-ok"></i>&nbsp;&nbsp;&nbsp;Backup created</p>'
-                . '    <p><i class="icon-ok"></i>&nbsp;&nbsp;&nbsp;All '.$confirmed.'changes released</p>'
-                . '</p>';
-          $this->session->set_flashdata('success', $html);
+      if ($_POST['special-release'] === 'force-all' || $this->version == 0) {
+        // Release all variants regardless of confirmation status
+        $success = $this->variations_model->push_data_live(FALSE);
+      }
+      else {
+        // Only release the confirmed variants
+        $success = $this->variations_model->push_data_live();
+      }
+
+      if ($success === TRUE) {
+        // Successful release
+        $confirmed = '';
+        if ($_POST['special-release'] === 'force-confirmed') {
+          $confirmed = 'confirmed ';
         }
-        else {
-          // ERROR: Problem with releasing changes
-          $html = '<p>There was an error releasing changes. Please make sure that any changes you would like to release have been confirmed and/or any special release options have been selected.</p>';
-          $this->session->set_flashdata('error', $html);
-        }
+        $html = '<p>'
+              . '    <p><i class="icon-ok"></i>&nbsp;&nbsp;&nbsp;Backup created</p>'
+              . '    <p><i class="icon-ok"></i>&nbsp;&nbsp;&nbsp;All '.$confirmed.'changes released</p>'
+              . '</p>';
+        $this->session->set_flashdata('success', $html);
+      }
+      else {
+        // ERROR: Problem with releasing changes
+        $html = '<p>There was an error releasing changes. Please make sure that any changes you would like to release have been confirmed and/or any special release options have been selected.</p>';
+        $this->session->set_flashdata('error', $html);
       }
     }
 

@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">223</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">218</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-188907494"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2045944257"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-188907494" class="accordion-body collapse in">
+            <div id="namespace-2045944257" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -196,7 +196,6 @@
                         </section>
                         <section class="row-fluid public">
                             <section class="span4">
-                                                                    <a href="../classes/MY_Model.html#method___construct" class="">__construct()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_get_db_version_num" class="">get_db_version_num()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_get_all_db_version_info" class="">get_all_db_version_info()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_set_vd_live_table" class="">set_vd_live_table()</a><br />
@@ -206,6 +205,7 @@
                                                                     <a href="../classes/MY_Model.html#method_get_last_update_date" class="">get_last_update_date()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_get_new_version_name" class="">get_new_version_name()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_get_ids_within_range" class="">get_ids_within_range()</a><br />
+                                                                    <a href="../classes/MY_Model.html#method_get_all_current_values" class="">get_all_current_values()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_copy_table" class="">copy_table()</a><br />
                                                                     <a href="../classes/MY_Model.html#method_empty_table" class="">empty_table()</a><br />
                                                             </section>
@@ -319,47 +319,28 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method___construct" name="method___construct" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">__construct()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
             <a id="method_get_db_version_num" name="method_get_db_version_num" class="anchor"></a>
             <article class="method">
                 <h3 class="public ">get_db_version_num()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_db_version_num() : int</pre>
+                <pre class="signature" style="margin-right: 54px;">get_db_version_num( <span class="argument">$use_point</span>) : int</pre>
                 <p><em>Get DB Version Num</em></p>
                 <p>Returns the version number for the latest database if
 $config['vd_version'] is set to 0. Otherwise the specified
 version will be used.</p>
+<p>For point releases, the name of a table will be like 'dvd_2_1',
+not 'dvd_2.1'. Therefore, this function returns the underscored
+format (e.g. 'dvd_2_1') by default. To return the point format
+(e.g. 'dvd_2.1'), specify the first parameter to be TRUE.</p>
 
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$use_point </td>
+                                <td></td>
+                            </tr>
+                                            </table>
                 
                 
                                     <h4>Returns</h4>
@@ -643,25 +624,28 @@ latest version of the database.</p>
             <article class="method">
                 <h3 class="public ">get_new_version_name()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_new_version_name( <span class="argument">$cur_name</span>,  <span class="argument">$latest_version</span>) : string</pre>
+                <pre class="signature" style="margin-right: 54px;">get_new_version_name(string <span class="argument">$cur_name</span>, int <span class="argument">$latest_version</span>) : string</pre>
                 <p><em>Get New Version Name</em></p>
                 <p>Returns the name of the next version of a table based on
 the current name.</p>
 <p>For example:
    if current name = 'dvd_1'
    then next name  = 'dvd_2'</p>
+<p>The latest version number is computed automatically. However,
+you can specify your own latest version using the second
+parameter.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$cur_name </td>
-                                <td></td>
+                                <td><p>Current name of table</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$latest_version </td>
-                                <td></td>
+                                <td><p>Latest version number</p></td>
                             </tr>
                                             </table>
                 
@@ -702,31 +686,31 @@ the current name.</p>
             <article class="method">
                 <h3 class="public ">get_ids_within_range()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_ids_within_range( <span class="argument">$table</span>,  <span class="argument">$start_pos</span>,  <span class="argument">$limit</span>) : array</pre>
+                <pre class="signature" style="margin-right: 54px;">get_ids_within_range(string <span class="argument">$table</span>, int <span class="argument">$start_pos</span>, int <span class="argument">$limit</span>) : array</pre>
                 <p><em>Get IDs Within Range</em></p>
                 <p>Returns an array of IDs within a range of rows
 in the database table. This is good for pagination.</p>
 <p>For example, if you specify your range as
-  get_ids_within_range($this->tables['vd_queue'], 0, 10) {
+  get_ids_within_range($this->tables['vd_queue'], 0, 10)
 You will get the variant IDs for the first 10 rows of the
 queue table (rows 0-9).</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$table </td>
-                                <td></td>
+                                <td><p>Database table name</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$start_pos </td>
-                                <td></td>
+                                <td><p>Starting row</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$limit </td>
-                                <td></td>
+                                <td><p>Number of rows total (from/including the starting row)</p></td>
                             </tr>
                                             </table>
                 
@@ -734,6 +718,62 @@ queue table (rows 0-9).</p>
                                     <h4>Returns</h4>
                     array
                                             &mdash; <p>Unique IDs</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_all_current_values" name="method_get_all_current_values" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_all_current_values()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_all_current_values( <span class="argument">$field</span>,  <span class="argument">$table</span>) : array</pre>
+                <p><em>Get All Current Values</em></p>
+                <p>Get a list of all values currently stored in the
+database for a specific field.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$field </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$table </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>Current values in the DB</p>
                                                 </article>
         </div>
         <aside class="span4 detailsbar">
@@ -919,7 +959,7 @@ To only copy the structure (and not the data), set the
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on April 10th, 2014 at 22:08.
+                    on April 24th, 2014 at 00:36.
                 </section>
             </section>
         </section>

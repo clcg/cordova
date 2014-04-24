@@ -687,7 +687,8 @@ class Migration_Init extends CI_Migration {
           'auto_increment' => TRUE
       ),
       'version' => array(
-          'type' => 'FLOAT',
+          'type' => 'VARCHAR',
+          'constraint' => 10, 
           'null' => FALSE,
       ),
       'created' => array(

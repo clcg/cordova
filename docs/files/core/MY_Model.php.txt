@@ -4,6 +4,9 @@ class MY_Model extends CI_Model {
 
   public $version;
 
+  /**
+   * @ignore
+   */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,11 +42,17 @@ class MY_Model extends CI_Model {
    * $config['vd_version'] is set to 0. Otherwise the specified
    * version will be used.
    *
+   * For point releases, the name of a table will be like 'dvd_2_1',
+   * not 'dvd_2.1'. Therefore, this function returns the underscored 
+   * format (e.g. 'dvd_2_1') by default. To return the point format
+   * (e.g. 'dvd_2.1'), specify the first parameter to be TRUE.
+   *
    * @author Sean Ephraim
    * @access public
-   * @return int      Correct version of the variation database
+   * @param boolean $for_display Return a point (.) format instead of a underscore (_) format
+   * @return int Correct version of the variation database
    */
-  public function get_db_version_num() {
+  public function get_db_version_num($use_point = FALSE) {
     $version = $this->config->item("vd_version");
     if ($version === 0) {
       // Automatically determine latest version
@@ -52,11 +61,20 @@ class MY_Model extends CI_Model {
                     ->select_max('version')
                     ->limit(1)
                     ->get($tables['versions']);
-      return $query->row()->version;
+      $version = $query->row()->version;
+      if ( ! $use_point) {
+        // Use underscore instead of point
+        $version = str_replace('.', '_', $version);
+      }
+      return $version;
     }
     else {
       $html = 'WARNING: your database has not been configured to automatically use the latest version. Until this is changed, you may be using an older version of the database.';
       $this->session->set_flashdata('warning', $html);
+      if ( ! $use_point) {
+        // Use underscore instead of point
+        $version = str_replace('.', '_', $version);
+      }
       return $version;
     }
   }
@@ -185,8 +203,9 @@ class MY_Model extends CI_Model {
    */
   public function get_last_update_date() {
     $tables = $this->config->item("tables");
+    $version = $this->get_db_version_num(TRUE);
     $query = $this->db
-                  ->get_where($tables['versions'], array('version' => $this->version), 1);
+                  ->get_where($tables['versions'], array('version' => $version), 1);
     return $query->row()->updated;
   }
 
@@ -200,8 +219,14 @@ class MY_Model extends CI_Model {
    *    if current name = 'dvd_1'
    *    then next name  = 'dvd_2'
    *
+   * The latest version number is computed automatically. However,
+   * you can specify your own latest version using the second
+   * parameter.
+   *
    * @author Sean Ephraim
    * @access public
+   * @param string $cur_name Current name of table
+   * @param int $latest_version Latest version number
    * @return string Next version of a table name
    */
   public function get_new_version_name($cur_name, $latest_version = NULL) {
@@ -214,10 +239,14 @@ class MY_Model extends CI_Model {
                     ->get($tables['versions']);
       $latest_version = $query->row()->version;
     }
+    // Convert versions such as 2.1 or 2_1 to just 2
+    $latest_version = (int) str_replace('_', '.', $latest_version);
     // take the name apart
     $parts = explode('_', $cur_name);
-    // remove the last part (the number)
-    array_pop($parts);
+    // remove the last part(s) [the number(s)]
+    while (is_numeric(end($parts))) {
+      array_pop($parts);
+    }
     // increment latest version num. and put it back on
     array_push($parts, $latest_version+1);
     // put the name back together
@@ -232,14 +261,14 @@ class MY_Model extends CI_Model {
    * in the database table. This is good for pagination.
    *
    * For example, if you specify your range as
-   *   get_ids_within_range($this->tables['vd_queue'], 0, 10) {
+   *   get_ids_within_range($this->tables['vd_queue'], 0, 10)
    * You will get the variant IDs for the first 10 rows of the
    * queue table (rows 0-9).
    *
    * @author Sean Ephraim
-   * @param string Database table name
-   * @param int Starting row
-   * @param int Number of rows total (from/including the starting row)
+   * @param string $table Database table name
+   * @param int $start_pos Starting row
+   * @param int $limit Number of rows total (from/including the starting row)
    * @return array Unique IDs
    */
   public function get_ids_within_range($table, $start_pos, $limit = 1) {
@@ -252,6 +281,33 @@ class MY_Model extends CI_Model {
       array_push($ids, $row->id);
     }
     return $ids;
+  }
+
+  /**
+   * Get All Current Values
+   *
+   * Get a list of all values currently stored in the
+   * database for a specific field.
+   *
+   * @author Sean Ephraim
+   * @access public
+   * @param  string Field name
+   * @param  string (optional) Table name
+   * @return array Current values in the DB
+   */
+  public function get_all_current_values($field, $table = NULL) {
+    if ($table === NULL) {
+      $table = $this->tables['vd_live'];
+    }
+    $query = $this->db->distinct()
+                      ->select($field)
+                      ->get($table);
+    $values = array();
+    // Extract just the field values from the query
+    foreach ($query->result_array() as $key => $value) {
+      $values[] = $value[$field];
+    }
+    return $values;
   }
 
   /**
@@ -276,7 +332,9 @@ class MY_Model extends CI_Model {
     // Sanitize input
     $source = mysql_real_escape_string(stripslashes($source));
     $target = mysql_real_escape_string(stripslashes($target));
+    // Copy table structure
     $this->db->query("CREATE TABLE $target LIKE $source");
+    // Copy table data
     if ($include_data) {
       $this->db->query("INSERT INTO $target SELECT * FROM $source");
     }
