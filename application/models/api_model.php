@@ -343,6 +343,7 @@ class API_model extends MY_Model {
    *    Any delimiter with which to separate results
    * @return void
    * @author Nikhil Anand
+   * @author Sean Ephraim
    */
   public function _api_result_text($search_results, $method, $type, $delimiter) {
     // this is needed in order to modify headers
@@ -350,7 +351,13 @@ class API_model extends MY_Model {
   
     //Send download headers depending on download method
     if ($method == "download") {
-      $filename = $this->strings['site_short_name'] . "-data." . $this->_api_iso_date() . ".csv";
+      if ($delimiter == ',') {
+        $extension = ".csv";
+      }
+      else {
+        $extension = ".txt";
+      }
+      $filename = $this->strings['site_short_name'] . "-data." . $this->_api_iso_date() . $extension;
       header("Content-Disposition: attachment; filename=$filename");
       header("Pragma: no-cache");
       header("Expires: 0");
