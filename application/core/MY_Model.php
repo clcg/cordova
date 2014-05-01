@@ -24,6 +24,28 @@ class MY_Model extends CI_Model {
       $this->session->set_flashdata('success', $html);
       redirect($this->uri->uri_string()); // reload the page
     }
+    // Install pChart (if it's missing)
+    if (!file_exists(APPPATH.'third_party/pChart')) {
+      $dir = APPPATH."third_party/";
+      // Download pChart
+      file_put_contents($dir."pChart.tar.gz", file_get_contents("http://www.pchart.net/release/pChart2.1.4.tar.gz"));
+      // Decompress from gz
+      $p = new PharData($dir.'pChart.tar.gz');
+      $p->decompress(); // creates pChart.tar
+      // Unarchive from the tar
+      $p = new PharData($dir.'pChart.tar');
+      $p->extractTo($dir.'pChart_temp');
+      rename($dir.'pChart_temp/pChart2.1.4', $dir.'pChart');
+      // Remove unwanted files/directories
+      unlink($dir.'pChart.tar.gz');
+      unlink($dir.'pChart.tar');
+      rmdir($dir.'pChart_temp');
+      rmdir($dir.'pChart/examples');
+
+      $html = 'pChart installed successfully.';
+      $this->session->set_flashdata('success', $html);
+      redirect($this->uri->uri_string()); // reload the page
+    }
 
 		// Database version number
 		$this->version = $this->get_db_version_num();
