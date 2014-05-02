@@ -443,6 +443,8 @@ class Variations extends MY_Controller {
    * Show Variant
    *
    * Display the variant data page.
+   * pChart is required to load the frequencies.
+   * For more info, refer to the frequency() function.
    *
    * @author   Sean Ephraim
    * @access   public
@@ -450,6 +452,24 @@ class Variations extends MY_Controller {
    * @return   void
    */
   public function show_variant($id) {
+    // Install pChart (if it's missing)
+    if (!file_exists(APPPATH.'third_party/pChart')) {
+      $dir = APPPATH."third_party/";
+      // Download pChart
+      file_put_contents($dir."pChart.tar.gz", file_get_contents("http://www.pchart.net/release/pChart2.1.4.tar.gz"));
+      // Decompress from gz
+      $p = new PharData($dir.'pChart.tar.gz');
+      $p->decompress(); // creates pChart.tar
+      // Unarchive from the tar
+      $p = new PharData($dir.'pChart.tar');
+      $p->extractTo($dir.'pChart_temp');
+      rename($dir.'pChart_temp/pChart2.1.4', $dir.'pChart');
+      // Remove unwanted files/directories
+      unlink($dir.'pChart.tar.gz');
+      unlink($dir.'pChart.tar');
+      rmdir($dir.'pChart_temp');
+    }
+
     $data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
     $data['title'] = $data['variation'];
     $content = 'variations/variant/index';
@@ -464,7 +484,7 @@ class Variations extends MY_Controller {
    * Download Variant PDF
    *
    * Download the variant data page in PDF format using the
-   * dompdf library (found in application/third_party/domdf/)
+   * dompdf library (found in application/third_party/dompdf/)
    *
    * More info on dompdf at https://github.com/dompdf/dompdf
    *
@@ -474,12 +494,31 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function download_variant_pdf($id) {
+    // Install DomPDF (if it's missing)
+    if (!file_exists(APPPATH.'third_party/dompdf')) {
+      $dir = APPPATH."third_party/";
+      // Download DomPDF
+      file_put_contents($dir."dompdf.tar.gz", file_get_contents("https://dompdf.googlecode.com/files/dompdf_0-6-0_beta3.tar.gz"));
+      // Decompress from gz
+      $p = new PharData($dir.'dompdf.tar.gz');
+      $p->decompress(); // creates dompdf.tar
+      // Unarchive from the tar
+      $p = new PharData($dir.'dompdf.tar');
+      $p->extractTo($dir.'dompdf_temp');
+      rename($dir.'dompdf_temp/dompdf', $dir.'dompdf');
+      // Remove unwanted files/directories
+      unlink($dir.'dompdf.tar.gz');
+      unlink($dir.'dompdf.tar');
+      rmdir($dir.'dompdf_temp');
+    }
+
     // 'full' and 'print' must be set as parameters for proper PDF display
     if ( ! isset($_GET['print']) || ! isset($_GET['full'])) {
       // ... set these parameters if they aren't already
       redirect("pdf/$id?full&print");
     }
 
+    define("DOMPDF_ENABLE_REMOTE", true); // Override default config
     require_once(APPPATH."third_party/dompdf/dompdf_config.inc.php");
 
     $data = $this->variations_model->get_variant_display_variables($id);
