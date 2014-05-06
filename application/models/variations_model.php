@@ -191,9 +191,10 @@ class Variations_model extends MY_Model {
     $f_errors = $annot_path."tmp/$id.error_log"; // annotation errors file
 
     /* Is the annotation tool installed and properly referenced? */
-    if (empty($annot_path)) die("The path to the annotation tool has not been configured. Please contact the administrator.\n");
-    if ( ! file_exists($annot_path.'bin/ASAP-dedup_test-1.18.dev.jar')) die("The annotation tool cannot be found. Please contact the administrator.\n");
-    if ( ! file_exists($run_script)) die("The script to run annotation cannot be found. Please contact the administrator.\n");
+    if (empty($annot_path) || ! file_exists($run_script)) {
+      // ERROR: annotation tool has not been properly configured
+      return -503;
+    }
 
     /* BEGIN RUNNING ANNOTATION */
 

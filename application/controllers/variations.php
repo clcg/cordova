@@ -198,6 +198,10 @@ class Variations extends MY_Controller {
         // ERROR: No matching RefSeq (ASAP returned nothing)
         $error = "No matching RefSeq for $variation.";
       }
+      else if ($id == -503) {
+        // ERROR: Annotation tool (e.g. kafeen) not configured
+        $error = "Automatic annotation/validation has not been properly configured.";
+      }
       else if ($id < 0) {
         // ERROR: Some other error occurred
         $error = "An error occurred. Please try again or contact the administrator.";
