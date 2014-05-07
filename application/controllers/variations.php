@@ -188,7 +188,7 @@ class Variations extends MY_Controller {
       }
       else if ($id == -404) {
         // ERROR: No data for this variant was returned
-        $error = "No data was found for $variation.";
+        $error = "No data found for $variation.";
       }
       else if ($id == -400) {
         // ERROR: Unsupported mutation type
