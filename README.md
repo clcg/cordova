@@ -305,15 +305,14 @@ Cordova depends on the following third party, open source software:
         
     ```` 
 <Directory />
-    Options FollowSymLinks             # <-- HERE
-    AllowOverride All                  # <-- HERE
+      Options FollowSymLinks             # <-- HERE
+      AllowOverride All                  # <-- HERE
 </Directory>
-and the DocumentRoot should have
 <Directory "/var/www/html">
-    Options Indexes FollowSymLinks     # <-- HERE
-    AllowOverride All                  # <-- HERE
-    Order allow,deny
-    Allow from all
+      Options Indexes FollowSymLinks     # <-- HERE
+      AllowOverride All                  # <-- HERE
+      Order allow,deny
+      Allow from all
 </Directory>
     ````
         
