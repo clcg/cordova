@@ -85,6 +85,12 @@ Your base site URL is essentially your website's homepage (e.g. *http://example.
 ##### 3. Configure database credentials
 You will need to provide Cordova with the proper credentials to access your database. You will need to provide three things: the databases's name, username, and password.
 
+Please note that in order to access your database you will need to have created one first. If you already have an empty database waiting to be used with Cordova then you can continue entering your database credentials below. If not, now is a good time to do so. You simply need to create an *empty* database and a user who has all privileges granted for that database. There is no need to create any tables because Cordova will do that for you. If you're unsure of how to do this, please refer to these excellent tutorials:
+
+* [Setting up a MySQL database](https://www.digitalocean.com/community/tutorials/a-basic-mysql-tutorial)
+* [Creating a MySQL database user](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
+
+1. Create an empty database and a user who has all priviledges granted for that database (as noted above).
 1. To set your database credentials, open the `[cordova]/application/config/database.php` file.
 1. To set your production environment, look for the `$db['production']['username']`, `$db['production']['password']`, and `$db['production']['database']` variables, and set them accordingly. For example:
     
