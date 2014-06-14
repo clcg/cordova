@@ -11,7 +11,7 @@
       </p>
       <p>
         <img src="<?php echo site_url('assets/public/img/help-images/4.png'); ?>" alt="Sorting variant information" class="float-left" />
-        <span>When viewing variant data for a gene, you can sort the information by clicking the table headers. A <img src="lib/html/i/table-sort-arrow-down.png" /> arrow indicates descending order. Keep clicking until you see an <img src="lib/html/i/table-sort-arrow-up.png" style="vertical-align:bottom;" /> arrow for ascending order.</span>
+        <span>When viewing variant data for a gene, you can sort the information by clicking the table headers. A <img src="assets/public/img/table-sort-arrow-down.png" /> arrow indicates descending order. Keep clicking until you see an <img src="assets/public/img/table-sort-arrow-up.png" style="vertical-align:bottom;" /> arrow for ascending order.</span>
       </p>
       <p>
         <img src="<?php echo site_url('assets/public/img/help-images/5.png'); ?>" alt="Viewing extended annotation data" class="float-right" />
@@ -19,7 +19,7 @@
       </p>
       <p>
         <img src="<?php echo site_url('assets/public/img/help-images/6.png'); ?>" alt="Seeing quick annotation data" class="float-left" />
-        <span>To see a &#8216;quick&#8217; annotation overview, click any part of the row except the orange box. You'll see a popup with the annotation data. To dismiss the popup, click <img src="lib/html/i/modal-close-small.png" style="vertical-align:middle;" /> to the top left or anywhere outside the box.</span>
+        <span>To see a &#8216;quick&#8217; annotation overview, click any part of the row except the orange box. You'll see a popup with the annotation data. To dismiss the popup, click <img src="assets/public/img/modal-close-small.png" style="vertical-align:middle;" /> to the top left or anywhere outside the box.</span>
       </p>
     </div>
     
