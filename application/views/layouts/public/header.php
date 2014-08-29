@@ -32,19 +32,6 @@
             </ul>
           </div>
         </fieldset>
-        <fieldset class="sidebar-collapsible">
-          <legend>Glossary</legend>
-          <div id="sidebar-sorters-glossary">
-            <dl>
-              <dt>Pathogenic</dt>
-              <dd>mutation published in the literature as causing disease</dd>
-              <dt>Probably Pathogenic</dt>
-              <dd>classified as such by the dbSNP database</dd>
-              <dt>Unknown Significance</dt>
-              <dd>variant reported in dbSNP without a disease association</dd>
-            </dl>
-          </div>
-        </fieldset>
       </div><!-- #sidebar-sorters -->
     </div><!-- #sidebar -->
     
