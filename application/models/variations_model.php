@@ -280,49 +280,33 @@ class Variations_model extends MY_Model {
         'gerp_pred'              => $annot_result['gerp_pred'],
         'lrt_omega'              => $annot_result['lrt_omega'],
         'evs_ea_ac'              => $annot_result['evs_ea_ac'],
-        'evs_ea_an'              => $annot_result['evs_ea_an'],
+        'evs_ea_af'              => $annot_result['evs_ea_af'],
         'evs_aa_ac'              => $annot_result['evs_aa_ac'],
-        'evs_aa_an'              => $annot_result['evs_aa_an'],
-        'otoscope_ac'            => $annot_result['otoscope_ac'],
-        'otoscope_an'            => $annot_result['otoscope_an'],
-        'tg_acb_ac'              => $annot_result['tg_acb_ac'],
-        'tg_acb_an'              => $annot_result['tg_acb_an'],
-        'tg_asw_ac'              => $annot_result['tg_asw_ac'],
-        'tg_asw_an'              => $annot_result['tg_asw_an'],
-        'tg_cdx_ac'              => $annot_result['tg_cdx_ac'],
-        'tg_cdx_an'              => $annot_result['tg_cdx_an'],
-        'tg_ceu_ac'              => $annot_result['tg_ceu_ac'],
-        'tg_ceu_an'              => $annot_result['tg_ceu_an'],
-        'tg_chb_ac'              => $annot_result['tg_chb_ac'],
-        'tg_chb_an'              => $annot_result['tg_chb_an'],
-        'tg_chs_ac'              => $annot_result['tg_chs_ac'],
-        'tg_chs_an'              => $annot_result['tg_chs_an'],
-        'tg_clm_ac'              => $annot_result['tg_clm_ac'],
-        'tg_clm_an'              => $annot_result['tg_clm_an'],
-        'tg_fin_ac'              => $annot_result['tg_fin_ac'],
-        'tg_fin_an'              => $annot_result['tg_fin_an'],
-        'tg_gbr_ac'              => $annot_result['tg_gbr_ac'],
-        'tg_gbr_an'              => $annot_result['tg_gbr_an'],
-        'tg_gih_ac'              => $annot_result['tg_gih_ac'],
-        'tg_gih_an'              => $annot_result['tg_gih_an'],
-        'tg_ibs_ac'              => $annot_result['tg_ibs_ac'],
-        'tg_ibs_an'              => $annot_result['tg_ibs_an'],
-        'tg_jpt_ac'              => $annot_result['tg_jpt_ac'],
-        'tg_jpt_an'              => $annot_result['tg_jpt_an'],
-        'tg_khv_ac'              => $annot_result['tg_khv_ac'],
-        'tg_khv_an'              => $annot_result['tg_khv_an'],
-        'tg_lwk_ac'              => $annot_result['tg_lwk_ac'],
-        'tg_lwk_an'              => $annot_result['tg_lwk_an'],
-        'tg_mxl_ac'              => $annot_result['tg_mxl_ac'],
-        'tg_mxl_an'              => $annot_result['tg_mxl_an'],
-        'tg_pel_ac'              => $annot_result['tg_pel_ac'],
-        'tg_pel_an'              => $annot_result['tg_pel_an'],
-        'tg_pur_ac'              => $annot_result['tg_pur_ac'],
-        'tg_pur_an'              => $annot_result['tg_pur_an'],
-        'tg_tsi_ac'              => $annot_result['tg_tsi_ac'],
-        'tg_tsi_an'              => $annot_result['tg_tsi_an'],
-        'tg_yri_ac'              => $annot_result['tg_yri_ac'],
-        'tg_yri_an'              => $annot_result['tg_yri_an'],
+        'evs_aa_af'              => $annot_result['evs_aa_af'],
+        'otoscope_aj_ac'         => $annot_result['otoscope_aj_ac'],
+        'otoscope_aj_af'         => $annot_result['otoscope_aj_af'],
+        'otoscope_co_ac'         => $annot_result['otoscope_co_ac'],
+        'otoscope_co_af'         => $annot_result['otoscope_co_af'],
+        'otoscope_us_ac'         => $annot_result['otoscope_us_ac'],
+        'otoscope_us_af'         => $annot_result['otoscope_us_af'],
+        'otoscope_jp_ac'         => $annot_result['otoscope_jp_ac'],
+        'otoscope_jp_af'         => $annot_result['otoscope_jp_af'],
+        'otoscope_es_ac'         => $annot_result['otoscope_es_ac'],
+        'otoscope_es_af'         => $annot_result['otoscope_es_af'],
+        'otoscope_tr_ac'         => $annot_result['otoscope_tr_ac'],
+        'otoscope_tr_af'         => $annot_result['otoscope_tr_af'],
+        'otoscope_all_ac'        => $annot_result['otoscope_all_ac'],
+        'otoscope_all_af'        => $annot_result['otoscope_all_af'],
+        'tg_afr_ac'              => $annot_result['tg_afr_ac'],
+        'tg_afr_af'              => $annot_result['tg_afr_af'],
+        'tg_eur_ac'              => $annot_result['tg_eur_ac'],
+        'tg_eur_af'              => $annot_result['tg_eur_af'],
+        'tg_amr_ac'              => $annot_result['tg_amr_ac'],
+        'tg_amr_af'              => $annot_result['tg_amr_af'],
+        'tg_asn_ac'              => $annot_result['tg_asn_ac'],
+        'tg_asn_af'              => $annot_result['tg_asn_af'],
+        'tg_all_ac'              => $annot_result['tg_all_ac'],
+        'tg_all_af'              => $annot_result['tg_all_af'],
     );
     
     // Credits for the comments
@@ -1666,109 +1650,67 @@ EOF;
     // Frequency computations
     if (in_array('otoscope', $freqs)) {
       // Display OtoSCOPE
-      ($data['otoscope_an'] != 0) ? $data['freq_otoscope'] = number_format(($data['otoscope_ac']/$data['otoscope_an'])*100, 2) : $data['freq_otoscope'] = 0.00;
-      ($data['otoscope_an'] == 0) ? $data['label_otoscope'] = '(No data)'  :  $data['label_otoscope'] = $data['otoscope_ac'] . "/" . $data['otoscope_an'];
+      ($data['otoscope_aj_af'] == '')  ? $data['otoscope_aj_label']  = '(No data)'  :  $data['otoscope_aj_label']  = $data['otoscope_aj_ac']  . " (" . number_format((float) $data['otoscope_aj_af'],  2, '.', '')  . ")";
+      ($data['otoscope_co_af'] == '')  ? $data['otoscope_co_label']  = '(No data)'  :  $data['otoscope_co_label']  = $data['otoscope_co_ac']  . " (" . number_format((float) $data['otoscope_co_af'],  2, '.', '')  . ")";
+      ($data['otoscope_us_af'] == '')  ? $data['otoscope_us_label']  = '(No data)'  :  $data['otoscope_us_label']  = $data['otoscope_us_ac']  . " (" . number_format((float) $data['otoscope_us_af'],  2, '.', '')  . ")";
+      ($data['otoscope_jp_af'] == '')  ? $data['otoscope_jp_label']  = '(No data)'  :  $data['otoscope_jp_label']  = $data['otoscope_jp_ac']  . " (" . number_format((float) $data['otoscope_jp_af'],  2, '.', '')  . ")";
+      ($data['otoscope_es_af'] == '')  ? $data['otoscope_es_label']  = '(No data)'  :  $data['otoscope_es_label']  = $data['otoscope_es_ac']  . " (" . number_format((float) $data['otoscope_es_af'],  2, '.', '')  . ")";
+      ($data['otoscope_tr_af'] == '')  ? $data['otoscope_tr_label']  = '(No data)'  :  $data['otoscope_tr_label']  = $data['otoscope_tr_ac']  . " (" . number_format((float) $data['otoscope_tr_af'],  2, '.', '')  . ")";
+      ($data['otoscope_all_af'] == '') ? $data['otoscope_all_label'] = '(No data)'  :  $data['otoscope_all_label'] = $data['otoscope_all_ac'] . " (" . number_format((float) $data['otoscope_all_af'], 2, '.', '')  . ")";
     }
     else {
       // Don't display OtoSCOPE
-      $data['freq_otoscope']  = 0;
-      $data['label_otoscope'] = '(No data)';
+      $data['otoscope_aj_af']  = 0;
+      $data['otoscope_co_af']  = 0;
+      $data['otoscope_us_af']  = 0;
+      $data['otoscope_jp_af']  = 0;
+      $data['otoscope_es_af']  = 0;
+      $data['otoscope_tr_af']  = 0;
+      $data['otoscope_all_af'] = 0;
+      $data['otoscope_aj_label']  = '(No data)';
+      $data['otoscope_co_label']  = '(No data)';
+      $data['otoscope_us_label']  = '(No data)'; 
+      $data['otoscope_jp_label']  = '(No data)'; 
+      $data['otoscope_es_label']  = '(No data)'; 
+      $data['otoscope_tr_label']  = '(No data)'; 
+      $data['otoscope_all_label'] = '(No data)';
     }
     if (in_array('evs', $freqs)) {
       // Display EVS
-      ($data['evs_ea_an'] != 0)   ? $data['freq_evs_ea']   = number_format(($data['evs_ea_ac']/$data['evs_ea_an'])*100, 2)     : $data['freq_evs_ea'] = 0;
-      ($data['evs_aa_an'] != 0)   ? $data['freq_evs_aa']   = number_format(($data['evs_aa_ac']/$data['evs_aa_an'])*100, 2)     : $data['freq_evs_aa'] = 0;
-      ($data['evs_ea_an']   == 0) ? $data['label_evs_ea']   = '(No data)'  :  $data['label_evs_ea']   = $data['evs_ea_ac']   . "/" . $data['evs_ea_an'];
-      ($data['evs_aa_an']   == 0) ? $data['label_evs_aa']   = '(No data)'  :  $data['label_evs_aa']   = $data['evs_aa_ac']   . "/" . $data['evs_aa_an'];
+      ($data['evs_ea_af'] == '')  ? $data['evs_ea_label']  = '(No data)'  :  $data['evs_ea_label']  = $data['evs_ea_ac']  . " (" . number_format((float) $data['evs_ea_af'],   2, '.', '')  . ")";
+      ($data['evs_aa_af'] == '')  ? $data['evs_aa_label']  = '(No data)'  :  $data['evs_aa_label']  = $data['evs_aa_ac']  . " (" . number_format((float) $data['evs_aa_af'],   2, '.', '')  . ")";
+      ($data['evs_all_af'] == '') ? $data['evs_all_label'] = '(No data)'  :  $data['evs_all_label'] = $data['evs_all_ac'] . " (" . number_format((float) $data['evs_all_af'],  2, '.', '')  . ")";
     }
     else {
       // Don't display EVS
-      $data['freq_evs_ea']  = 0;
-      $data['freq_evs_aa']  = 0;
-      $data['label_evs_ea'] = '(No data)';
-      $data['label_evs_aa'] = '(No data)';
+      $data['evs_ea_af']  = 0;
+      $data['evs_aa_af']  = 0;
+      $data['evs_all_af'] = 0;
+      $data['evs_ea_label']  = '(No data)';
+      $data['evs_aa_label']  = '(No data)';
+      $data['evs_all_label'] = '(No data)';
+
     }
     if (in_array('1000genomes', $freqs)) {
       // Display 1000 Genomes
-      ($data['tg_acb_an'] != 0)   ? $data['freq_tg_acb']   = number_format(($data['tg_acb_ac']/$data['tg_acb_an'])*100, 2)     : $data['freq_tg_acb'] = 0;
-      ($data['tg_asw_an'] != 0)   ? $data['freq_tg_asw']   = number_format(($data['tg_asw_ac']/$data['tg_asw_an'])*100, 2)     : $data['freq_tg_asw'] = 0;
-      ($data['tg_cdx_an'] != 0)   ? $data['freq_tg_cdx']   = number_format(($data['tg_cdx_ac']/$data['tg_cdx_an'])*100, 2)     : $data['freq_tg_cdx'] = 0;
-      ($data['tg_ceu_an'] != 0)   ? $data['freq_tg_ceu']   = number_format(($data['tg_ceu_ac']/$data['tg_ceu_an'])*100, 2)     : $data['freq_tg_ceu'] = 0;
-      ($data['tg_chb_an'] != 0)   ? $data['freq_tg_chb']   = number_format(($data['tg_chb_ac']/$data['tg_chb_an'])*100, 2)     : $data['freq_tg_chb'] = 0;
-      ($data['tg_chs_an'] != 0)   ? $data['freq_tg_chs']   = number_format(($data['tg_chs_ac']/$data['tg_chs_an'])*100, 2)     : $data['freq_tg_chs'] = 0;
-      ($data['tg_clm_an'] != 0)   ? $data['freq_tg_clm']   = number_format(($data['tg_clm_ac']/$data['tg_clm_an'])*100, 2)     : $data['freq_tg_clm'] = 0;
-      ($data['tg_fin_an'] != 0)   ? $data['freq_tg_fin']   = number_format(($data['tg_fin_ac']/$data['tg_fin_an'])*100, 2)     : $data['freq_tg_fin'] = 0;
-      ($data['tg_gbr_an'] != 0)   ? $data['freq_tg_gbr']   = number_format(($data['tg_gbr_ac']/$data['tg_gbr_an'])*100, 2)     : $data['freq_tg_gbr'] = 0;
-      ($data['tg_gih_an'] != 0)   ? $data['freq_tg_gih']   = number_format(($data['tg_gih_ac']/$data['tg_gih_an'])*100, 2)     : $data['freq_tg_gih'] = 0;
-      ($data['tg_ibs_an'] != 0)   ? $data['freq_tg_ibs']   = number_format(($data['tg_ibs_ac']/$data['tg_ibs_an'])*100, 2)     : $data['freq_tg_ibs'] = 0;
-      ($data['tg_jpt_an'] != 0)   ? $data['freq_tg_jpt']   = number_format(($data['tg_jpt_ac']/$data['tg_jpt_an'])*100, 2)     : $data['freq_tg_jpt'] = 0;
-      ($data['tg_khv_an'] != 0)   ? $data['freq_tg_khv']   = number_format(($data['tg_khv_ac']/$data['tg_khv_an'])*100, 2)     : $data['freq_tg_khv'] = 0;
-      ($data['tg_lwk_an'] != 0)   ? $data['freq_tg_lwk']   = number_format(($data['tg_lwk_ac']/$data['tg_lwk_an'])*100, 2)     : $data['freq_tg_lwk'] = 0;
-      ($data['tg_mxl_an'] != 0)   ? $data['freq_tg_mxl']   = number_format(($data['tg_mxl_ac']/$data['tg_mxl_an'])*100, 2)     : $data['freq_tg_mxl'] = 0;
-      ($data['tg_pel_an'] != 0)   ? $data['freq_tg_pel']   = number_format(($data['tg_pel_ac']/$data['tg_pel_an'])*100, 2)     : $data['freq_tg_pel'] = 0;
-      ($data['tg_pur_an'] != 0)   ? $data['freq_tg_pur']   = number_format(($data['tg_pur_ac']/$data['tg_pur_an'])*100, 2)     : $data['freq_tg_pur'] = 0;
-      ($data['tg_tsi_an'] != 0)   ? $data['freq_tg_tsi']   = number_format(($data['tg_tsi_ac']/$data['tg_tsi_an'])*100, 2)     : $data['freq_tg_tsi'] = 0;
-      ($data['tg_yri_an'] != 0)   ? $data['freq_tg_yri']   = number_format(($data['tg_yri_ac']/$data['tg_yri_an'])*100, 2)     : $data['freq_tg_yri'] = 0;
-      ($data['tg_acb_an']   == 0) ? $data['label_tg_acb']   = '(No data)'  :  $data['label_tg_acb']   = $data['tg_acb_ac']   . "/" . $data['tg_acb_an'];
-      ($data['tg_asw_an']   == 0) ? $data['label_tg_asw']   = '(No data)'  :  $data['label_tg_asw']   = $data['tg_asw_ac']   . "/" . $data['tg_asw_an'];
-      ($data['tg_cdx_an']   == 0) ? $data['label_tg_cdx']   = '(No data)'  :  $data['label_tg_cdx']   = $data['tg_cdx_ac']   . "/" . $data['tg_cdx_an'];
-      ($data['tg_ceu_an']   == 0) ? $data['label_tg_ceu']   = '(No data)'  :  $data['label_tg_ceu']   = $data['tg_ceu_ac']   . "/" . $data['tg_ceu_an'];
-      ($data['tg_chb_an']   == 0) ? $data['label_tg_chb']   = '(No data)'  :  $data['label_tg_chb']   = $data['tg_chb_ac']   . "/" . $data['tg_chb_an'];
-      ($data['tg_chs_an']   == 0) ? $data['label_tg_chs']   = '(No data)'  :  $data['label_tg_chs']   = $data['tg_chs_ac']   . "/" . $data['tg_chs_an'];
-      ($data['tg_clm_an']   == 0) ? $data['label_tg_clm']   = '(No data)'  :  $data['label_tg_clm']   = $data['tg_clm_ac']   . "/" . $data['tg_clm_an'];
-      ($data['tg_fin_an']   == 0) ? $data['label_tg_fin']   = '(No data)'  :  $data['label_tg_fin']   = $data['tg_fin_ac']   . "/" . $data['tg_fin_an'];
-      ($data['tg_gbr_an']   == 0) ? $data['label_tg_gbr']   = '(No data)'  :  $data['label_tg_gbr']   = $data['tg_gbr_ac']   . "/" . $data['tg_gbr_an'];
-      ($data['tg_gih_an']   == 0) ? $data['label_tg_gih']   = '(No data)'  :  $data['label_tg_gih']   = $data['tg_gih_ac']   . "/" . $data['tg_gih_an'];
-      ($data['tg_ibs_an']   == 0) ? $data['label_tg_ibs']   = '(No data)'  :  $data['label_tg_ibs']   = $data['tg_ibs_ac']   . "/" . $data['tg_ibs_an'];
-      ($data['tg_jpt_an']   == 0) ? $data['label_tg_jpt']   = '(No data)'  :  $data['label_tg_jpt']   = $data['tg_jpt_ac']   . "/" . $data['tg_jpt_an'];
-      ($data['tg_khv_an']   == 0) ? $data['label_tg_khv']   = '(No data)'  :  $data['label_tg_khv']   = $data['tg_khv_ac']   . "/" . $data['tg_khv_an'];
-      ($data['tg_lwk_an']   == 0) ? $data['label_tg_lwk']   = '(No data)'  :  $data['label_tg_lwk']   = $data['tg_lwk_ac']   . "/" . $data['tg_lwk_an'];
-      ($data['tg_mxl_an']   == 0) ? $data['label_tg_mxl']   = '(No data)'  :  $data['label_tg_mxl']   = $data['tg_mxl_ac']   . "/" . $data['tg_mxl_an'];
-      ($data['tg_pel_an']   == 0) ? $data['label_tg_pel']   = '(No data)'  :  $data['label_tg_pel']   = $data['tg_pel_ac']   . "/" . $data['tg_pel_an'];
-      ($data['tg_pur_an']   == 0) ? $data['label_tg_pur']   = '(No data)'  :  $data['label_tg_pur']   = $data['tg_pur_ac']   . "/" . $data['tg_pur_an'];
-      ($data['tg_tsi_an']   == 0) ? $data['label_tg_tsi']   = '(No data)'  :  $data['label_tg_tsi']   = $data['tg_tsi_ac']   . "/" . $data['tg_tsi_an'];
-      ($data['tg_yri_an']   == 0) ? $data['label_tg_yri']   = '(No data)'  :  $data['label_tg_yri']   = $data['tg_yri_ac']   . "/" . $data['tg_yri_an'];
+      ($data['tg_afr_af'] == '') ? $data['tg_afr_label'] = '(No data)'  :  $data['tg_afr_label'] = $data['tg_afr_ac'] . " (" . number_format((float) $data['tg_afr_af'],  2, '.', '') . ")";
+      ($data['tg_eur_af'] == '') ? $data['tg_eur_label'] = '(No data)'  :  $data['tg_eur_label'] = $data['tg_eur_ac'] . " (" . number_format((float) $data['tg_eur_af'],  2, '.', '') . ")";
+      ($data['tg_amr_af'] == '') ? $data['tg_amr_label'] = '(No data)'  :  $data['tg_amr_label'] = $data['tg_amr_ac'] . " (" . number_format((float) $data['tg_amr_af'],  2, '.', '') . ")";
+      ($data['tg_asn_af'] == '') ? $data['tg_asn_label'] = '(No data)'  :  $data['tg_asn_label'] = $data['tg_asn_ac'] . " (" . number_format((float) $data['tg_asn_af'],  2, '.', '') . ")";
+      ($data['tg_all_af'] == '') ? $data['tg_all_label'] = '(No data)'  :  $data['tg_all_label'] = $data['tg_all_ac'] . " (" . number_format((float) $data['tg_all_af'],  2, '.', '') . ")";
     }
     else {
       // Don't display 1000 Genomes
-      $data['freq_tg_acb']   = 0;
-      $data['freq_tg_asw']   = 0;
-      $data['freq_tg_cdx']   = 0;
-      $data['freq_tg_ceu']   = 0;
-      $data['freq_tg_chb']   = 0;
-      $data['freq_tg_chs']   = 0;
-      $data['freq_tg_clm']   = 0;
-      $data['freq_tg_fin']   = 0;
-      $data['freq_tg_gbr']   = 0;
-      $data['freq_tg_gih']   = 0;
-      $data['freq_tg_ibs']   = 0;
-      $data['freq_tg_jpt']   = 0;
-      $data['freq_tg_khv']   = 0;
-      $data['freq_tg_lwk']   = 0;
-      $data['freq_tg_mxl']   = 0;
-      $data['freq_tg_pel']   = 0;
-      $data['freq_tg_pur']   = 0;
-      $data['freq_tg_tsi']   = 0;
-      $data['freq_tg_yri']   = 0;
-      $data['label_tg_acb']  = '(No data)';
-      $data['label_tg_asw']  = '(No data)';
-      $data['label_tg_cdx']  = '(No data)';
-      $data['label_tg_ceu']  = '(No data)';
-      $data['label_tg_chb']  = '(No data)';
-      $data['label_tg_chs']  = '(No data)';
-      $data['label_tg_clm']  = '(No data)';
-      $data['label_tg_fin']  = '(No data)';
-      $data['label_tg_gbr']  = '(No data)';
-      $data['label_tg_gih']  = '(No data)';
-      $data['label_tg_ibs']  = '(No data)';
-      $data['label_tg_jpt']  = '(No data)';
-      $data['label_tg_khv']  = '(No data)';
-      $data['label_tg_lwk']  = '(No data)';
-      $data['label_tg_mxl']  = '(No data)';
-      $data['label_tg_pel']  = '(No data)';
-      $data['label_tg_pur']  = '(No data)';
-      $data['label_tg_tsi']  = '(No data)';
-      $data['label_tg_yri']  = '(No data)';
+      $data['tg_afr_af'] = 0;
+      $data['tg_eur_af'] = 0;
+      $data['tg_amr_af'] = 0;
+      $data['tg_asn_af'] = 0;
+      $data['tg_all_af'] = 0;
+      $data['tg_afr_label'] = '(No data)';
+      $data['tg_eur_label'] = '(No data)';
+      $data['tg_amr_label'] = '(No data)';
+      $data['tg_asn_label'] = '(No data)';
+      $data['tg_all_label'] = '(No data)';
     }
     
     return $data;
