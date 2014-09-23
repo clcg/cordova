@@ -191,5 +191,8 @@ $(document).ready(function(){
   }
 
   /* Scroll long text */
-  
+
+
+  jQuery('#loading-overlay').fadeOut(1);
+
 });

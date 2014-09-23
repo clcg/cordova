@@ -1648,15 +1648,16 @@ EOF;
     $data['disp_otoscope'] = in_array('otoscope', $freqs) ? 'block' : 'none';
     
     // Frequency computations
+    $zero_label = 'Unseen (0.000)'; // What to display when 0 alleles are seen
     if (in_array('otoscope', $freqs)) {
       // Display OtoSCOPE
-      ($data['otoscope_aj_af'] == '')  ? $data['otoscope_aj_label']  = '(No data)'  :  $data['otoscope_aj_label']  = $data['otoscope_aj_ac']  . " (" . number_format((float) $data['otoscope_aj_af'],  2, '.', '')  . ")";
-      ($data['otoscope_co_af'] == '')  ? $data['otoscope_co_label']  = '(No data)'  :  $data['otoscope_co_label']  = $data['otoscope_co_ac']  . " (" . number_format((float) $data['otoscope_co_af'],  2, '.', '')  . ")";
-      ($data['otoscope_us_af'] == '')  ? $data['otoscope_us_label']  = '(No data)'  :  $data['otoscope_us_label']  = $data['otoscope_us_ac']  . " (" . number_format((float) $data['otoscope_us_af'],  2, '.', '')  . ")";
-      ($data['otoscope_jp_af'] == '')  ? $data['otoscope_jp_label']  = '(No data)'  :  $data['otoscope_jp_label']  = $data['otoscope_jp_ac']  . " (" . number_format((float) $data['otoscope_jp_af'],  2, '.', '')  . ")";
-      ($data['otoscope_es_af'] == '')  ? $data['otoscope_es_label']  = '(No data)'  :  $data['otoscope_es_label']  = $data['otoscope_es_ac']  . " (" . number_format((float) $data['otoscope_es_af'],  2, '.', '')  . ")";
-      ($data['otoscope_tr_af'] == '')  ? $data['otoscope_tr_label']  = '(No data)'  :  $data['otoscope_tr_label']  = $data['otoscope_tr_ac']  . " (" . number_format((float) $data['otoscope_tr_af'],  2, '.', '')  . ")";
-      ($data['otoscope_all_af'] == '') ? $data['otoscope_all_label'] = '(No data)'  :  $data['otoscope_all_label'] = $data['otoscope_all_ac'] . " (" . number_format((float) $data['otoscope_all_af'], 2, '.', '')  . ")";
+      ($data['otoscope_aj_af'] == '')  ? $data['otoscope_aj_label']  = '(No data)' : ($data['otoscope_aj_af']  == 0) ? $data['otoscope_aj_label']  = $zero_label : $data['otoscope_aj_label']  = $data['otoscope_aj_ac']  . "/" . 400  . " (" . number_format((float) $data['otoscope_aj_af'],  3, '.', '') . ")";
+      ($data['otoscope_co_af'] == '')  ? $data['otoscope_co_label']  = '(No data)' : ($data['otoscope_co_af']  == 0) ? $data['otoscope_co_label']  = $zero_label : $data['otoscope_co_label']  = $data['otoscope_co_ac']  . "/" . 320  . " (" . number_format((float) $data['otoscope_co_af'],  3, '.', '') . ")";
+      ($data['otoscope_us_af'] == '')  ? $data['otoscope_us_label']  = '(No data)' : ($data['otoscope_us_af']  == 0) ? $data['otoscope_us_label']  = $zero_label : $data['otoscope_us_label']  = $data['otoscope_us_ac']  . "/" . 320  . " (" . number_format((float) $data['otoscope_us_af'],  3, '.', '') . ")";
+      ($data['otoscope_jp_af'] == '')  ? $data['otoscope_jp_label']  = '(No data)' : ($data['otoscope_jp_af']  == 0) ? $data['otoscope_jp_label']  = $zero_label : $data['otoscope_jp_label']  = $data['otoscope_jp_ac']  . "/" . 400  . " (" . number_format((float) $data['otoscope_jp_af'],  3, '.', '') . ")";
+      ($data['otoscope_es_af'] == '')  ? $data['otoscope_es_label']  = '(No data)' : ($data['otoscope_es_af']  == 0) ? $data['otoscope_es_label']  = $zero_label : $data['otoscope_es_label']  = $data['otoscope_es_ac']  . "/" . 360  . " (" . number_format((float) $data['otoscope_es_af'],  3, '.', '') . ")";
+      ($data['otoscope_tr_af'] == '')  ? $data['otoscope_tr_label']  = '(No data)' : ($data['otoscope_tr_af']  == 0) ? $data['otoscope_tr_label']  = $zero_label : $data['otoscope_tr_label']  = $data['otoscope_tr_ac']  . "/" . 200  . " (" . number_format((float) $data['otoscope_tr_af'],  3, '.', '') . ")";
+      ($data['otoscope_all_af'] == '') ? $data['otoscope_all_label'] = '(No data)' : ($data['otoscope_all_af'] == 0) ? $data['otoscope_all_label'] = $zero_label : $data['otoscope_all_label'] = $data['otoscope_all_ac'] . "/" . 2000 . " (" . number_format((float) $data['otoscope_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display OtoSCOPE
@@ -1677,9 +1678,9 @@ EOF;
     }
     if (in_array('evs', $freqs)) {
       // Display EVS
-      ($data['evs_ea_af'] == '')  ? $data['evs_ea_label']  = '(No data)'  :  $data['evs_ea_label']  = $data['evs_ea_ac']  . " (" . number_format((float) $data['evs_ea_af'],   2, '.', '')  . ")";
-      ($data['evs_aa_af'] == '')  ? $data['evs_aa_label']  = '(No data)'  :  $data['evs_aa_label']  = $data['evs_aa_ac']  . " (" . number_format((float) $data['evs_aa_af'],   2, '.', '')  . ")";
-      ($data['evs_all_af'] == '') ? $data['evs_all_label'] = '(No data)'  :  $data['evs_all_label'] = $data['evs_all_ac'] . " (" . number_format((float) $data['evs_all_af'],  2, '.', '')  . ")";
+      ($data['evs_ea_af'] == '')  ? $data['evs_ea_label']  = '(No data)' : $data['evs_ea_label']  = $data['evs_ea_ac']  . "/" . intval($data['evs_ea_ac']/$data['evs_ea_af'])   . " (" . number_format((float) $data['evs_ea_af'],  3, '.', '') . ")";
+      ($data['evs_aa_af'] == '')  ? $data['evs_aa_label']  = '(No data)' : $data['evs_aa_label']  = $data['evs_aa_ac']  . "/" . intval($data['evs_aa_ac']/$data['evs_aa_af'])   . " (" . number_format((float) $data['evs_aa_af'],  3, '.', '') . ")";
+      ($data['evs_all_af'] == '') ? $data['evs_all_label'] = '(No data)' : $data['evs_all_label'] = $data['evs_all_ac'] . "/" . intval($data['evs_all_ac']/$data['evs_all_af']) . " (" . number_format((float) $data['evs_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display EVS
@@ -1693,11 +1694,11 @@ EOF;
     }
     if (in_array('1000genomes', $freqs)) {
       // Display 1000 Genomes
-      ($data['tg_afr_af'] == '') ? $data['tg_afr_label'] = '(No data)'  :  $data['tg_afr_label'] = $data['tg_afr_ac'] . " (" . number_format((float) $data['tg_afr_af'],  2, '.', '') . ")";
-      ($data['tg_eur_af'] == '') ? $data['tg_eur_label'] = '(No data)'  :  $data['tg_eur_label'] = $data['tg_eur_ac'] . " (" . number_format((float) $data['tg_eur_af'],  2, '.', '') . ")";
-      ($data['tg_amr_af'] == '') ? $data['tg_amr_label'] = '(No data)'  :  $data['tg_amr_label'] = $data['tg_amr_ac'] . " (" . number_format((float) $data['tg_amr_af'],  2, '.', '') . ")";
-      ($data['tg_asn_af'] == '') ? $data['tg_asn_label'] = '(No data)'  :  $data['tg_asn_label'] = $data['tg_asn_ac'] . " (" . number_format((float) $data['tg_asn_af'],  2, '.', '') . ")";
-      ($data['tg_all_af'] == '') ? $data['tg_all_label'] = '(No data)'  :  $data['tg_all_label'] = $data['tg_all_ac'] . " (" . number_format((float) $data['tg_all_af'],  2, '.', '') . ")";
+      ($data['tg_afr_af'] == '') ? $data['tg_afr_label'] = '(No data)' : ($data['tg_afr_af'] == 0) ? $data['tg_afr_label'] = $zero_label : $data['tg_afr_label'] = $data['tg_afr_ac'] . "/" . intval($data['tg_afr_ac']/$data['tg_afr_af']) . " (" . number_format((float) $data['tg_afr_af'], 3, '.', '') . ")";
+      ($data['tg_eur_af'] == '') ? $data['tg_eur_label'] = '(No data)' : ($data['tg_eur_af'] == 0) ? $data['tg_eur_label'] = $zero_label : $data['tg_eur_label'] = $data['tg_eur_ac'] . "/" . intval($data['tg_eur_ac']/$data['tg_eur_af']) . " (" . number_format((float) $data['tg_eur_af'], 3, '.', '') . ")";
+      ($data['tg_amr_af'] == '') ? $data['tg_amr_label'] = '(No data)' : ($data['tg_amr_af'] == 0) ? $data['tg_amr_label'] = $zero_label : $data['tg_amr_label'] = $data['tg_amr_ac'] . "/" . intval($data['tg_amr_ac']/$data['tg_amr_af']) . " (" . number_format((float) $data['tg_amr_af'], 3, '.', '') . ")";
+      ($data['tg_asn_af'] == '') ? $data['tg_asn_label'] = '(No data)' : ($data['tg_asn_af'] == 0) ? $data['tg_asn_label'] = $zero_label : $data['tg_asn_label'] = $data['tg_asn_ac'] . "/" . intval($data['tg_asn_ac']/$data['tg_asn_af']) . " (" . number_format((float) $data['tg_asn_af'], 3, '.', '') . ")";
+      ($data['tg_all_af'] == '') ? $data['tg_all_label'] = '(No data)' : ($data['tg_all_af'] == 0) ? $data['tg_all_label'] = $zero_label : $data['tg_all_label'] = $data['tg_all_ac'] . "/" . intval($data['tg_all_ac']/$data['tg_all_af']) . " (" . number_format((float) $data['tg_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display 1000 Genomes

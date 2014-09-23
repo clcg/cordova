@@ -429,7 +429,8 @@ class Variations extends MY_Controller {
    *
    * Create the table of variants for the selected letter.
    *
-   * @author Zach Ladlie, Sean Ephraim
+   * @author Zach Ladlie
+   * @author Sean Ephraim
    * @access public
    * @param  char  The gene's starting letter
    */
