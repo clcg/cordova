@@ -23,48 +23,6 @@
       </p>
     </div>
     
-    <h2>Data</h2>
-    <h3>Pathogenicity Assessment</h3>
-    <p>Future versions of the database will be manually curated to incorporate strength of published data about each variant. In silico computational analyses are derived from dbNSFP (link and reference). Pathogenicity is determined as follows:</p>
-    <dl>
-      <dt><strong>Polyphen</strong></dt>
-      <dd>
-        D &ndash; probably damaging &gt; 0.85 <br />
-        P &ndash; possibly damaging 0.85 - 0.15 <br />
-        B &ndash; benign &lt; 0.15 <br />
-      </dd>
-      <dt><strong>MutationTaster</strong></dt>
-      <dd>
-        Automatically calculated categories: &#8220;disease_causing_automatic,&#8221; &#8220;disease_causing,&#8221; &#8220;polymorphism,&#8221; and &#8220;polymorphism_automatic,&#8221; which we coded as &#8220;A&#8221; &#8220;D&#8221; &#8220;N&#8221; and &#8220;P&#8221;. Values closer to 1 have a higher probability that the prediction is true.
-      </dd>
-      <dt><strong>PhyloP</strong></dt>
-      <dd>    
-        C &ndash; conserved &gt; 0.95 <br />
-        N &ndash; not conserved &lt; 0.95
-      </dd>
-      <dt><strong>SIFT</strong></dt>
-      <dd>  
-        D &ndash; deleterious &gt; 0.95 <br />
-        T &ndash; tolerated &lt; 0.95
-      </dd>
-      <dt><strong>LRT</strong></dt>
-      <dd>
-        D &ndash; deleterious fulfills the following: (i) from a codon defined by LRT as significantly constrained (LRTorio0.001 and oo1), (ii) from a site with Z10 eutherian mammals alignments, and (iii) the alternative AA is not presented in any of the eutherian mammals.<br />
-        N &ndash; otherwise neutral
-      </dd>
-    </dl>
-    
-    
-    <h3>Variant Categorization</h3>
-    <dl>
-      <dt><strong>Pathogenic</strong></dt>
-      <dd>mutation published in the literature as causing disease</dd>
-      <dt><strong>Probably Pathogenic</strong></dt>
-      <dd>classified as such by the dbSNP database</dd>
-      <dt><strong>Unknown Significance</strong></dt>
-      <dd>variant reported in dbSNP without a disease association</dd>
-    </dl>
-  
   	<h2>Getting Support</h2>
   	<p>Please <a href="javascript://" class="contact-popup" title="Contact us">get in touch</a> if you experience any issues with using this site.</p>
   	<br /><br />
