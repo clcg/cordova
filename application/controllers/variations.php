@@ -438,7 +438,17 @@ class Variations extends MY_Controller {
     $data['title'] = $letter;
     $data['content'] = 'variations/letter';
 
-    $gene = $this->variations_model->load_gene($letter, $this->variations_model->version);
+    $display_all = isset($_GET['all']);
+    if ($display_all) {
+      $data['display_all_url'] = current_url();
+      $data['display_all_text'] = 'Hide "Unknown significance" variants';
+    }
+    else {
+      $data['display_all_url'] = current_url().'?all';
+      $data['display_all_text'] = 'Show "Unknown significance" variants';
+    }
+
+    $gene = $this->variations_model->load_gene($letter, $display_all);
     $data['result_table'] = $this->variations_model->format_variants_table($gene);
 
     $this->load->view($this->public_layout, $data);

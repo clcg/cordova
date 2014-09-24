@@ -1,6 +1,6 @@
 /* 	Variation Database Javascript methods
     by Nikhil Anand <nikhil@mantralay.org>
-    and Sean Ephraim
+    and Sean Ephraim <sean.ephraim@gmail.com>
     Tue Sept 24 2013
 */
 
@@ -190,9 +190,8 @@ $(document).ready(function(){
     $(".success").show();
   }
 
-  /* Scroll long text */
-
-
-  jQuery('#loading-overlay').fadeOut(1);
-
+  //jQuery('#loading-overlay').fadeOut(1);
+  $("#show-unknown, #sidebar-sorters-alphabet").click(function(){
+    $('#loading-overlay').show();
+  });
 });

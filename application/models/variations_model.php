@@ -1418,24 +1418,28 @@ EOF;
   /**
    * Load all information in the variants table for all genes starting with a given letter.
    *
+   * @author Nikhil Anand
+   * @author Zachary Ladlie
    * @param  string $letter 
    * @return array  Variation data to be displayed genes page
-   * @author Nikhil Anand (modified by Zachary Ladlie)
    */
-  public function load_gene($letter) {
+  public function load_gene($letter, $show_unknown = TRUE) {
       
         $counter = 0;
         $result = '';
       
         // Sanitize in case the invoker doesn't
         $letter = $this->validate_gene_letter($letter);
-        $tables = $this->config->item('tables');
-  
+
         // Construct and run query
         if ($letter == '') {
             $query = "SELECT * FROM `" . $this->tables['vd_live'] . "` ORDER BY gene ASC;";
-        } else {
+        }
+        elseif ($show_unknown) {
             $query = sprintf('SELECT * FROM `%s` WHERE gene LIKE \'%s%%\' ORDER BY gene ASC', $this->tables['vd_live'], $letter);
+        }
+        else {
+            $query = sprintf('SELECT * FROM `%s` WHERE gene LIKE \'%s%%\' AND pathogenicity != "Unknown significance" ORDER BY gene ASC', $this->tables['vd_live'], $letter);
         }
         $query_result = mysql_query($query);
       
@@ -1460,6 +1464,21 @@ EOF;
             $counter++;
         }
         return $result;
+  }
+
+  /**
+   * Validate Gene Name
+   *
+   * @author Sean Ephraim
+   * @param  string Name of gene
+   * @return string Name of gene (sanitized)
+   */
+  public function validate_gene_name($name) {
+    if (!(preg_match('/[A-Z]{1}/', $name))) {
+      print "Invalid request for name ".$name;
+      exit(8);
+    }
+    return $name;
   }
 
   /**
@@ -1678,9 +1697,9 @@ EOF;
     }
     if (in_array('evs', $freqs)) {
       // Display EVS
-      ($data['evs_ea_af'] == '')  ? $data['evs_ea_label']  = '(No data)' : $data['evs_ea_label']  = $data['evs_ea_ac']  . "/" . intval($data['evs_ea_ac']/$data['evs_ea_af'])   . " (" . number_format((float) $data['evs_ea_af'],  3, '.', '') . ")";
-      ($data['evs_aa_af'] == '')  ? $data['evs_aa_label']  = '(No data)' : $data['evs_aa_label']  = $data['evs_aa_ac']  . "/" . intval($data['evs_aa_ac']/$data['evs_aa_af'])   . " (" . number_format((float) $data['evs_aa_af'],  3, '.', '') . ")";
-      ($data['evs_all_af'] == '') ? $data['evs_all_label'] = '(No data)' : $data['evs_all_label'] = $data['evs_all_ac'] . "/" . intval($data['evs_all_ac']/$data['evs_all_af']) . " (" . number_format((float) $data['evs_all_af'], 3, '.', '') . ")";
+      ($data['evs_ea_af'] == '')  ? $data['evs_ea_label']  = '(No data)' : ($data['evs_ea_af']  == 0) ? $data['evs_ea_label']  = $zero_label : $data['evs_ea_label']  = $data['evs_ea_ac']  . "/" . intval($data['evs_ea_ac']/$data['evs_ea_af'])   . " (" . number_format((float) $data['evs_ea_af'],  3, '.', '') . ")";
+      ($data['evs_aa_af'] == '')  ? $data['evs_aa_label']  = '(No data)' : ($data['evs_aa_af']  == 0) ? $data['evs_aa_label']  = $zero_label : $data['evs_aa_label']  = $data['evs_aa_ac']  . "/" . intval($data['evs_aa_ac']/$data['evs_aa_af'])   . " (" . number_format((float) $data['evs_aa_af'],  3, '.', '') . ")";
+      ($data['evs_all_af'] == '') ? $data['evs_all_label'] = '(No data)' : ($data['evs_all_af'] == 0) ? $data['evs_all_label'] = $zero_label : $data['evs_all_label'] = $data['evs_all_ac'] . "/" . intval($data['evs_all_ac']/$data['evs_all_af']) . " (" . number_format((float) $data['evs_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display EVS
