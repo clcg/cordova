@@ -441,11 +441,11 @@ class Variations extends MY_Controller {
     $display_all = isset($_GET['all']);
     if ($display_all) {
       $data['display_all_url'] = current_url();
-      $data['display_all_text'] = 'Hide "Unknown significance" variants';
+      $data['display_all_text'] = 'Hide variants labeled "Unknown significance"';
     }
     else {
       $data['display_all_url'] = current_url().'?all';
-      $data['display_all_text'] = 'Show "Unknown significance" variants';
+      $data['display_all_text'] = 'Show variants labeled "Unknown significance"';
     }
 
     $gene = $this->variations_model->load_gene($letter, $display_all);

@@ -468,6 +468,9 @@ color:#000;
 #loading-modal-container {
   position: relative;
   height: 100%;
+  font-family: "Helvetica Neue", "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
 }
 #loading-overlay {
   display: none;
@@ -485,7 +488,7 @@ color:#000;
 }
 #loading-modal {
   width: 150px;
-  height: 40px;
+  height: 50px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
@@ -497,6 +500,9 @@ color:#000;
   -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
           border-radius: 10px;
+}
+#loading-modal img {
+  margin-top: 10px;
 }
 
 /* P A G E  C O N T E N T */
