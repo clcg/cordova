@@ -190,7 +190,8 @@ $(document).ready(function(){
     $(".success").show();
   }
 
-  //jQuery('#loading-overlay').fadeOut(1);
+  $('#loading-overlay').hide();
+
   $("#show-unknown, #sidebar-sorters-alphabet").click(function(){
     $('#loading-overlay').show();
   });

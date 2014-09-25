@@ -44,5 +44,5 @@
                  <img src="<?php print site_url('assets/public/img/loading.gif'); ?>" alt="Loading icon">
              </p>
          </div>
-      </div> <!-- end loading-modal-overlay -->
+      </div>
       <div id="content"> <!-- begin content -->
