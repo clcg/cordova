@@ -72,15 +72,25 @@ $(document).ready(function(){
 	
 	// Make cookies for each fieldset that is collapsed 
 	// Eat cookies for each fieldset that is expanded
+  $.ajaxSetup ({
+    cache: false
+  });
 	$('.genename').click(function(){
 		$(this).toggleClass('collapsed');
-		$("#table-"+$(this).attr('id')).toggle();
+		//$("#table-"+$(this).attr('id')).toggle();
+
+    var ajax_load = "<img id='loading-icon' src='../assets/public/img/loading.gif' alt='Loading...' />";
+    var loadUrl = "/help";
+    // TODO load variants table
+    //$(".variant-list-container").html(ajax_load).load(loadUrl);
+    $(".variant-list-container").html(ajax_load)
 		
-		if ($.cookie("table-"+$(this).attr('id'))) {
-			$.cookie("table-"+$(this).attr('id'),null);
-		} else {      
-			$.cookie("table-"+$(this).attr('id'),'1');
-		};
+    // TODO Remember collapsible preference from cookies
+//		if ($.cookie("table-"+$(this).attr('id'))) {
+//			$.cookie("table-"+$(this).attr('id'),null);
+//		} else {      
+//			$.cookie("table-"+$(this).attr('id'),'1');
+//		};
 	});
 	
 	// Modal popup for variant data
@@ -191,8 +201,28 @@ $(document).ready(function(){
   }
 
   $('#loading-overlay').hide();
-
   $("#show-unknown, #sidebar-sorters-alphabet").click(function(){
     $('#loading-overlay').show();
   });
+
+  //  TODO $.getJSON()
+  var jsonUrl = "ajax/json.php";
+  $("#getJSONForm").submit(function(){
+    var q = $("#q").val();
+    if (q.length == 0) {
+      $("#q").focus();
+    } else {
+      $("#result").html(ajax_load);
+      $.getJSON(
+        jsonUrl,
+        {q: q},
+        function(json) {
+          var result = "Language code is \"<strong>" + json.responseData.language + "</strong>\"";
+          $("#result").html(result);
+        }
+      );
+    }
+    return false;
+  });
+
 });

@@ -448,8 +448,11 @@ class Variations extends MY_Controller {
       $data['display_all_text'] = 'Show variants labeled "Unknown significance"';
     }
 
-    $gene = $this->variations_model->load_gene($letter, $display_all);
-    $data['result_table'] = $this->variations_model->format_variants_table($gene);
+//    $gene = $this->variations_model->load_gene($letter, $display_all);
+//    $data['result_table'] = $this->variations_model->format_variants_table($gene);
+    $this->load->model('genes_model');
+    $genes = $this->genes_model->get_genes($letter, FALSE);
+    $data['genes_list'] = $this->genes_model->format_genes_list($genes);
 
     $this->load->view($this->public_layout, $data);
   }

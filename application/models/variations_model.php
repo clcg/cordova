@@ -1312,7 +1312,8 @@ EOF;
   /**
    * Create a formatted table of variants for all genes starting with a given letter.
    *
-   * @author Nikhil Anand (modified by Zachary Ladlie)
+   * @author Nikhil Anand
+   * @author Zachary Ladlie
    * @access public
    * @param string $result 
    * 			An array of database results for a gene letter

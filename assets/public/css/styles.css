@@ -911,17 +911,17 @@ font-weight:bold;
 
 /* Rotated box */
 .jquery-shadow-rotated :first-child:before {
-    content:"";
-    position:absolute;
-    z-index:-1;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#fff;
-    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;
-       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+     -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+          box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
 p.label-radio-pair,
@@ -938,4 +938,8 @@ p.label-radio-pair label,
 p.label-checkbox-pair label {
   max-width: 85%;
   float: left;
+}
+.variant-list-container {
+  background: blue;
+  height: 50px;
 }
