@@ -38,10 +38,10 @@ class API_model extends MY_Model {
   /**
    * Sanitize, validate inputs and perform search
    *
+   * @author Nikhil Anand
    * @param string $get_variables 
    *    The $_GET array 
    * @return void
-   * @author Nikhil Anand
    */
   public function api_bootstrap($get_variables) {
     
@@ -123,12 +123,12 @@ class API_model extends MY_Model {
   /**
    * Validate search terms by invoking the appropriate method for each search type
    *
+   * @author Nikhil Anand
    * @param string $type 
    *    Type of search (e.g. variant, PubMed ID, etc)
    * @param string $terms 
    *    An array of search terms for the type of search
    * @return void
-   * @author Nikhil Anand
    */
   public function _api_validate_terms($type, $terms) {
     
@@ -166,10 +166,10 @@ class API_model extends MY_Model {
    * Helper to search term validation method
    * Validate genes (e.g. gjb6, GJB6)
    *
+   * @author Nikhil Anand
    * @param string $terms 
    *    An array of variants
    * @return void
-   * @author Nikhil Anand
    */
   public function _api_validate_terms_gene($terms) {
     $valid = TRUE;
@@ -188,10 +188,10 @@ class API_model extends MY_Model {
    * Helper to search term validation method
    * Validate variants (e.g. chr7:128917)
    *
+   * @author Nikhil Anand
    * @param string $terms 
    *    An array of variants
    * @return void
-   * @author Nikhil Anand
    */
   public function _api_validate_terms_variant($terms) {
     $valid = TRUE;
@@ -209,6 +209,7 @@ class API_model extends MY_Model {
   /**
    * Perform the actual search
    *
+   * @author Nikhil Anand
    * @param string $format 
    *    Output format (CSV, tab-delimited, JSON or XML)
    * @param string $type 
@@ -218,7 +219,6 @@ class API_model extends MY_Model {
    * @param string $method 
    *    Download/display method (plain or with proper headers)
    * @return void
-   * @author Nikhil Anand
    */
   public function _api_search($type = 'position', $terms, $version) {
   
@@ -288,6 +288,7 @@ class API_model extends MY_Model {
   /**
    * Pass search results to the appropriate helper public functions for display or download
    *
+   * @author Nikhil Anand
    * @param string $search_results 
    *    The array of search results
    * @param string $method 
@@ -295,7 +296,6 @@ class API_model extends MY_Model {
    * @param string $format 
    *    Output format (CSV, tab-delimited, JSON, XML)
    * @return void
-   * @author Nikhil Anand
    */
   public function _api_result($search_results, $format, $type, $terms, $method) {
     switch ($format) {
@@ -335,6 +335,8 @@ class API_model extends MY_Model {
    * Helper public function to display search results
    * Shows CSV or tab-delimited results 
    *
+   * @author Nikhil Anand
+   * @author Sean Ephraim
    * @param string $search_results 
    *    The array of search results
    * @param string $method 
@@ -342,8 +344,6 @@ class API_model extends MY_Model {
    * @param string $delimiter 
    *    Any delimiter with which to separate results
    * @return void
-   * @author Nikhil Anand
-   * @author Sean Ephraim
    */
   public function _api_result_text($search_results, $method, $type, $delimiter) {
     // this is needed in order to modify headers
@@ -407,7 +407,8 @@ class API_model extends MY_Model {
    * Helper public function to display search results
    * Shows XML-formatted results
    *
-   * @author Sean Ephraim, Nikhil Anand
+   * @author Sean Ephraim
+   * @author Nikhil Anand
    * @param string $search_results 
    *    The array of search results
    * @param string $method 
@@ -456,12 +457,13 @@ class API_model extends MY_Model {
    * Helper public function to display search results
    * Shows JSON-formatted results
    *
+   * @author Nikhil Anand
+   * @author Sean Ephraim
    * @param string $search_results 
    *    The array of search results
    * @param string $method 
    *    Download/display method
    * @return void
-   * @author Nikhil Anand, Sean Ephraim
    */
   public function _api_result_json($search_results, $method) {
     // this is needed in order to modify headers
@@ -485,7 +487,8 @@ class API_model extends MY_Model {
    *
    * NOTE: This is only valid for "type=variantlist".
    *
-   * @author Nikhil Anand, Sean Ephraim
+   * @author Nikhil Anand
+   * @author Sean Ephraim
    * @param string $search_results 
    *    The array of search results
    * @param string $method 
@@ -568,11 +571,11 @@ class API_model extends MY_Model {
   /**
    * Get the ISO8601-formatted date
    *
+   * @author Nikhil Anand
    * @param string $time 
    *    If specified, this timestamp is ISO8601-formatted. 
    *    If not, current time is returned
    * @return void
-   * @author Nikhil Anand
    */
   public function _api_iso_date($time=false) {
       if(!$time) $time=time();

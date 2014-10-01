@@ -1222,8 +1222,9 @@ class Variations_model extends MY_Model {
    * Any letter that doesn't have any genes associated (yet) will not have a hyperlink.
    * The links themselves are handled on the frontend (via AJAX).
    *
-   * @author   Nikhil Anand, Sean Ephraim
-   * @return   string   HTML for gene letter table
+   * @author Nikhil Anand
+   * @author Sean Ephraim
+   * @return string HTML for gene letter table
    */
   public function get_letter_table($selected_letter = NULL) {
   
@@ -1312,7 +1313,8 @@ EOF;
   /**
    * Create a formatted table of variants for all genes starting with a given letter.
    *
-   * @author Nikhil Anand (modified by Zachary Ladlie)
+   * @author Nikhil Anand
+   * @author Zachary Ladlie
    * @access public
    * @param string $result 
    * 			An array of database results for a gene letter
