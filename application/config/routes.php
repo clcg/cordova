@@ -74,6 +74,7 @@ $route['variations'] = 'variations/index';
 /* Public Pages */
 $route['doc'] = 'pages/doc';
 $route['letter/(:any)'] = 'variations/letter/$1';
+$route['gene/(:any)'] = 'variations/variations_table/$1';
 $route['variant/freq'] = 'variations/frequency';
 $route['variant/(:any)'] = 'variations/show_variant/$1';
 $route['pdf/(:any)'] = 'variations/download_variant_pdf/$1';

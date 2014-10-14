@@ -1,7 +1,7 @@
 /* 	Variation Database Javascript methods
-    by Nikhil Anand <nikhil@mantralay.org>
-    and Sean Ephraim <sean.ephraim@gmail.com>
-    Tue Sept 24 2013
+
+    Nikhil Anand <nikhil@mantralay.org>
+    Sean Ephraim <sean.ephraim@gmail.com>
 */
 
 function getParameterByName(name)
@@ -21,6 +21,16 @@ function _otoscope_db_set_column_cookie($index,$colcount) {
 	for (i=1; i <= $colcount; i++) {
 		cookieval += ( i == $index ) ? 0 : 1;
 	};
+}
+
+// Make each table sortable and show a bubble for the "Variant type" column
+function tablesort() {
+  $('#mutation-tables table').each(function(){
+  	$(this).tablesorter({
+  	  widgets: ['zebra'],
+  	  headers: { 0: { sorter: false } }
+  	 });
+  });
 }
 
 $(document).ready(function(){
@@ -54,37 +64,43 @@ $(document).ready(function(){
 
   /* V I E W */
 
-	// Apply persistence to fieldset view
-	$("#mutation-tables fieldset div").each(function(){
-		if ($.cookie($(this).attr('id'))) {
-			$(this).siblings('legend').toggleClass('collapsed');
-      $(this).toggle();
-		}
-	});
-	
-    // Make each table sortable and show a bubble for the "Variant type" column
-	$('#mutation-tables table').each(function(){
-		$(this).tablesorter({
-		  widgets: ['zebra'],
-		  headers: { 0: { sorter: false } }
-		 });
-	});
-	
-	// Make cookies for each fieldset that is collapsed 
-	// Eat cookies for each fieldset that is expanded
+  tablesort();
+
+  // Load variations when gene name is clicked
+  $.ajaxSetup ({
+    cache: false
+  });
 	$('.genename').click(function(){
-		$(this).toggleClass('collapsed');
-		$("#table-"+$(this).attr('id')).toggle();
-		
-		if ($.cookie("table-"+$(this).attr('id'))) {
-			$.cookie("table-"+$(this).attr('id'),null);
-		} else {      
-			$.cookie("table-"+$(this).attr('id'),'1');
-		};
+    var variations_table = $(this).parent().children(".variant-list-container");
+    $(this).toggleClass('collapsed');
+    if (!$(this).hasClass("loaded")) {
+      // Load and display variations table for the first time
+      $(this).addClass("loaded");
+      $("#table-"+$(this).attr('id')).toggle();
+      var loading_modal = '' +
+        '<div id="loading-modal">' +
+        '    <div>' +
+        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+        '    </div>' +
+        '</div>';
+      var loadURL = "../gene/"+this.id;
+      //variations_table.html(loading_modal).load(loadURL);
+      variations_table.html(loading_modal).load(loadURL, function(){
+        tablesort();
+      });
+    }
+    else if (variations_table.css('display') == 'none') {
+      // Show variations table if hidden and already loaded
+      variations_table.show();
+    }
+    else {
+      // Hide variations table if already loaded
+      variations_table.hide();
+    }
 	});
 	
 	// Modal popup for variant data
-	$('.showinfo .showinfo-popup').click(function(){
+	$('.showinfo .showinfo-popup').live('click', function(){
 	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-"
     var src='../variant/' + parent_id; 
     var viewport_height =  $(window).height();
@@ -190,9 +206,4 @@ $(document).ready(function(){
     $(".success").show();
   }
 
-  $('#loading-overlay').hide();
-
-  $("#show-unknown, #sidebar-sorters-alphabet").click(function(){
-    $('#loading-overlay').show();
-  });
 });

@@ -26,20 +26,18 @@ class Genes_model extends MY_Model {
    * @author Sean Ephraim
    * @access public
    * @param char First letter of the gene
+   * @param boolean Include/exclude the genes that are only in the queue
+   * @param char Table from which to retrieve genes
    * @return array Gene names
    */
-  public function get_genes($f_letter = NULL, $table = NULL) {
+  public function get_genes($f_letter = NULL, $include_queue_genes = TRUE, $table = NULL) {
     // Only get genes of a certain letter
     if ($f_letter) {
       $this->db->like('gene', $f_letter, 'after');
     }
 
     if ($table === NULL) {
-      $table = $this->tables['vd_live'];
-      $include_queue_genes = TRUE;
-    }
-    else {
-      $include_queue_genes = FALSE;
+      $table = $this->tables['variant_count'];
     }
 
     $query = $this->db->distinct()
@@ -73,6 +71,49 @@ class Genes_model extends MY_Model {
     $genes = array_unique($genes);
     sort($genes);
     return $genes;
+  }
+
+  /**
+   * Create a formatted table of variants for all genes starting with a given letter.
+   *
+   * @author Nikhil Anand
+   * @author Zachary Ladlie
+   * @access public
+   * @param string $result 
+   * 			An array of database results for a gene letter
+   * @return void
+   */
+  public function format_genes_list($genes) {
+    // TODO Show the table opened if we have only one result
+    $display   = "display:none;";
+    $collapsed = "";
+//    if (sizeof($genes) == 1) {
+//      $display = "";
+//      $collapsed = "collapsed";
+//    }
+    
+    $genes_list = '';
+
+    foreach ($genes as $gene) {
+      // Build CSV, Tab-delimited, JSON and XML links
+      $uri_str = site_url("api?type=gene&amp;terms=$gene&amp;format=");
+      $uri_csv = $uri_str  . 'csv';
+      $uri_tab = $uri_str  . 'tab';
+      $uri_jsn = $uri_str  . 'json';
+      $uri_xml = $uri_str  . 'xml';
+        
+      // Fieldset containing gene name and table header
+      $genes_list .=<<<EOF
+      \n
+      <fieldset>
+          <legend class="genename $collapsed" id="$gene"><strong>$gene</strong> <span><a href="$uri_csv">CSV</a> <a href="$uri_tab">Tab</a> <a href="$uri_jsn">JSON</a> <a href="$uri_xml">XML</a></span></legend>
+          <div id="table-$gene" class="variant-list-container" style="$display">
+          </div>
+      </fieldset>
+EOF;
+    }
+    
+    return $genes_list;
   }
 }
 
