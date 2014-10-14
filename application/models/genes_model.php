@@ -87,7 +87,6 @@ class Genes_model extends MY_Model {
     // TODO Show the table opened if we have only one result
     $display   = "display:none;";
     $collapsed = "";
-    $collapsed = "collapsed";
 //    if (sizeof($genes) == 1) {
 //      $display = "";
 //      $collapsed = "collapsed";
@@ -109,7 +108,6 @@ class Genes_model extends MY_Model {
       <fieldset>
           <legend class="genename $collapsed" id="$gene"><strong>$gene</strong> <span><a href="$uri_csv">CSV</a> <a href="$uri_tab">Tab</a> <a href="$uri_jsn">JSON</a> <a href="$uri_xml">XML</a></span></legend>
           <div id="table-$gene" class="variant-list-container" style="$display">
-              Replace me with variants table
           </div>
       </fieldset>
 EOF;

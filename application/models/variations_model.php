@@ -1222,7 +1222,8 @@ class Variations_model extends MY_Model {
    * Any letter that doesn't have any genes associated (yet) will not have a hyperlink.
    * The links themselves are handled on the frontend (via AJAX).
    *
-   * @author   Nikhil Anand, Sean Ephraim
+   * @author   Nikhil Anand
+   * @author   Sean Ephraim
    * @return   string   HTML for gene letter table
    */
   public function get_letter_table($selected_letter = NULL) {
@@ -1307,113 +1308,6 @@ class Variations_model extends MY_Model {
   	</table>
 EOF;
   	return $output;
-  }
-
-  /**
-   * Create a formatted table of variants for all genes starting with a given letter.
-   *
-   * @author Nikhil Anand
-   * @author Zachary Ladlie
-   * @access public
-   * @param string $result 
-   * 			An array of database results for a gene letter
-   * @return void
-   */
-  public function format_variants_table(&$variant_info) {
-    // Show the table opened if we have only one result
-    $display   = "display:none;";
-    $collapsed = "";
-    if (sizeof($variant_info) == 1) {
-      $display = "";
-      $collapsed = "collapsed";
-    }
-    
-    $table = '';
-
-    foreach ($variant_info as $gene => $mutations) {
-
-      // Build CSV, Tab-delimited, JSON and XML links
-      $uri_str = site_url("api?type=gene&amp;terms=$gene&amp;format=");
-      $uri_csv = $uri_str  . 'csv';
-      $uri_tab = $uri_str  . 'tab';
-      $uri_jsn = $uri_str  . 'json';
-      $uri_xml = $uri_str  . 'xml';
-        
-      // Fieldset containing gene name and table header
-      $table .=<<<EOF
-      \n
-      <fieldset>
-          <legend class="genename $collapsed" id="$gene"><strong>$gene</strong> <span><a href="$uri_csv">CSV</a> <a href="$uri_tab">Tab</a> <a href="$uri_jsn">JSON</a> <a href="$uri_xml">XML</a></span></legend>
-          <div id="table-$gene" style="$display">
-              <table class="gene-table">
-              <thead>
-                  <tr>
-                      <th class="header-link">&nbsp;</th>
-                      <th class="top-border header-protein">HGVS protein change</th>
-                      <th class="top-border header-nucleotide">HGVS nucleotide change</th>
-                      <th class="top-border header-locale">Variant Locale</th>
-                      <th class="top-border header-position">Genomic position (Hg19)</th>
-                      <th class="top-border header-variant">Variant Type</th>
-                      <th class="top-border header-disease">Phenotype</th>
-                  </tr>
-              </thead>
-              <tbody>\n
-EOF;
-
-        // Rows of each table
-        $zebra = '';
-        foreach ($mutations as $mutation) {
-            
-            // To zebra stripe rows
-            $zebra = ( 'odd' != $zebra ) ? 'odd' : 'even';
-
-            $id                      = $mutation["id"];
-            if (empty($mutation["hgvs_protein_change"])) {
-              $hgvs_protein_change   = "&nbsp;"; // Avoid HTML errors
-            }
-            else {
-              $hgvs_protein_change   = wordwrap($mutation["hgvs_protein_change"], 30, '<br />', 1);
-            }
-            $hgvs_nucleotide_change  = wordwrap($mutation["hgvs_nucleotide_change"], 25, '<br />', 1);
-            $variantlocale           = $mutation["variantlocale"];
-            $variation               = wordwrap($mutation["variation"], 25, '<br />', 1);
-            $pathogenicity           = $mutation["pathogenicity"];
-            $disease                 = $mutation["disease"];
-            $variant_link            = site_url('variant/' . $id . '?full');    
-
-            // Change the text of the variant type
-            if(strcmp($pathogenicity, "vus") == 0) {
-              $pathogenicity = '<span class="unknown_disease">Unknown significance</span>';
-            } else if(strcmp($pathogenicity, "probable-pathogenic") == 0) {
-              $pathogenicity = '<span class="probably_pathogenic">Probably Pathogenic</span>';
-            } else if(strcmp($pathogenicity, "Pathogenic") == 0) {
-              $pathogenicity = '<span class="pathogenic">Pathogenic</span>';
-            }
-
-            // Start drawing rows
-            $table .=<<<EOF
-                <tr class="$zebra showinfo" id="mutation-$id">
-                    <td class="external-link"><a href="$variant_link"><span>More Information &raquo;</span></a></td>
-                    <td class="showinfo-popup"><a><code>$hgvs_protein_change</code></a></td>
-                    <td class="showinfo-popup"><code>$hgvs_nucleotide_change</code></td>
-                    <td class="showinfo-popup">$variantlocale</td>
-                    <td class="showinfo-popup"><code>$variation</code></td>
-                    <td class="showinfo-popup">$pathogenicity</td>
-                    <td class="showinfo-popup">$disease</td>
-                </tr>
-EOF;
-        }
-
-        // Finish table
-        $table .= <<<EOF
-                </tbody>
-                </table>
-            </div>
-        </fieldset>
-EOF;
-    }
-    
-    return $table;
   }
 
   /**

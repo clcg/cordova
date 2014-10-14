@@ -693,5 +693,42 @@ if ( ! function_exists('edit_evidence_summary'))
   }
 }
 
+/**
+* Format Table Cell
+*
+* Formats strings to be stored into an HTML table cell.
+* This function will perform word-wrapping for certain
+* columns and will insert a &nbsp into empty cells to
+* avoid an HTML error.
+*
+* @author   Sean Ephraim
+* @access   public
+* @param    string  Name of the column in the table
+* @param    string  Data to be stored in the table cell
+* @return   string  HTML string
+*/
+if ( ! function_exists('format_table_cell'))
+{
+  function format_table_cell($column_name, $cell_data)
+  {
+    if (empty($cell_data)) {
+      // Avoid HTML errors for empty data
+      $html = "&nbsp;";
+    }
+    elseif ($column_name == 'hgvs_protein_change') {
+      // HGVS protein change
+      $html = wordwrap($cell_data, 30, '<br />', 1);
+    }
+    elseif ($column_name == 'hgvs_nucleotide_change' || $column_name == 'variation') {
+      // HGVS nucleotide change, variation
+      $html = wordwrap($cell_data, 25, '<br />', 1);
+    }
+    else {
+      $html = $cell_data;
+    }
+    return $html;
+  }
+}
+
 /* End of file variations_helper.php */
 /* Location: ./application/helpers/variations_helper.php */  

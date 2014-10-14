@@ -464,44 +464,18 @@ color:#666;
 #mutation-tables small.download-gene a:hover {
 color:#000;
 }
-/* Create overlay */
-#loading-modal-container {
-  position: relative;
-  height: 100%;
-  font-family: "Helvetica Neue", "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 400;
-  font-size: 13px;
-}
-#loading-overlay {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background: black;
-  width:100%;
-  height:100%;
-  z-index: 1000;
-  background-color: rgba(0,0,0,0.0);
-  -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-          border-radius: 10px;
-}
+/* Loading modal */
 #loading-modal {
-  width: 150px;
-  height: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: red;
   text-align: center;
-  z-index: 1001;
-  background-color: rgba(0,0,0,0.2);
-  -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-          border-radius: 10px;
 }
-#loading-modal img {
-  margin-top: 10px;
+#loading-modal div {
+  padding: 8px;
+  display: inline-block;
+  color: #000000;
+  background: rgba(0,0,0,0.2);
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
 }
 
 /* P A G E  C O N T E N T */
@@ -938,8 +912,4 @@ p.label-radio-pair label,
 p.label-checkbox-pair label {
   max-width: 85%;
   float: left;
-}
-.variant-list-container {
-  background: blue;
-  height: 50px;
 }

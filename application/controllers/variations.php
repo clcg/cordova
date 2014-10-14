@@ -438,23 +438,30 @@ class Variations extends MY_Controller {
     $data['title'] = $letter;
     $data['content'] = 'variations/letter';
 
-    $display_all = isset($_GET['all']);
-    if ($display_all) {
-      $data['display_all_url'] = current_url();
-      $data['display_all_text'] = 'Hide variants labeled "Unknown significance"';
-    }
-    else {
-      $data['display_all_url'] = current_url().'?all';
-      $data['display_all_text'] = 'Show variants labeled "Unknown significance"';
-    }
-
-//    $gene = $this->variations_model->load_gene($letter, $display_all);
-//    $data['result_table'] = $this->variations_model->format_variants_table($gene);
     $this->load->model('genes_model');
     $genes = $this->genes_model->get_genes($letter, FALSE);
     $data['genes_list'] = $this->genes_model->format_genes_list($genes);
 
     $this->load->view($this->public_layout, $data);
+  }
+
+  /** 
+   * Variations_table
+   *
+   * Load all variations for a specific gene.
+   *
+   * @author Sean Ephraim
+   * @access public
+   * @param  string  Gene name
+   */
+  public function variations_table($gene) {
+    $data['title'] = $gene;
+    $data['content'] = 'variations/gene';
+
+    $data['gene'] = $gene;
+    $data['variations'] = $this->variations_model->get_variants_by_gene($gene);
+
+    $this->load->view('variations/gene', $data);
   }
 
   /** 
