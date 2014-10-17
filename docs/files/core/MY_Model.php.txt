@@ -49,8 +49,10 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param boolean $for_display Return a point (.) format instead of a underscore (_) format
-   * @return int Correct version of the variation database
+   * @param boolean $use_point
+   *    Return a point (.) format instead of a underscore (_) format
+   * @return int
+   *    Correct version of the variation database
    */
   public function get_db_version_num($use_point = FALSE) {
     $version = $this->config->item("vd_version");
@@ -86,7 +88,8 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @return object  All DB version info
+   * @return object
+   *    All DB version info
    */
   public function get_all_db_version_info() {
     $tables = $this->config->item("tables");
@@ -105,6 +108,7 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function set_vd_live_table() {
     // Load table name from config file
@@ -131,6 +135,7 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function set_vd_queue_table() {
     // Load table name from config file
@@ -157,6 +162,7 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function set_reviews_table() {
     // Load table name from config file
@@ -180,6 +186,7 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function set_variant_count_table() {
     // Load table name from config file
@@ -200,6 +207,7 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function get_last_update_date() {
     $tables = $this->config->item("tables");
@@ -225,9 +233,12 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string $cur_name Current name of table
-   * @param int $latest_version Latest version number
-   * @return string Next version of a table name
+   * @param string $cur_name
+   *    Current name of table
+   * @param int
+   *    $latest_version Latest version number
+   * @return string
+   *    Next version of a table name
    */
   public function get_new_version_name($cur_name, $latest_version = NULL) {
     if ($latest_version === NULL) {
@@ -266,10 +277,14 @@ class MY_Model extends CI_Model {
    * queue table (rows 0-9).
    *
    * @author Sean Ephraim
-   * @param string $table Database table name
-   * @param int $start_pos Starting row
-   * @param int $limit Number of rows total (from/including the starting row)
-   * @return array Unique IDs
+   * @param string $table
+   *    Database table name
+   * @param int $start_pos
+   *    Starting row
+   * @param int $limit
+   *    Number of rows total (from/including the starting row)
+   * @return array
+   *    Unique IDs
    */
   public function get_ids_within_range($table, $start_pos, $limit = 1) {
     $result = $this->db->select('id')
@@ -291,9 +306,12 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string Field name
-   * @param  string (optional) Table name
-   * @return array Current values in the DB
+   * @param  string $field
+   *    Field name
+   * @param  string $table
+   *    (optional) Table name
+   * @return array
+   *    Current values in the DB
    */
   public function get_all_current_values($field, $table = NULL) {
     if ($table === NULL) {
@@ -319,10 +337,14 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string   Name of the source table
-   * @param  string   Name of the target (new) table
-   * @param  boolean  (optional) Copy the data into the new table
-   * @return boolean  TRUE on success, else FALSE
+   * @param  string   $source
+   *    Name of the source table
+   * @param  string   $target
+   *    Name of the target (new) table
+   * @param  boolean  $include_data
+   *    (optional) Copy the data into the new table
+   * @return boolean
+   *    TRUE on success, else FALSE
    */
   public function copy_table($source, $target, $include_data = TRUE) {
     if ($this->db->table_exists($target)) {
@@ -348,7 +370,9 @@ class MY_Model extends CI_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string Name of the source table
+   * @param string $table
+   *    Name of the source table
+   * @return void
    */
   public function empty_table($table) {
     $this->db->empty_table($table);

@@ -16,6 +16,9 @@ class Variations extends MY_Controller {
 	 */
   public $tables = array();
 
+  /**
+   * Constructor
+   */
   public function __construct() {
     parent::__construct();
 
@@ -40,7 +43,8 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string  Name of gene
+   * @param  string $gene Name of gene
+   * @return void
    */
   public function show_variants($gene) {
     redirect_all_nonmembers();
@@ -61,7 +65,8 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
-   * @param int ID number of variant
+   * @param int $id ID number of variant
+   * @return void
    */
   public function edit($id) {
     redirect_all_nonmembers();
@@ -148,6 +153,7 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function add() {
     redirect_all_nonmembers();
@@ -234,8 +240,9 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string Display mode: 'page' (for multiple variations) or 'variation' (for single)
-   * @param int Either the page number or the variation's unique ID (depending on the mode)
+   * @param string $mode Display mode: 'page' (for multiple variations) or 'variation' (for single)
+   * @param int $id Either the page number or the variation's unique ID (depending on the mode)
+   * @return void
    */
   public function show_unreleased($mode = 'page', $id = 1) {
     redirect_all_nonmembers();
@@ -309,6 +316,7 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
+   * @return void
    */
   public function submit_changes() {
     redirect_all_nonmembers();
@@ -432,7 +440,8 @@ class Variations extends MY_Controller {
    * @author Zach Ladlie
    * @author Sean Ephraim
    * @access public
-   * @param  char  The gene's starting letter
+   * @param  char $letter The gene's starting letter
+   * @return void
    */
   public function letter($letter) {
     $data['title'] = $letter;
@@ -452,7 +461,8 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string  Gene name
+   * @param  string $gene Gene name
+   * @return void
    */
   public function variations_table($gene) {
     $data['title'] = $gene;
@@ -471,10 +481,10 @@ class Variations extends MY_Controller {
    * pChart is required to load the frequencies.
    * For more info, refer to the frequency() function.
    *
-   * @author   Sean Ephraim
-   * @access   public
-   * @param    int     Variant's unique ID
-   * @return   void
+   * @author Sean Ephraim
+   * @access public
+   * @param  int $id Variant's unique ID
+   * @return void
    */
   public function show_variant($id) {
     // Install pChart (if it's missing)
@@ -515,7 +525,7 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim, Nikhil Anand
    * @access public
-   * @param  int   Variant's unique ID
+   * @param  int $id Variant's unique ID
    * @return void
    */
   public function download_variant_pdf($id) {
@@ -574,10 +584,10 @@ class Variations extends MY_Controller {
   * The pChart library that can be found in application/third_party/pChart/
   * More info on pChart at http://www.pchart.net/
   *
-  * @author   Nikhil Anand
-  * @author   Sean Ephraim
-  * @access   public
-  * @return   img     An image of a bar graph.
+  * @author Nikhil Anand
+  * @author Sean Ephraim
+  * @access public
+  * @return void
   */
   public function frequency() {
     // this is needed to allow stroke() to modify headers

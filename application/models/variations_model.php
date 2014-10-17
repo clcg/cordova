@@ -25,7 +25,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string Filename prefix for all files to be removed
+   * @param  string $prefix Filename prefix for all files to be removed
    */
    public function remove_temp_files($prefix) {
      exec("rm $prefix*");
@@ -49,7 +49,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string  Genomic position (Hg19) (unformatted)
+   * @param   string  $variation Genomic position (Hg19) (unformatted)
+   * @param   boolean $for_dbnsfp Format as input into dbNSFP search program
    * @return  string  Genomic position (Hg19) (formatted)
    */
    public function format_hg19_position($variation, $for_dbnsfp = FALSE) {
@@ -106,7 +107,7 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string  Genomic Position (Hg19) (machine name: variation)
+   * @param   string  $variation Genomic Position (Hg19) (machine name: variation)
    * @return  mixed   dbSNP ID if only 1 is found; else NULL if more than 1 found
    */
   public function get_dbsnp_id($variation) {
@@ -176,7 +177,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string Genomic Position (Hg19) (machine name: variation)
+   * @param  string $variation Genomic Position (Hg19) (machine name: variation)
    * @return mixed  Array of fields to be autofilled; negative number on error
    */
   public function get_annotation_data($variation) {
@@ -359,8 +360,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string   Prefix to check for
-   * @param   array    Associate array of variant data
+   * @param   string  $prefix  Prefix to check for
+   * @param   array   $data  Associate array of variant data
    * @return  boolean  TRUE if credit should be given, else FALSE
    */
   public function give_credit_to($prefix, $data)
@@ -393,8 +394,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string   Genomic Position (Hg19) (machine name: variation)
-   * @param   boolean  (optional) Bypass annotation to manually insert variant
+   * @param   string   $variation Genomic Position (Hg19) (machine name: variation)
+   * @param   boolean  $manual_mode (optional) Bypass annotation to manually insert variant
    * @return  int      Variant ID (positive integer) on success; negative integer on error
    */
   public function create_new_variant($variation, $manual_mode = FALSE)
@@ -464,7 +465,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int     Variant unique ID
+   * @param  int $id Variant unique ID
    */
   public function remove_all_changes($id)
   {
@@ -498,7 +499,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int     Variant unique ID
+   * @param  int $id Variant unique ID
    */
   public function remove_from_queue_if_unchanged($id)
   {
@@ -525,7 +526,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string Gene name
+   * @param string $gene Gene name
    * @return object Gene variations
    */
   public function get_variants_by_gene($gene)
@@ -544,7 +545,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  char    Gene name's first letter
+   * @param  char    $letter Gene name's first letter
    * @return object  Gene variations
    */
   public function get_variants_by_gene_letter($letter)
@@ -568,8 +569,8 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int      Variant unique ID
-   * @param  string   DB table to query
+   * @param  int      $id Variant unique ID
+   * @param  string   $table DB table to query
    * @return mixed    Variant data object or NULL
    */
   public function get_variant_by_id($id, $table = NULL)
@@ -613,9 +614,9 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string   Genomic position w/o nucleotide change (i.e. chr13:20796839)
-   * @param   string   DB table to query
-   * @param   boolean  Use fuzzy search
+   * @param   string   $posisiton Genomic position w/o nucleotide change (i.e. chr13:20796839)
+   * @param   string   $table DB table to query
+   * @param   boolean  $fuzzy_search Use fuzzy search
    * @return  mixed    Variant data array or NULL
    */
   public function get_variants_by_position($position, $table = NULL, $fuzzy_search = FALSE)
@@ -651,7 +652,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int    Variant unique ID
+   * @param  int    $variant_id Variant unique ID
    * @return object Variant data object or NULL
    */
   public function get_variant_review_info($variant_id)
@@ -697,8 +698,8 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int Variant unique ID
-   * @param  string Table name
+   * @param  int $id Variant unique ID
+   * @param  string $table Table name
    * @return boolean
    */
   public function variant_exists_in_table($id, $table)
@@ -720,7 +721,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string Table name
+   * @param string $table Table name
    * @return array Fieldnames
    */
   public function get_variant_fields($table = NULL)
@@ -738,7 +739,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param array Variant ID number
+   * @param array $id Variant ID number
    */
   public function copy_variant_into_queue($id)
   {
@@ -755,8 +756,8 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param int Variant ID number
-   * @param array Assoc. array of variant fields
+   * @param int $id Variant ID number
+   * @param array $data Assoc. array of variant fields
    * @return boolean
    */
   public function update_variant_in_queue($id, $data)
@@ -832,7 +833,7 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   boolean   (optional) Only release confirmed variants?
+   * @param   boolean   $confirmed_only (optional) Only release confirmed variants?
    * @return  boolean   TRUE on success, else FALSE
    */
   public function push_data_live($confirmed_only = TRUE)
@@ -984,8 +985,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   int    Variant ID number
-   * @param   array  Assoc. array of variant fields/values
+   * @param   int    $variant_id Variant ID number
+   * @param   array  $data Assoc. array of variant fields/values
    * @return  void
    */
   public function update_variant_review_info($variant_id, $data = array())
@@ -1064,7 +1065,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int Variant unique ID
+   * @param  int $variant_id Variant unique ID
    * @return mixed Array of unreleased changes; NULL if no changes exist
    */
   public function get_unreleased_changes($variant_id = NULL)
@@ -1193,7 +1194,7 @@ class Variations_model extends MY_Model {
    * Validate Variant ID
    *
    * @author Nikhil Anand
-   * @param string $id 
+   * @param string $id Variant unique ID
    * @return void
    */
   public function _validate_variant_id($id) {
@@ -1207,7 +1208,7 @@ class Variations_model extends MY_Model {
    * Load Variant
    *
    * @author Nikhil Anand
-   * @param  int   Variant unique ID
+   * @param  int $id  Variant unique ID
    * @return void
    */
   public function load_variant($id) {
@@ -1419,13 +1420,16 @@ EOF;
   }
 
   /**
-=======
->>>>>>> speedup
    * Load all information in the variants table for all genes starting with a given letter.
    *
+   * By default, all variants are displayed. If the second parameter ($show_unknown) is
+   * set to FALSE, then the variants labeled with "Unknown significance" will not be shown.
+   *
    * @author Nikhil Anand
+   * @author Sean Ephraim
    * @author Zachary Ladlie
-   * @param  string $letter 
+   * @param  string $letter First letter of gene
+   * @param  boolean $show_unknown Show/hide unknown variants
    * @return array  Variation data to be displayed genes page
    */
   public function load_gene($letter, $show_unknown = TRUE) {
@@ -1475,7 +1479,7 @@ EOF;
    * Validate Gene Name
    *
    * @author Sean Ephraim
-   * @param  string Name of gene
+   * @param  string $name Name of gene
    * @return string Name of gene (sanitized)
    */
   public function validate_gene_name($name) {
@@ -1490,7 +1494,7 @@ EOF;
    * Validate Gene Letter
    *
    * @author Nikhil Anand (modified by Zachary Ladlie)
-   * @param  string Letter of gene
+   * @param  string $letter Letter of gene
    * @return string Letter of gene (sanitized)
    */
   public function validate_gene_letter($letter) {
@@ -1511,7 +1515,8 @@ EOF;
    *
    * @author Nikhil Anand
    * @author Sean Ephraim
-   * @param  string Letter of gene
+   * @param  int $id Variant unique ID
+   * @param  string $table Table to query from
    * @return array  Data variables to load into the view
    */
   public function get_variant_display_variables($id, $table = NULL) {

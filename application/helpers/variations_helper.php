@@ -1,19 +1,20 @@
  <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
-* New Variant Notice
-*
-* This is for use on the "Unreleased changes" page.
-* If parameter is TRUE, the HTML for a 'new variant' notice is returned,
-* otherwise NULL is returned.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    boolean  Display new variant notice or not?
-* @return   string   HTML string
-*/
 if ( ! function_exists('new_variant_notice'))
 {
+  /**
+  * New Variant Notice
+  *
+  * This is for use on the "Unreleased changes" page.
+  * If parameter is TRUE, the HTML for a 'new variant' notice is returned,
+  * otherwise NULL is returned.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    boolean  $display
+  *    Display new variant notice or not?
+  * @return   string   HTML string
+  */
   function new_variant_notice($display)
   {
     if ($display) {
@@ -23,20 +24,21 @@ if ( ! function_exists('new_variant_notice'))
   }
 }
 
-/**
-* Unreleased Changes Notice
-*
-* This is for use on the variant edit form.
-* If this variant is found in the queue, the HTML for an 'unreleased changes exist' notice 
-* is returned, otherwise NULL is returned.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    int Variation unique ID 
-* @return   mixed
-*/
 if ( ! function_exists('unreleased_changes_notice'))
 {
+  /**
+  * Unreleased Changes Notice
+  *
+  * This is for use on the variant edit form.
+  * If this variant is found in the queue, the HTML for an 'unreleased changes exist' notice 
+  * is returned, otherwise NULL is returned.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    int   $id
+  *    Variation unique ID 
+  * @return   mixed
+  */
   function unreleased_changes_notice($id)
   {
 		// Initialize db tables data
@@ -70,22 +72,23 @@ if ( ! function_exists('unreleased_changes_notice'))
   }
 }
 
-/**
-* Undesired Comments Notice
-*
-* This is for use on the variant edit form. If the 'comments' field
-* contains the text "Manual curation in progress", then this notice
-* will urge the user to change the comments accordingly.
-* If parameter is TRUE, the HTML for a 'unreleased changes exist' notice 
-* is returned, otherwise NULL is returned.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    int Variation unique ID 
-* @return   mixed
-*/
 if ( ! function_exists('undesired_comments_notice'))
 {
+  /**
+  * Undesired Comments Notice
+  *
+  * This is for use on the variant edit form. If the 'comments' field
+  * contains the text "Manual curation in progress", then this notice
+  * will urge the user to change the comments accordingly.
+  * If parameter is TRUE, the HTML for a 'unreleased changes exist' notice 
+  * is returned, otherwise NULL is returned.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    int  $id
+  *    Variation unique ID 
+  * @return   mixed
+  */
   function undesired_comments_notice($id)
   {
     $undesired_text = "Manual curation in progress";
@@ -102,20 +105,21 @@ if ( ! function_exists('undesired_comments_notice'))
   }
 }
 
-/**
-* Deletion Notice
-*
-* This is for use on the variant edit form and the unreleased changes form.
-* If this variant is scheduled for deletion, the HTML for a 'scheduled for 
-* deletion' notice is returned, otherwise NULL is returned.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    int   Variation unique ID 
-* @return   mixed HTML string or NULL
-*/
 if ( ! function_exists('deletion_notice'))
 {
+  /**
+  * Deletion Notice
+  *
+  * This is for use on the variant edit form and the unreleased changes form.
+  * If this variant is scheduled for deletion, the HTML for a 'scheduled for 
+  * deletion' notice is returned, otherwise NULL is returned.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    int   $variant_id
+  *    Variation unique ID 
+  * @return   mixed HTML string or NULL
+  */
   function deletion_notice($variant_id)
   {
     $review = get_instance()->variations_model->get_variant_review_info($variant_id);
@@ -134,20 +138,22 @@ if ( ! function_exists('deletion_notice'))
 }
 
 
-/**
-* Informatics Team Comments
-*
-* Return the HTML for displaying the informatics team comments for
-* a specified variant. Returns NULL if variant has no comments.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    int       Variation unique ID 
-* @param    boolean   If TRUE, do not wrap in HTML
-* @return   mixed
-*/
 if ( ! function_exists('informatics_team_comments'))
 {
+  /**
+  * Informatics Team Comments
+  *
+  * Returns the HTML for displaying the informatics team comments for
+  * a specified variant. Returns NULL if variant has no comments.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    int   $variant_id
+  *    Variation unique ID 
+  * @param    boolean   $comments_only
+  *    If TRUE, do not wrap in HTML
+  * @return   mixed
+  */
   function informatics_team_comments($variant_id, $comments_only = FALSE)
   {
     $review = get_instance()->variations_model->get_variant_review_info($variant_id);
@@ -169,22 +175,23 @@ if ( ! function_exists('informatics_team_comments'))
   }
 }
 
-/**
-* Variant Confirmation Status
-*
-* Checks whether or not a variant is confirmed for release.
-* This is specifically used for the confirmation checkboxes
-* on the 'unreleased changes' page in order to decide whether
-* or not a checkbox should be checked. Checked boxes indicate
-* that the variant is unconfirmed for release.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    int Variation unique ID 
-* @return   mixed
-*/
 if ( ! function_exists('variant_confirmation_status'))
 {
+  /**
+  * Variant Confirmation Status
+  *
+  * Checks whether or not a variant is confirmed for release.
+  * This is specifically used for the confirmation checkboxes
+  * on the 'unreleased changes' page in order to decide whether
+  * or not a checkbox should be checked. Checked boxes indicate
+  * that the variant is unconfirmed for release.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    int   $variant_id
+  *    Variation unique ID 
+  * @return   mixed
+  */
   function variant_confirmation_status($variant_id)
   {
     $review = get_instance()->variations_model->get_variant_review_info($variant_id);
@@ -197,23 +204,26 @@ if ( ! function_exists('variant_confirmation_status'))
     return "checked";
   }
 }
-/**
-* Highlight If Changed
-*
-* This is for use on the variant edit form.
-* Checks if a field for a specified variant has been edited. If it has,
-* the string 'highlight' will be returned, which will serve as the class
-* for the corresponding HTML element. If there are no changes, an empty
-* string will be returned.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    int Variant unique ID
-* @param    string The name of the field to check for changes
-* @return   string
-*/
+
 if ( ! function_exists('highlight_if_changed'))
 {
+  /**
+  * Highlight If Changed
+  *
+  * This is for use on the variant edit form.
+  * Checks if a field for a specified variant has been edited. If it has,
+  * the string 'highlight' will be returned, which will serve as the class
+  * for the corresponding HTML element. If there are no changes, an empty
+  * string will be returned.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    int  $variant_id
+  *    Variant unique ID
+  * @param    string   $field
+  *    The name of the field to check for changes
+  * @return   string
+  */
   function highlight_if_changed($variant_id, $field)
   {
     $result = get_instance()->variations_model->get_unreleased_changes($variant_id);
@@ -228,24 +238,26 @@ if ( ! function_exists('highlight_if_changed'))
   }
 }
 
-/**
-* Select Option If Matching
-*
-* This is for use on the variant edit form.
-* This function is used on HTML select elements in order to automatically
-* select the value that is currently stored in the database.
-* For example, if a variant has an associated pathogenicity (out of a
-* handful of possible pathogenicities), then the current pathogenicity
-* must be automatically selected every time the edit form is visited.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    string   Value 1 to compare for equality
-* @param    string   Value 2 to compare for equality
-* @return   string   Proper CSS
-*/
 if ( ! function_exists('select_option_if_matching'))
 {
+  /**
+  * Select Option If Matching
+  *
+  * This is for use on the variant edit form.
+  * This function is used on HTML select elements in order to automatically
+  * select the value that is currently stored in the database.
+  * For example, if a variant has an associated pathogenicity (out of a
+  * handful of possible pathogenicities), then the current pathogenicity
+  * must be automatically selected every time the edit form is visited.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    string   $value1
+  *    Value 1 to compare for equality
+  * @param    string   $value2
+  *    Value 2 to compare for equality
+  * @return   string   Proper CSS
+  */
   function select_option_if_matching($value1, $value2)
   {
     if ($value1 === $value2) {
@@ -253,23 +265,22 @@ if ( ! function_exists('select_option_if_matching'))
     }
     else if ((string) $value1 === (string) $value2) {
       // Special case for 0's
-      // |---> for some reason (0 !== 0) -- Why, PHP? Why? :/
+      // |---> for some reason (0 !== 0) -- Why, PHP? Why?! :/
       return 'selected="selected"';
     }
     return '';
   }
 }
 
-/**
-* Print Letter Table
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    string
-* @return   string
-*/
 if ( ! function_exists('print_letter_table'))
 {
+  /**
+  * Print Letter Table
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   string
+  */
   function print_letter_table()
   {
     $selected_letter = get_instance()->uri->segment(2);
@@ -283,22 +294,22 @@ if ( ! function_exists('print_letter_table'))
   }
 }
 
-/**
-* Display Variant Frequencies
-*
-* Displays the proper HTML to show variant allele frequencies 
-* depending on the URI.
-*
-* If 'full' is a URI parameter (i.e. /variant/1769?full), then
-* the full frequency display is shown. If 'full' is not a parameter
-* then the small frequency display is shown.
-*
-* @author   Sean Ephraim
-* @access   public
-* @return   void
-*/
 if ( ! function_exists('display_variant_frequencies'))
 {
+  /**
+  * Display Variant Frequencies
+  *
+  * Displays the proper HTML to show variant allele frequencies 
+  * depending on the URI.
+  *
+  * If 'full' is a URI parameter (i.e. /variant/1769?full), then
+  * the full frequency display is shown. If 'full' is not a parameter
+  * then the small frequency display is shown.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   void
+  */
   function display_variant_frequencies()
   {
     if (isset($_GET['full'])) {
@@ -312,19 +323,19 @@ if ( ! function_exists('display_variant_frequencies'))
   }
 }
 
-/**
-* Display Variant Header
-*
-* Decides whether or not to display the header on the variant page.
-* If the user is viewing the variant in 'full' page mode then the
-* header will display, otherwise it won't.
-*
-* @author   Sean Ephraim
-* @access   public
-* @return   void
-*/
 if ( ! function_exists('display_variant_header'))
 {
+  /**
+  * Display Variant Header
+  *
+  * Decides whether or not to display the header on the variant page.
+  * If the user is viewing the variant in 'full' page mode then the
+  * header will display, otherwise it won't.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   void
+  */
   function display_variant_header()
   {
     if (isset($_GET['full'])) {
@@ -333,19 +344,19 @@ if ( ! function_exists('display_variant_header'))
   }
 }
 
-/**
-* Display Variant Footer
-*
-* Decides whether or not to display the footer on the variant page.
-* If the user is viewing the variant in 'full' page mode then the
-* footer will display, otherwise it won't.
-*
-* @author   Sean Ephraim
-* @access   public
-* @return   void
-*/
 if ( ! function_exists('display_variant_footer'))
 {
+  /**
+  * Display Variant Footer
+  *
+  * Decides whether or not to display the footer on the variant page.
+  * If the user is viewing the variant in 'full' page mode then the
+  * footer will display, otherwise it won't.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   void
+  */
   function display_variant_footer()
   {
     if (isset($_GET['full'])) {
@@ -354,19 +365,19 @@ if ( ! function_exists('display_variant_footer'))
   }
 }
 
-/**
-* Include Variant JS
-*
-* Decides whether or not to include JavaScript on the variant page.
-* If the user is viewing the variant in 'small' page mode then the
-* JavaScript will load, otherwise it won't.
-*
-* @author   Sean Ephraim
-* @access   public
-* @return   void
-*/
 if ( ! function_exists('include_variant_js'))
 {
+  /**
+  * Include Variant JS
+  *
+  * Decides whether or not to include JavaScript on the variant page.
+  * If the user is viewing the variant in 'small' page mode then the
+  * JavaScript will load, otherwise it won't.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   void
+  */
   function include_variant_js()
   {
     if (isset($_GET['full'])) {
@@ -375,17 +386,17 @@ if ( ! function_exists('include_variant_js'))
   }
 }
 
-/**
-* Include Proper Variant CSS
-*
-* Includes the proper links to CSS files depending on the URI.
-*
-* @author   Sean Ephraim
-* @access   public
-* @return   string Proper CSS links
-*/
 if ( ! function_exists('include_proper_variant_css'))
 {
+  /**
+  * Include Proper Variant CSS
+  *
+  * Includes the proper links to CSS files depending on the URI.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   string Proper CSS links
+  */
   function include_proper_variant_css()
   {
     if (isset($_GET['print'])) {
@@ -400,18 +411,18 @@ if ( ! function_exists('include_proper_variant_css'))
   }
 }
 
-/**
-* Display Proper Logo
-*
-* Displays special logo text for the /doc and /help pages.
-* By default, all other pages will display the name of site.
-*
-* @author   Sean Ephraim
-* @access   public
-* @return   string Proper CSS links
-*/
 if ( ! function_exists('display_proper_logo'))
 {
+  /**
+  * Display Proper Logo
+  *
+  * Displays special logo text for the /doc and /help pages.
+  * By default, all other pages will display the name of site.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   string Proper CSS links
+  */
   function display_proper_logo()
   {
     if (uri_string() === 'help') {
@@ -428,24 +439,28 @@ if ( ! function_exists('display_proper_logo'))
   }
 }
 
-/**
-* Variant Form Input
-*
-* Returns a HTML text input element with a proper id, name, label
-* and default value. Also locks/unlocks the field for editing and
-* highlights the field if it has been changed in any way. By
-* default, the field is unlocked for editing.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    string   Field name (database name)
-* @param    string   Field label (human-readable name)
-* @param    mixed    Default value
-* @param    boolean  (optional) Editable field or not (default = TRUE)
-* @return   string   HTML text input element
-*/
 if ( ! function_exists('variant_form_input'))
 {
+  /**
+  * Variant Form Input
+  *
+  * Returns a HTML text input element with a proper id, name, label
+  * and default value. Also locks/unlocks the field for editing and
+  * highlights the field if it has been changed in any way. By
+  * default, the field is unlocked for editing.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    string   $field
+  *    Field name (database name)
+  * @param    string   $label
+  *    Field label (human-readable name)
+  * @param    mixed    $default_value
+  *    Default value
+  * @param    boolean  $editable
+  *    (optional) Editable field or not (default = TRUE)
+  * @return   string   HTML text input element
+  */
   function variant_form_input($field, $label, $default_value, $editable = TRUE)
   {
     // Get the variation's unique ID from the URI
@@ -470,25 +485,30 @@ if ( ! function_exists('variant_form_input'))
   }
 }
 
-/**
-* Variant Form Dropdown
-*
-* Returns a HTML dropdown element with a proper id, name, label,
-* options, and default selection. Also locks/unlocks the field for editing
-* and highlights the field if it has been changed in any way. By
-* default, the field is unlocked for editing.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    string   Field name (database name)
-* @param    string   Field label (human-readable name)
-* @param    array    Selectable options
-* @param    mixed    Default selection
-* @param    boolean  (optional) Editable field or not (default = TRUE)
-* @return   string   HTML dropdown element
-*/
 if ( ! function_exists('variant_form_dropdown'))
 {
+  /**
+  * Variant Form Dropdown
+  *
+  * Returns a HTML dropdown element with a proper id, name, label,
+  * options, and default selection. Also locks/unlocks the field for editing
+  * and highlights the field if it has been changed in any way. By
+  * default, the field is unlocked for editing.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    string   $field
+  *    Field name (database name)
+  * @param    string   $label
+  *    Field label (human-readable name)
+  * @param    array    $options
+  *    Selectable options
+  * @param    mixed    $default_selection
+  *    Default selection
+  * @param    boolean  $editable
+  *    (optional) Editable field or not (default = TRUE)
+  * @return   string   HTML dropdown element
+  */
   function variant_form_dropdown($field, $label, $options, $default_selection, $editable = TRUE)
   {
     // Get the variation's unique ID from the URI
@@ -523,25 +543,20 @@ if ( ! function_exists('variant_form_dropdown'))
   }
 }
 
-/**
-* Variant Form Dropdown
-*
-* Returns a HTML dropdown element with a proper id, name, label,
-* options, and default selection. Also locks/unlocks the field for editing
-* and highlights the field if it has been changed in any way. By
-* default, the field is unlocked for editing.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    string   Field name (database name)
-* @param    string   Field label (human-readable name)
-* @param    array    Selectable options
-* @param    mixed    Default selection
-* @param    boolean  (optional) Editable field or not (default = TRUE)
-* @return   string   HTML dropdown element
-*/
 if ( ! function_exists('unlock_all_fields_button'))
 {
+  /**
+  * Variant Form Dropdown
+  *
+  * Returns a HTML dropdown element with a proper id, name, label,
+  * options, and default selection. Also locks/unlocks the field for editing
+  * and highlights the field if it has been changed in any way. By
+  * default, the field is unlocked for editing.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @return   string   HTML dropdown element
+  */
   function unlock_all_fields_button() {
     if (isset($_GET['unlock']) && $_GET['unlock'] === 'true') {
       $html = '<button id="unlock-all" class="rounded" type="button" data-toggle="modal" data-target="#modal-lock-confirm"><i class="icon-lock icon-white"></i> Lock autofill fields</button>';
@@ -554,22 +569,24 @@ if ( ! function_exists('unlock_all_fields_button'))
   }
 }
 
-/**
-* Edit Allele Frequencies
-*
-* Display the minor allele frequency edit fields. This function will
-* dynamically generate HTML based on the configuration preferences for
-* minor allele frequencies. It will only display frequencies that the
-* user has configured to be displayed.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    object   Database record for the variation
-* @param    boolean  Editable fields or not
-* @return   string   HTML of input fields
-*/
 if ( ! function_exists('edit_allele_frequencies'))
 {
+  /**
+  * Edit Allele Frequencies
+  *
+  * Display the minor allele frequency edit fields. This function will
+  * dynamically generate HTML based on the configuration preferences for
+  * minor allele frequencies. It will only display frequencies that the
+  * user has configured to be displayed.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    object   $variation
+  *    Database record for the variation
+  * @param    boolean  $unlock
+  *    Editable fields or not
+  * @return   string   HTML of input fields
+  */
   function edit_allele_frequencies($variation, $unlock) {
     // Which frequencies should be shown?
     $freqs = get_instance()->config->item('frequencies');
@@ -651,22 +668,22 @@ if ( ! function_exists('edit_allele_frequencies'))
   }
 }
 
-/**
-* Edit Evidence Summary
-*
-* Display the variant evidence summary edit fields. This function will
-* dynamically generate HTML based on the configuration preferences for
-* variant evidence summary. It will only display the evidence summary if
-* the user has configured it to do so.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    object   Database record for the variation
-* @param    boolean  Editable fields or not
-* @return   string   HTML of input fields
-*/
 if ( ! function_exists('edit_evidence_summary'))
 {
+  /**
+  * Edit Evidence Summary
+  *
+  * Display the variant evidence summary edit fields. This function will
+  * dynamically generate HTML based on the configuration preferences for
+  * variant evidence summary. It will only display the evidence summary if
+  * the user has configured it to do so.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    object   $variation
+  *    Database record for the variation
+  * @return   string   HTML of input fields
+  */
   function edit_evidence_summary($variation) {
     $display = get_instance()->config->item('variant_evidence_summary');
     $html = '';
@@ -693,22 +710,24 @@ if ( ! function_exists('edit_evidence_summary'))
   }
 }
 
-/**
-* Format Table Cell
-*
-* Formats strings to be stored into an HTML table cell.
-* This function will perform word-wrapping for certain
-* columns and will insert a &nbsp into empty cells to
-* avoid an HTML error.
-*
-* @author   Sean Ephraim
-* @access   public
-* @param    string  Name of the column in the table
-* @param    string  Data to be stored in the table cell
-* @return   string  HTML string
-*/
 if ( ! function_exists('format_table_cell'))
 {
+  /**
+  * Format Table Cell
+  *
+  * Formats strings to be stored into an HTML table cell.
+  * This function will perform word-wrapping for certain
+  * columns and will insert a &nbsp into empty cells to
+  * avoid an HTML error.
+  *
+  * @author   Sean Ephraim
+  * @access   public
+  * @param    string  $column_name
+  *   Name of the column in the table
+  * @param    string  $cell_data
+  *   Data to be stored in the table cell
+  * @return   string  HTML string
+  */
   function format_table_cell($column_name, $cell_data)
   {
     if (empty($cell_data)) {

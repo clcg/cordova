@@ -25,9 +25,12 @@ class Genes_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param char First letter of the gene
-   * @param boolean Include/exclude the genes that are only in the queue
-   * @param char Table from which to retrieve genes
+   * @param string $f_letter
+   *    First letter of the gene
+   * @param boolean $include_queue_genes
+   *    Include/exclude the genes that are only in the queue
+   * @param string $table
+   *    Table from which to retrieve genes
    * @return array Gene names
    */
   public function get_genes($f_letter = NULL, $include_queue_genes = TRUE, $table = NULL) {
@@ -74,13 +77,14 @@ class Genes_model extends MY_Model {
   }
 
   /**
-   * Create a formatted table of variants for all genes starting with a given letter.
+   * Create a formatted table of variants for a list of genes
    *
    * @author Nikhil Anand
+   * @author Sean Ephraim
    * @author Zachary Ladlie
    * @access public
-   * @param string $result 
-   * 			An array of database results for a gene letter
+   * @param array $genes
+   *   A list of genes
    * @return void
    */
   public function format_genes_list($genes) {

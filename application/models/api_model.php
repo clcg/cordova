@@ -216,8 +216,8 @@ class API_model extends MY_Model {
    *    Type of search
    * @param string $terms 
    *    An array of (validated) search terms
-   * @param string $method 
-   *    Download/display method (plain or with proper headers)
+   * @param string $version 
+   *    Version of the database to search
    * @return void
    */
   public function _api_search($type = 'position', $terms, $version) {
@@ -291,10 +291,14 @@ class API_model extends MY_Model {
    * @author Nikhil Anand
    * @param string $search_results 
    *    The array of search results
-   * @param string $method 
-   *    Download/display method
    * @param string $format 
    *    Output format (CSV, tab-delimited, JSON, XML)
+   * @param string $type 
+   *    Type of search
+   * @param string $terms 
+   *    An array of (validated) search terms
+   * @param string $method 
+   *    Download/display method
    * @return void
    */
   public function _api_result($search_results, $format, $type, $terms, $method) {
@@ -341,6 +345,8 @@ class API_model extends MY_Model {
    *    The array of search results
    * @param string $method 
    *    Download/display method
+   * @param string $type 
+   *    Type of search
    * @param string $delimiter 
    *    Any delimiter with which to separate results
    * @return void

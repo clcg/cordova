@@ -25,7 +25,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string Filename prefix for all files to be removed
+   * @param  string $prefix Filename prefix for all files to be removed
    */
    public function remove_temp_files($prefix) {
      exec("rm $prefix*");
@@ -49,7 +49,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string  Genomic position (Hg19) (unformatted)
+   * @param   string  $variation Genomic position (Hg19) (unformatted)
+   * @param   boolean $for_dbnsfp Format as input into dbNSFP search program
    * @return  string  Genomic position (Hg19) (formatted)
    */
    public function format_hg19_position($variation, $for_dbnsfp = FALSE) {
@@ -106,7 +107,7 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string  Genomic Position (Hg19) (machine name: variation)
+   * @param   string  $variation Genomic Position (Hg19) (machine name: variation)
    * @return  mixed   dbSNP ID if only 1 is found; else NULL if more than 1 found
    */
   public function get_dbsnp_id($variation) {
@@ -176,7 +177,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string Genomic Position (Hg19) (machine name: variation)
+   * @param  string $variation Genomic Position (Hg19) (machine name: variation)
    * @return mixed  Array of fields to be autofilled; negative number on error
    */
   public function get_annotation_data($variation) {
@@ -191,9 +192,10 @@ class Variations_model extends MY_Model {
     $f_errors = $annot_path."tmp/$id.error_log"; // annotation errors file
 
     /* Is the annotation tool installed and properly referenced? */
-    if (empty($annot_path)) die("The path to the annotation tool has not been configured. Please contact the administrator.\n");
-    if ( ! file_exists($annot_path.'bin/ASAP-dedup_test-1.18.dev.jar')) die("The annotation tool cannot be found. Please contact the administrator.\n");
-    if ( ! file_exists($run_script)) die("The script to run annotation cannot be found. Please contact the administrator.\n");
+    if (empty($annot_path) || ! file_exists($run_script)) {
+      // ERROR: annotation tool has not been properly configured
+      return -503;
+    }
 
     /* BEGIN RUNNING ANNOTATION */
 
@@ -279,49 +281,33 @@ class Variations_model extends MY_Model {
         'gerp_pred'              => $annot_result['gerp_pred'],
         'lrt_omega'              => $annot_result['lrt_omega'],
         'evs_ea_ac'              => $annot_result['evs_ea_ac'],
-        'evs_ea_an'              => $annot_result['evs_ea_an'],
+        'evs_ea_af'              => $annot_result['evs_ea_af'],
         'evs_aa_ac'              => $annot_result['evs_aa_ac'],
-        'evs_aa_an'              => $annot_result['evs_aa_an'],
-        'otoscope_ac'            => $annot_result['otoscope_ac'],
-        'otoscope_an'            => $annot_result['otoscope_an'],
-        'tg_acb_ac'              => $annot_result['tg_acb_ac'],
-        'tg_acb_an'              => $annot_result['tg_acb_an'],
-        'tg_asw_ac'              => $annot_result['tg_asw_ac'],
-        'tg_asw_an'              => $annot_result['tg_asw_an'],
-        'tg_cdx_ac'              => $annot_result['tg_cdx_ac'],
-        'tg_cdx_an'              => $annot_result['tg_cdx_an'],
-        'tg_ceu_ac'              => $annot_result['tg_ceu_ac'],
-        'tg_ceu_an'              => $annot_result['tg_ceu_an'],
-        'tg_chb_ac'              => $annot_result['tg_chb_ac'],
-        'tg_chb_an'              => $annot_result['tg_chb_an'],
-        'tg_chs_ac'              => $annot_result['tg_chs_ac'],
-        'tg_chs_an'              => $annot_result['tg_chs_an'],
-        'tg_clm_ac'              => $annot_result['tg_clm_ac'],
-        'tg_clm_an'              => $annot_result['tg_clm_an'],
-        'tg_fin_ac'              => $annot_result['tg_fin_ac'],
-        'tg_fin_an'              => $annot_result['tg_fin_an'],
-        'tg_gbr_ac'              => $annot_result['tg_gbr_ac'],
-        'tg_gbr_an'              => $annot_result['tg_gbr_an'],
-        'tg_gih_ac'              => $annot_result['tg_gih_ac'],
-        'tg_gih_an'              => $annot_result['tg_gih_an'],
-        'tg_ibs_ac'              => $annot_result['tg_ibs_ac'],
-        'tg_ibs_an'              => $annot_result['tg_ibs_an'],
-        'tg_jpt_ac'              => $annot_result['tg_jpt_ac'],
-        'tg_jpt_an'              => $annot_result['tg_jpt_an'],
-        'tg_khv_ac'              => $annot_result['tg_khv_ac'],
-        'tg_khv_an'              => $annot_result['tg_khv_an'],
-        'tg_lwk_ac'              => $annot_result['tg_lwk_ac'],
-        'tg_lwk_an'              => $annot_result['tg_lwk_an'],
-        'tg_mxl_ac'              => $annot_result['tg_mxl_ac'],
-        'tg_mxl_an'              => $annot_result['tg_mxl_an'],
-        'tg_pel_ac'              => $annot_result['tg_pel_ac'],
-        'tg_pel_an'              => $annot_result['tg_pel_an'],
-        'tg_pur_ac'              => $annot_result['tg_pur_ac'],
-        'tg_pur_an'              => $annot_result['tg_pur_an'],
-        'tg_tsi_ac'              => $annot_result['tg_tsi_ac'],
-        'tg_tsi_an'              => $annot_result['tg_tsi_an'],
-        'tg_yri_ac'              => $annot_result['tg_yri_ac'],
-        'tg_yri_an'              => $annot_result['tg_yri_an'],
+        'evs_aa_af'              => $annot_result['evs_aa_af'],
+        'otoscope_aj_ac'         => $annot_result['otoscope_aj_ac'],
+        'otoscope_aj_af'         => $annot_result['otoscope_aj_af'],
+        'otoscope_co_ac'         => $annot_result['otoscope_co_ac'],
+        'otoscope_co_af'         => $annot_result['otoscope_co_af'],
+        'otoscope_us_ac'         => $annot_result['otoscope_us_ac'],
+        'otoscope_us_af'         => $annot_result['otoscope_us_af'],
+        'otoscope_jp_ac'         => $annot_result['otoscope_jp_ac'],
+        'otoscope_jp_af'         => $annot_result['otoscope_jp_af'],
+        'otoscope_es_ac'         => $annot_result['otoscope_es_ac'],
+        'otoscope_es_af'         => $annot_result['otoscope_es_af'],
+        'otoscope_tr_ac'         => $annot_result['otoscope_tr_ac'],
+        'otoscope_tr_af'         => $annot_result['otoscope_tr_af'],
+        'otoscope_all_ac'        => $annot_result['otoscope_all_ac'],
+        'otoscope_all_af'        => $annot_result['otoscope_all_af'],
+        'tg_afr_ac'              => $annot_result['tg_afr_ac'],
+        'tg_afr_af'              => $annot_result['tg_afr_af'],
+        'tg_eur_ac'              => $annot_result['tg_eur_ac'],
+        'tg_eur_af'              => $annot_result['tg_eur_af'],
+        'tg_amr_ac'              => $annot_result['tg_amr_ac'],
+        'tg_amr_af'              => $annot_result['tg_amr_af'],
+        'tg_asn_ac'              => $annot_result['tg_asn_ac'],
+        'tg_asn_af'              => $annot_result['tg_asn_af'],
+        'tg_all_ac'              => $annot_result['tg_all_ac'],
+        'tg_all_af'              => $annot_result['tg_all_af'],
     );
     
     // Credits for the comments
@@ -374,8 +360,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string   Prefix to check for
-   * @param   array    Associate array of variant data
+   * @param   string  $prefix  Prefix to check for
+   * @param   array   $data  Associate array of variant data
    * @return  boolean  TRUE if credit should be given, else FALSE
    */
   public function give_credit_to($prefix, $data)
@@ -408,8 +394,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string   Genomic Position (Hg19) (machine name: variation)
-   * @param   boolean  (optional) Bypass annotation to manually insert variant
+   * @param   string   $variation Genomic Position (Hg19) (machine name: variation)
+   * @param   boolean  $manual_mode (optional) Bypass annotation to manually insert variant
    * @return  int      Variant ID (positive integer) on success; negative integer on error
    */
   public function create_new_variant($variation, $manual_mode = FALSE)
@@ -479,7 +465,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int     Variant unique ID
+   * @param  int $id Variant unique ID
    */
   public function remove_all_changes($id)
   {
@@ -513,7 +499,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int     Variant unique ID
+   * @param  int $id Variant unique ID
    */
   public function remove_from_queue_if_unchanged($id)
   {
@@ -540,7 +526,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string Gene name
+   * @param string $gene Gene name
    * @return object Gene variations
    */
   public function get_variants_by_gene($gene)
@@ -559,7 +545,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  char    Gene name's first letter
+   * @param  char    $letter Gene name's first letter
    * @return object  Gene variations
    */
   public function get_variants_by_gene_letter($letter)
@@ -583,8 +569,8 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int      Variant unique ID
-   * @param  string   DB table to query
+   * @param  int      $id Variant unique ID
+   * @param  string   $table DB table to query
    * @return mixed    Variant data object or NULL
    */
   public function get_variant_by_id($id, $table = NULL)
@@ -628,9 +614,9 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   string   Genomic position w/o nucleotide change (i.e. chr13:20796839)
-   * @param   string   DB table to query
-   * @param   boolean  Use fuzzy search
+   * @param   string   $posisiton Genomic position w/o nucleotide change (i.e. chr13:20796839)
+   * @param   string   $table DB table to query
+   * @param   boolean  $fuzzy_search Use fuzzy search
    * @return  mixed    Variant data array or NULL
    */
   public function get_variants_by_position($position, $table = NULL, $fuzzy_search = FALSE)
@@ -666,7 +652,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int    Variant unique ID
+   * @param  int    $variant_id Variant unique ID
    * @return object Variant data object or NULL
    */
   public function get_variant_review_info($variant_id)
@@ -712,8 +698,8 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int Variant unique ID
-   * @param  string Table name
+   * @param  int $id Variant unique ID
+   * @param  string $table Table name
    * @return boolean
    */
   public function variant_exists_in_table($id, $table)
@@ -735,7 +721,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string Table name
+   * @param string $table Table name
    * @return array Fieldnames
    */
   public function get_variant_fields($table = NULL)
@@ -753,7 +739,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param array Variant ID number
+   * @param array $id Variant ID number
    */
   public function copy_variant_into_queue($id)
   {
@@ -770,8 +756,8 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param int Variant ID number
-   * @param array Assoc. array of variant fields
+   * @param int $id Variant ID number
+   * @param array $data Assoc. array of variant fields
    * @return boolean
    */
   public function update_variant_in_queue($id, $data)
@@ -847,7 +833,7 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   boolean   (optional) Only release confirmed variants?
+   * @param   boolean   $confirmed_only (optional) Only release confirmed variants?
    * @return  boolean   TRUE on success, else FALSE
    */
   public function push_data_live($confirmed_only = TRUE)
@@ -999,8 +985,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   int    Variant ID number
-   * @param   array  Assoc. array of variant fields/values
+   * @param   int    $variant_id Variant ID number
+   * @param   array  $data Assoc. array of variant fields/values
    * @return  void
    */
   public function update_variant_review_info($variant_id, $data = array())
@@ -1079,7 +1065,7 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int Variant unique ID
+   * @param  int $variant_id Variant unique ID
    * @return mixed Array of unreleased changes; NULL if no changes exist
    */
   public function get_unreleased_changes($variant_id = NULL)
@@ -1208,7 +1194,7 @@ class Variations_model extends MY_Model {
    * Validate Variant ID
    *
    * @author Nikhil Anand
-   * @param string $id 
+   * @param string $id Variant unique ID
    * @return void
    */
   public function _validate_variant_id($id) {
@@ -1222,7 +1208,7 @@ class Variations_model extends MY_Model {
    * Load Variant
    *
    * @author Nikhil Anand
-   * @param  int   Variant unique ID
+   * @param  int $id  Variant unique ID
    * @return void
    */
   public function load_variant($id) {
@@ -1237,7 +1223,8 @@ class Variations_model extends MY_Model {
    * Any letter that doesn't have any genes associated (yet) will not have a hyperlink.
    * The links themselves are handled on the frontend (via AJAX).
    *
-   * @author   Nikhil Anand, Sean Ephraim
+   * @author   Nikhil Anand
+   * @author   Sean Ephraim
    * @return   string   HTML for gene letter table
    */
   public function get_letter_table($selected_letter = NULL) {
@@ -1325,9 +1312,11 @@ EOF;
   }
 
   /**
+<<<<<<< HEAD
    * Create a formatted table of variants for all genes starting with a given letter.
    *
-   * @author Nikhil Anand (modified by Zachary Ladlie)
+   * @author Nikhil Anand
+   * @author Zachary Ladlie
    * @access public
    * @param string $result 
    * 			An array of database results for a gene letter
@@ -1433,24 +1422,33 @@ EOF;
   /**
    * Load all information in the variants table for all genes starting with a given letter.
    *
-   * @param  string $letter 
+   * By default, all variants are displayed. If the second parameter ($show_unknown) is
+   * set to FALSE, then the variants labeled with "Unknown significance" will not be shown.
+   *
+   * @author Nikhil Anand
+   * @author Sean Ephraim
+   * @author Zachary Ladlie
+   * @param  string $letter First letter of gene
+   * @param  boolean $show_unknown Show/hide unknown variants
    * @return array  Variation data to be displayed genes page
-   * @author Nikhil Anand (modified by Zachary Ladlie)
    */
-  public function load_gene($letter) {
+  public function load_gene($letter, $show_unknown = TRUE) {
       
         $counter = 0;
         $result = '';
       
         // Sanitize in case the invoker doesn't
         $letter = $this->validate_gene_letter($letter);
-        $tables = $this->config->item('tables');
-  
+
         // Construct and run query
         if ($letter == '') {
             $query = "SELECT * FROM `" . $this->tables['vd_live'] . "` ORDER BY gene ASC;";
-        } else {
+        }
+        elseif ($show_unknown) {
             $query = sprintf('SELECT * FROM `%s` WHERE gene LIKE \'%s%%\' ORDER BY gene ASC', $this->tables['vd_live'], $letter);
+        }
+        else {
+            $query = sprintf('SELECT * FROM `%s` WHERE gene LIKE \'%s%%\' AND pathogenicity != "Unknown significance" ORDER BY gene ASC', $this->tables['vd_live'], $letter);
         }
         $query_result = mysql_query($query);
       
@@ -1478,10 +1476,25 @@ EOF;
   }
 
   /**
+   * Validate Gene Name
+   *
+   * @author Sean Ephraim
+   * @param  string $name Name of gene
+   * @return string Name of gene (sanitized)
+   */
+  public function validate_gene_name($name) {
+    if (!(preg_match('/[A-Z]{1}/', $name))) {
+      print "Invalid request for name ".$name;
+      exit(8);
+    }
+    return $name;
+  }
+
+  /**
    * Validate Gene Letter
    *
    * @author Nikhil Anand (modified by Zachary Ladlie)
-   * @param  string Letter of gene
+   * @param  string $letter Letter of gene
    * @return string Letter of gene (sanitized)
    */
   public function validate_gene_letter($letter) {
@@ -1502,7 +1515,8 @@ EOF;
    *
    * @author Nikhil Anand
    * @author Sean Ephraim
-   * @param  string Letter of gene
+   * @param  int $id Variant unique ID
+   * @param  string $table Table to query from
    * @return array  Data variables to load into the view
    */
   public function get_variant_display_variables($id, $table = NULL) {
@@ -1663,111 +1677,70 @@ EOF;
     $data['disp_otoscope'] = in_array('otoscope', $freqs) ? 'block' : 'none';
     
     // Frequency computations
+    $zero_label = 'Unseen (0.000)'; // What to display when 0 alleles are seen
     if (in_array('otoscope', $freqs)) {
       // Display OtoSCOPE
-      ($data['otoscope_an'] != 0) ? $data['freq_otoscope'] = number_format(($data['otoscope_ac']/$data['otoscope_an'])*100, 2) : $data['freq_otoscope'] = 0.00;
-      ($data['otoscope_an'] == 0) ? $data['label_otoscope'] = '(No data)'  :  $data['label_otoscope'] = $data['otoscope_ac'] . "/" . $data['otoscope_an'];
+      ($data['otoscope_aj_af'] == '')  ? $data['otoscope_aj_label']  = '(No data)' : ($data['otoscope_aj_af']  == 0) ? $data['otoscope_aj_label']  = $zero_label : $data['otoscope_aj_label']  = $data['otoscope_aj_ac']  . "/" . 400  . " (" . number_format((float) $data['otoscope_aj_af'],  3, '.', '') . ")";
+      ($data['otoscope_co_af'] == '')  ? $data['otoscope_co_label']  = '(No data)' : ($data['otoscope_co_af']  == 0) ? $data['otoscope_co_label']  = $zero_label : $data['otoscope_co_label']  = $data['otoscope_co_ac']  . "/" . 320  . " (" . number_format((float) $data['otoscope_co_af'],  3, '.', '') . ")";
+      ($data['otoscope_us_af'] == '')  ? $data['otoscope_us_label']  = '(No data)' : ($data['otoscope_us_af']  == 0) ? $data['otoscope_us_label']  = $zero_label : $data['otoscope_us_label']  = $data['otoscope_us_ac']  . "/" . 320  . " (" . number_format((float) $data['otoscope_us_af'],  3, '.', '') . ")";
+      ($data['otoscope_jp_af'] == '')  ? $data['otoscope_jp_label']  = '(No data)' : ($data['otoscope_jp_af']  == 0) ? $data['otoscope_jp_label']  = $zero_label : $data['otoscope_jp_label']  = $data['otoscope_jp_ac']  . "/" . 400  . " (" . number_format((float) $data['otoscope_jp_af'],  3, '.', '') . ")";
+      ($data['otoscope_es_af'] == '')  ? $data['otoscope_es_label']  = '(No data)' : ($data['otoscope_es_af']  == 0) ? $data['otoscope_es_label']  = $zero_label : $data['otoscope_es_label']  = $data['otoscope_es_ac']  . "/" . 360  . " (" . number_format((float) $data['otoscope_es_af'],  3, '.', '') . ")";
+      ($data['otoscope_tr_af'] == '')  ? $data['otoscope_tr_label']  = '(No data)' : ($data['otoscope_tr_af']  == 0) ? $data['otoscope_tr_label']  = $zero_label : $data['otoscope_tr_label']  = $data['otoscope_tr_ac']  . "/" . 200  . " (" . number_format((float) $data['otoscope_tr_af'],  3, '.', '') . ")";
+      ($data['otoscope_all_af'] == '') ? $data['otoscope_all_label'] = '(No data)' : ($data['otoscope_all_af'] == 0) ? $data['otoscope_all_label'] = $zero_label : $data['otoscope_all_label'] = $data['otoscope_all_ac'] . "/" . 2000 . " (" . number_format((float) $data['otoscope_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display OtoSCOPE
-      $data['freq_otoscope']  = 0;
-      $data['label_otoscope'] = '(No data)';
+      $data['otoscope_aj_af']  = 0;
+      $data['otoscope_co_af']  = 0;
+      $data['otoscope_us_af']  = 0;
+      $data['otoscope_jp_af']  = 0;
+      $data['otoscope_es_af']  = 0;
+      $data['otoscope_tr_af']  = 0;
+      $data['otoscope_all_af'] = 0;
+      $data['otoscope_aj_label']  = '(No data)';
+      $data['otoscope_co_label']  = '(No data)';
+      $data['otoscope_us_label']  = '(No data)'; 
+      $data['otoscope_jp_label']  = '(No data)'; 
+      $data['otoscope_es_label']  = '(No data)'; 
+      $data['otoscope_tr_label']  = '(No data)'; 
+      $data['otoscope_all_label'] = '(No data)';
     }
     if (in_array('evs', $freqs)) {
       // Display EVS
-      ($data['evs_ea_an'] != 0)   ? $data['freq_evs_ea']   = number_format(($data['evs_ea_ac']/$data['evs_ea_an'])*100, 2)     : $data['freq_evs_ea'] = 0;
-      ($data['evs_aa_an'] != 0)   ? $data['freq_evs_aa']   = number_format(($data['evs_aa_ac']/$data['evs_aa_an'])*100, 2)     : $data['freq_evs_aa'] = 0;
-      ($data['evs_ea_an']   == 0) ? $data['label_evs_ea']   = '(No data)'  :  $data['label_evs_ea']   = $data['evs_ea_ac']   . "/" . $data['evs_ea_an'];
-      ($data['evs_aa_an']   == 0) ? $data['label_evs_aa']   = '(No data)'  :  $data['label_evs_aa']   = $data['evs_aa_ac']   . "/" . $data['evs_aa_an'];
+      ($data['evs_ea_af'] == '')  ? $data['evs_ea_label']  = '(No data)' : ($data['evs_ea_af']  == 0) ? $data['evs_ea_label']  = $zero_label : $data['evs_ea_label']  = $data['evs_ea_ac']  . "/" . intval($data['evs_ea_ac']/$data['evs_ea_af'])   . " (" . number_format((float) $data['evs_ea_af'],  3, '.', '') . ")";
+      ($data['evs_aa_af'] == '')  ? $data['evs_aa_label']  = '(No data)' : ($data['evs_aa_af']  == 0) ? $data['evs_aa_label']  = $zero_label : $data['evs_aa_label']  = $data['evs_aa_ac']  . "/" . intval($data['evs_aa_ac']/$data['evs_aa_af'])   . " (" . number_format((float) $data['evs_aa_af'],  3, '.', '') . ")";
+      ($data['evs_all_af'] == '') ? $data['evs_all_label'] = '(No data)' : ($data['evs_all_af'] == 0) ? $data['evs_all_label'] = $zero_label : $data['evs_all_label'] = $data['evs_all_ac'] . "/" . intval($data['evs_all_ac']/$data['evs_all_af']) . " (" . number_format((float) $data['evs_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display EVS
-      $data['freq_evs_ea']  = 0;
-      $data['freq_evs_aa']  = 0;
-      $data['label_evs_ea'] = '(No data)';
-      $data['label_evs_aa'] = '(No data)';
+      $data['evs_ea_af']  = 0;
+      $data['evs_aa_af']  = 0;
+      $data['evs_all_af'] = 0;
+      $data['evs_ea_label']  = '(No data)';
+      $data['evs_aa_label']  = '(No data)';
+      $data['evs_all_label'] = '(No data)';
+
     }
     if (in_array('1000genomes', $freqs)) {
       // Display 1000 Genomes
-      ($data['tg_acb_an'] != 0)   ? $data['freq_tg_acb']   = number_format(($data['tg_acb_ac']/$data['tg_acb_an'])*100, 2)     : $data['freq_tg_acb'] = 0;
-      ($data['tg_asw_an'] != 0)   ? $data['freq_tg_asw']   = number_format(($data['tg_asw_ac']/$data['tg_asw_an'])*100, 2)     : $data['freq_tg_asw'] = 0;
-      ($data['tg_cdx_an'] != 0)   ? $data['freq_tg_cdx']   = number_format(($data['tg_cdx_ac']/$data['tg_cdx_an'])*100, 2)     : $data['freq_tg_cdx'] = 0;
-      ($data['tg_ceu_an'] != 0)   ? $data['freq_tg_ceu']   = number_format(($data['tg_ceu_ac']/$data['tg_ceu_an'])*100, 2)     : $data['freq_tg_ceu'] = 0;
-      ($data['tg_chb_an'] != 0)   ? $data['freq_tg_chb']   = number_format(($data['tg_chb_ac']/$data['tg_chb_an'])*100, 2)     : $data['freq_tg_chb'] = 0;
-      ($data['tg_chs_an'] != 0)   ? $data['freq_tg_chs']   = number_format(($data['tg_chs_ac']/$data['tg_chs_an'])*100, 2)     : $data['freq_tg_chs'] = 0;
-      ($data['tg_clm_an'] != 0)   ? $data['freq_tg_clm']   = number_format(($data['tg_clm_ac']/$data['tg_clm_an'])*100, 2)     : $data['freq_tg_clm'] = 0;
-      ($data['tg_fin_an'] != 0)   ? $data['freq_tg_fin']   = number_format(($data['tg_fin_ac']/$data['tg_fin_an'])*100, 2)     : $data['freq_tg_fin'] = 0;
-      ($data['tg_gbr_an'] != 0)   ? $data['freq_tg_gbr']   = number_format(($data['tg_gbr_ac']/$data['tg_gbr_an'])*100, 2)     : $data['freq_tg_gbr'] = 0;
-      ($data['tg_gih_an'] != 0)   ? $data['freq_tg_gih']   = number_format(($data['tg_gih_ac']/$data['tg_gih_an'])*100, 2)     : $data['freq_tg_gih'] = 0;
-      ($data['tg_ibs_an'] != 0)   ? $data['freq_tg_ibs']   = number_format(($data['tg_ibs_ac']/$data['tg_ibs_an'])*100, 2)     : $data['freq_tg_ibs'] = 0;
-      ($data['tg_jpt_an'] != 0)   ? $data['freq_tg_jpt']   = number_format(($data['tg_jpt_ac']/$data['tg_jpt_an'])*100, 2)     : $data['freq_tg_jpt'] = 0;
-      ($data['tg_khv_an'] != 0)   ? $data['freq_tg_khv']   = number_format(($data['tg_khv_ac']/$data['tg_khv_an'])*100, 2)     : $data['freq_tg_khv'] = 0;
-      ($data['tg_lwk_an'] != 0)   ? $data['freq_tg_lwk']   = number_format(($data['tg_lwk_ac']/$data['tg_lwk_an'])*100, 2)     : $data['freq_tg_lwk'] = 0;
-      ($data['tg_mxl_an'] != 0)   ? $data['freq_tg_mxl']   = number_format(($data['tg_mxl_ac']/$data['tg_mxl_an'])*100, 2)     : $data['freq_tg_mxl'] = 0;
-      ($data['tg_pel_an'] != 0)   ? $data['freq_tg_pel']   = number_format(($data['tg_pel_ac']/$data['tg_pel_an'])*100, 2)     : $data['freq_tg_pel'] = 0;
-      ($data['tg_pur_an'] != 0)   ? $data['freq_tg_pur']   = number_format(($data['tg_pur_ac']/$data['tg_pur_an'])*100, 2)     : $data['freq_tg_pur'] = 0;
-      ($data['tg_tsi_an'] != 0)   ? $data['freq_tg_tsi']   = number_format(($data['tg_tsi_ac']/$data['tg_tsi_an'])*100, 2)     : $data['freq_tg_tsi'] = 0;
-      ($data['tg_yri_an'] != 0)   ? $data['freq_tg_yri']   = number_format(($data['tg_yri_ac']/$data['tg_yri_an'])*100, 2)     : $data['freq_tg_yri'] = 0;
-      ($data['tg_acb_an']   == 0) ? $data['label_tg_acb']   = '(No data)'  :  $data['label_tg_acb']   = $data['tg_acb_ac']   . "/" . $data['tg_acb_an'];
-      ($data['tg_asw_an']   == 0) ? $data['label_tg_asw']   = '(No data)'  :  $data['label_tg_asw']   = $data['tg_asw_ac']   . "/" . $data['tg_asw_an'];
-      ($data['tg_cdx_an']   == 0) ? $data['label_tg_cdx']   = '(No data)'  :  $data['label_tg_cdx']   = $data['tg_cdx_ac']   . "/" . $data['tg_cdx_an'];
-      ($data['tg_ceu_an']   == 0) ? $data['label_tg_ceu']   = '(No data)'  :  $data['label_tg_ceu']   = $data['tg_ceu_ac']   . "/" . $data['tg_ceu_an'];
-      ($data['tg_chb_an']   == 0) ? $data['label_tg_chb']   = '(No data)'  :  $data['label_tg_chb']   = $data['tg_chb_ac']   . "/" . $data['tg_chb_an'];
-      ($data['tg_chs_an']   == 0) ? $data['label_tg_chs']   = '(No data)'  :  $data['label_tg_chs']   = $data['tg_chs_ac']   . "/" . $data['tg_chs_an'];
-      ($data['tg_clm_an']   == 0) ? $data['label_tg_clm']   = '(No data)'  :  $data['label_tg_clm']   = $data['tg_clm_ac']   . "/" . $data['tg_clm_an'];
-      ($data['tg_fin_an']   == 0) ? $data['label_tg_fin']   = '(No data)'  :  $data['label_tg_fin']   = $data['tg_fin_ac']   . "/" . $data['tg_fin_an'];
-      ($data['tg_gbr_an']   == 0) ? $data['label_tg_gbr']   = '(No data)'  :  $data['label_tg_gbr']   = $data['tg_gbr_ac']   . "/" . $data['tg_gbr_an'];
-      ($data['tg_gih_an']   == 0) ? $data['label_tg_gih']   = '(No data)'  :  $data['label_tg_gih']   = $data['tg_gih_ac']   . "/" . $data['tg_gih_an'];
-      ($data['tg_ibs_an']   == 0) ? $data['label_tg_ibs']   = '(No data)'  :  $data['label_tg_ibs']   = $data['tg_ibs_ac']   . "/" . $data['tg_ibs_an'];
-      ($data['tg_jpt_an']   == 0) ? $data['label_tg_jpt']   = '(No data)'  :  $data['label_tg_jpt']   = $data['tg_jpt_ac']   . "/" . $data['tg_jpt_an'];
-      ($data['tg_khv_an']   == 0) ? $data['label_tg_khv']   = '(No data)'  :  $data['label_tg_khv']   = $data['tg_khv_ac']   . "/" . $data['tg_khv_an'];
-      ($data['tg_lwk_an']   == 0) ? $data['label_tg_lwk']   = '(No data)'  :  $data['label_tg_lwk']   = $data['tg_lwk_ac']   . "/" . $data['tg_lwk_an'];
-      ($data['tg_mxl_an']   == 0) ? $data['label_tg_mxl']   = '(No data)'  :  $data['label_tg_mxl']   = $data['tg_mxl_ac']   . "/" . $data['tg_mxl_an'];
-      ($data['tg_pel_an']   == 0) ? $data['label_tg_pel']   = '(No data)'  :  $data['label_tg_pel']   = $data['tg_pel_ac']   . "/" . $data['tg_pel_an'];
-      ($data['tg_pur_an']   == 0) ? $data['label_tg_pur']   = '(No data)'  :  $data['label_tg_pur']   = $data['tg_pur_ac']   . "/" . $data['tg_pur_an'];
-      ($data['tg_tsi_an']   == 0) ? $data['label_tg_tsi']   = '(No data)'  :  $data['label_tg_tsi']   = $data['tg_tsi_ac']   . "/" . $data['tg_tsi_an'];
-      ($data['tg_yri_an']   == 0) ? $data['label_tg_yri']   = '(No data)'  :  $data['label_tg_yri']   = $data['tg_yri_ac']   . "/" . $data['tg_yri_an'];
+      ($data['tg_afr_af'] == '') ? $data['tg_afr_label'] = '(No data)' : ($data['tg_afr_af'] == 0) ? $data['tg_afr_label'] = $zero_label : $data['tg_afr_label'] = $data['tg_afr_ac'] . "/" . intval($data['tg_afr_ac']/$data['tg_afr_af']) . " (" . number_format((float) $data['tg_afr_af'], 3, '.', '') . ")";
+      ($data['tg_eur_af'] == '') ? $data['tg_eur_label'] = '(No data)' : ($data['tg_eur_af'] == 0) ? $data['tg_eur_label'] = $zero_label : $data['tg_eur_label'] = $data['tg_eur_ac'] . "/" . intval($data['tg_eur_ac']/$data['tg_eur_af']) . " (" . number_format((float) $data['tg_eur_af'], 3, '.', '') . ")";
+      ($data['tg_amr_af'] == '') ? $data['tg_amr_label'] = '(No data)' : ($data['tg_amr_af'] == 0) ? $data['tg_amr_label'] = $zero_label : $data['tg_amr_label'] = $data['tg_amr_ac'] . "/" . intval($data['tg_amr_ac']/$data['tg_amr_af']) . " (" . number_format((float) $data['tg_amr_af'], 3, '.', '') . ")";
+      ($data['tg_asn_af'] == '') ? $data['tg_asn_label'] = '(No data)' : ($data['tg_asn_af'] == 0) ? $data['tg_asn_label'] = $zero_label : $data['tg_asn_label'] = $data['tg_asn_ac'] . "/" . intval($data['tg_asn_ac']/$data['tg_asn_af']) . " (" . number_format((float) $data['tg_asn_af'], 3, '.', '') . ")";
+      ($data['tg_all_af'] == '') ? $data['tg_all_label'] = '(No data)' : ($data['tg_all_af'] == 0) ? $data['tg_all_label'] = $zero_label : $data['tg_all_label'] = $data['tg_all_ac'] . "/" . intval($data['tg_all_ac']/$data['tg_all_af']) . " (" . number_format((float) $data['tg_all_af'], 3, '.', '') . ")";
     }
     else {
       // Don't display 1000 Genomes
-      $data['freq_tg_acb']   = 0;
-      $data['freq_tg_asw']   = 0;
-      $data['freq_tg_cdx']   = 0;
-      $data['freq_tg_ceu']   = 0;
-      $data['freq_tg_chb']   = 0;
-      $data['freq_tg_chs']   = 0;
-      $data['freq_tg_clm']   = 0;
-      $data['freq_tg_fin']   = 0;
-      $data['freq_tg_gbr']   = 0;
-      $data['freq_tg_gih']   = 0;
-      $data['freq_tg_ibs']   = 0;
-      $data['freq_tg_jpt']   = 0;
-      $data['freq_tg_khv']   = 0;
-      $data['freq_tg_lwk']   = 0;
-      $data['freq_tg_mxl']   = 0;
-      $data['freq_tg_pel']   = 0;
-      $data['freq_tg_pur']   = 0;
-      $data['freq_tg_tsi']   = 0;
-      $data['freq_tg_yri']   = 0;
-      $data['label_tg_acb']  = '(No data)';
-      $data['label_tg_asw']  = '(No data)';
-      $data['label_tg_cdx']  = '(No data)';
-      $data['label_tg_ceu']  = '(No data)';
-      $data['label_tg_chb']  = '(No data)';
-      $data['label_tg_chs']  = '(No data)';
-      $data['label_tg_clm']  = '(No data)';
-      $data['label_tg_fin']  = '(No data)';
-      $data['label_tg_gbr']  = '(No data)';
-      $data['label_tg_gih']  = '(No data)';
-      $data['label_tg_ibs']  = '(No data)';
-      $data['label_tg_jpt']  = '(No data)';
-      $data['label_tg_khv']  = '(No data)';
-      $data['label_tg_lwk']  = '(No data)';
-      $data['label_tg_mxl']  = '(No data)';
-      $data['label_tg_pel']  = '(No data)';
-      $data['label_tg_pur']  = '(No data)';
-      $data['label_tg_tsi']  = '(No data)';
-      $data['label_tg_yri']  = '(No data)';
+      $data['tg_afr_af'] = 0;
+      $data['tg_eur_af'] = 0;
+      $data['tg_amr_af'] = 0;
+      $data['tg_asn_af'] = 0;
+      $data['tg_all_af'] = 0;
+      $data['tg_afr_label'] = '(No data)';
+      $data['tg_eur_label'] = '(No data)';
+      $data['tg_amr_label'] = '(No data)';
+      $data['tg_asn_label'] = '(No data)';
+      $data['tg_all_label'] = '(No data)';
     }
     
     return $data;

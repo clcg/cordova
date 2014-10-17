@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta charset="utf-8"/>
-    <title>Cordova Developer Documentation</title>
+    <title>Cordova - Developer Documentation</title>
     <meta name="author" content=""/>
     <meta name="description" content=""/>
 
@@ -83,7 +83,7 @@
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <i class="icon-ellipsis-vertical"></i>
             </a>
-            <a class="brand" href="../index.html">Cordova Developer Documentation</a>
+            <a class="brand" href="../index.html">Cordova - Developer Documentation</a>
 
             <div class="nav-collapse">
                 <ul class="nav pull-right">
@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">218</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">121</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">1</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1605305559"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-501659657"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1605305559" class="accordion-body collapse in">
+            <div id="namespace-501659657" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -204,6 +204,7 @@
                                                                     <a href="../classes/Variations.html#method_show_unreleased" class="">show_unreleased()</a><br />
                                                                     <a href="../classes/Variations.html#method_submit_changes" class="">submit_changes()</a><br />
                                                                     <a href="../classes/Variations.html#method_letter" class="">letter()</a><br />
+                                                                    <a href="../classes/Variations.html#method_variations_table" class="">variations_table()</a><br />
                                                                     <a href="../classes/Variations.html#method_show_variant" class="">show_variant()</a><br />
                                                                     <a href="../classes/Variations.html#method_download_variant_pdf" class="">download_variant_pdf()</a><br />
                                                                     <a href="../classes/Variations.html#method_frequency" class="">frequency()</a><br />
@@ -482,7 +483,7 @@
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">__construct()</pre>
-                <p><em></em></p>
+                <p><em>Constructor</em></p>
                 
 
                 
@@ -543,7 +544,7 @@
             <article class="method">
                 <h3 class="public ">show_variants()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">show_variants( <span class="argument">$gene</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">show_variants(string <span class="argument">$gene</span>) : void</pre>
                 <p><em>Show Variants</em></p>
                 <p>Displays all variations in the database associated with a
 certain gene.</p>
@@ -551,9 +552,9 @@ certain gene.</p>
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$gene </td>
-                                <td></td>
+                                <td><p>Name of gene</p></td>
                             </tr>
                                             </table>
                 
@@ -591,16 +592,16 @@ certain gene.</p>
             <article class="method">
                 <h3 class="public ">edit()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">edit( <span class="argument">$id</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">edit(int <span class="argument">$id</span>) : void</pre>
                 <p><em>Edit</em></p>
                 <p>Display/submit a form of editable variation data.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$id </td>
-                                <td></td>
+                                <td><p>ID number of variant</p></td>
                             </tr>
                                             </table>
                 
@@ -638,7 +639,7 @@ certain gene.</p>
             <article class="method">
                 <h3 class="public ">add()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">add()</pre>
+                <pre class="signature" style="margin-right: 54px;">add() : void</pre>
                 <p><em>Add</em></p>
                 <p>Create a new variant in the queue. It will go live after the
 next batch release.</p>
@@ -678,21 +679,21 @@ next batch release.</p>
             <article class="method">
                 <h3 class="public ">show_unreleased()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">show_unreleased( <span class="argument">$mode</span>,  <span class="argument">$id</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">show_unreleased(string <span class="argument">$mode</span>, int <span class="argument">$id</span>) : void</pre>
                 <p><em>Show unreleased</em></p>
                 <p>Show all of the unreleased changes made to the variation data.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$mode </td>
-                                <td></td>
+                                <td><p>Display mode: 'page' (for multiple variations) or 'variation' (for single)</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$id </td>
-                                <td></td>
+                                <td><p>Either the page number or the variation's unique ID (depending on the mode)</p></td>
                             </tr>
                                             </table>
                 
@@ -730,7 +731,7 @@ next batch release.</p>
             <article class="method">
                 <h3 class="public ">submit_changes()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">submit_changes()</pre>
+                <pre class="signature" style="margin-right: 54px;">submit_changes() : void</pre>
                 <p><em>Submit changes</em></p>
                 <p>This has 2 different functions:
   1.) Save the variant confirmation selection, OR
@@ -776,16 +777,16 @@ the changes are emptied from the queue.</p>
             <article class="method">
                 <h3 class="public ">letter()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">letter( <span class="argument">$letter</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">letter(\char <span class="argument">$letter</span>) : void</pre>
                 <p><em>Letter</em></p>
                 <p>Create the table of variants for the selected letter.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>\char</td>
                                 <td>$letter </td>
-                                <td></td>
+                                <td><p>The gene's starting letter</p></td>
                             </tr>
                                             </table>
                 
@@ -803,7 +804,55 @@ the changes are emptied from the queue.</p>
                             author
                         </th>
                         <td>
-                                                                                            <p>Zach Ladlie, Sean Ephraim</p>
+                                                                                            <p>Zach Ladlie</p>
+                                                                                            <p>Sean Ephraim</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_variations_table" name="method_variations_table" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">variations_table()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">variations_table(string <span class="argument">$gene</span>) : void</pre>
+                <p><em>Variations_table</em></p>
+                <p>Load all variations for a specific gene.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$gene </td>
+                                <td><p>Gene name</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Sean Ephraim</p>
                                                     </td>
                     </tr>
                                     <tr>
@@ -823,7 +872,7 @@ the changes are emptied from the queue.</p>
             <article class="method">
                 <h3 class="public ">show_variant()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">show_variant( <span class="argument">$id</span>) : void</pre>
+                <pre class="signature" style="margin-right: 54px;">show_variant(int <span class="argument">$id</span>) : void</pre>
                 <p><em>Show Variant</em></p>
                 <p>Display the variant data page.
 pChart is required to load the frequencies.
@@ -832,9 +881,9 @@ For more info, refer to the frequency() function.</p>
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$id </td>
-                                <td></td>
+                                <td><p>Variant's unique ID</p></td>
                             </tr>
                                             </table>
                 
@@ -872,7 +921,7 @@ For more info, refer to the frequency() function.</p>
             <article class="method">
                 <h3 class="public ">download_variant_pdf()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">download_variant_pdf( <span class="argument">$id</span>) : void</pre>
+                <pre class="signature" style="margin-right: 54px;">download_variant_pdf(int <span class="argument">$id</span>) : void</pre>
                 <p><em>Download Variant PDF</em></p>
                 <p>Download the variant data page in PDF format using the
 dompdf library (found in application/third_party/dompdf/)</p>
@@ -881,9 +930,9 @@ dompdf library (found in application/third_party/dompdf/)</p>
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$id </td>
-                                <td></td>
+                                <td><p>Variant's unique ID</p></td>
                             </tr>
                                             </table>
                 
@@ -921,7 +970,7 @@ dompdf library (found in application/third_party/dompdf/)</p>
             <article class="method">
                 <h3 class="public ">frequency()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">frequency() : \img</pre>
+                <pre class="signature" style="margin-right: 54px;">frequency() : void</pre>
                 <p><em>Frequency</em></p>
                 <p>This uses the pChart library to graph the frequency.</p>
 <p>Upon browser request, this script will run with the specificed
@@ -934,10 +983,7 @@ More info on pChart at <a href="http://www.pchart.net/">http://www.pchart.net/</
 
                 
                 
-                                    <h4>Returns</h4>
-                    \img
-                                            &mdash; <p>An image of a bar graph.</p>
-                                                </article>
+                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -1014,7 +1060,7 @@ More info on pChart at <a href="http://www.pchart.net/">http://www.pchart.net/</
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on May 2nd, 2014 at 00:23.
+                    on October 17th, 2014 at 17:00.
                 </section>
             </section>
         </section>
