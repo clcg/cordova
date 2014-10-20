@@ -1664,20 +1664,6 @@ EOF;
       $data['desc_mutationtaster'] = "Unknown";    
     }
 
-    // Variant Evidence Summary
-    if ($this->config->item('variant_evidence_summary') === TRUE) {
-      $data['disp_summary'] = 'block';
-      $data['summary_insilico']  = (int) $data['summary_insilico'];
-      $data['summary_frequency'] = (int) $data['summary_frequency'];
-      $data['summary_published'] = (int) $data['summary_published'];
-    }
-    else {
-      $data['disp_summary'] = 'none';
-      $data['summary_insilico'] = 0;
-      $data['summary_frequency'] = 0;
-      $data['summary_published'] = 0;
-    }
-
     // Which frequency data to show, if any?
     $data['disp_freqs'] = (count($freqs) > 0) ? 'block' : 'none';
     $data['disp_evs'] = in_array('evs', $freqs) ? 'block' : 'none';

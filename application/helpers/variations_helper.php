@@ -668,48 +668,6 @@ if ( ! function_exists('edit_allele_frequencies'))
   }
 }
 
-if ( ! function_exists('edit_evidence_summary'))
-{
-  /**
-  * Edit Evidence Summary
-  *
-  * Display the variant evidence summary edit fields. This function will
-  * dynamically generate HTML based on the configuration preferences for
-  * variant evidence summary. It will only display the evidence summary if
-  * the user has configured it to do so.
-  *
-  * @author   Sean Ephraim
-  * @access   public
-  * @param    object   $variation
-  *    Database record for the variation
-  * @return   string   HTML of input fields
-  */
-  function edit_evidence_summary($variation) {
-    $display = get_instance()->config->item('variant_evidence_summary');
-    $html = '';
-    if ($display === TRUE) {
-      $evidence_summary_options = array('', 0, 1, 2, 3, 4, 5, 6);
-      $html .= '<div class="accordion span6" id="accordion-variant-evidence-summary">';
-      $html .= '      <div class="accordion-group">';
-      $html .= '          <div class="accordion-heading">';
-      $html .= '              <a class="accordion-toggle rowlink" data-toggle="collapse" data-parent="#accordion-variant-evidence-summary" href="#edit-variant-evidence-summary">';
-      $html .= '                  <i class="icon-minus"></i> Variant Evidence Summary';
-      $html .= '              </a>';
-      $html .= '          </div>';
-      $html .= '          <div id="edit-variant-evidence-summary" class="accordion-body collapse in">';
-      $html .= '              <div class="accordion-inner">';
-      $html .=                   variant_form_dropdown('summary_insilico', 'Summary Insilico', $evidence_summary_options, $variation->summary_insilico);
-      $html .=                   variant_form_dropdown('summary_frequency', 'Summary Frequency', $evidence_summary_options, $variation->summary_frequency);
-      $html .=                   variant_form_dropdown('summary_published', 'Summary Published', $evidence_summary_options, $variation->summary_published);
-      $html .= '              </div>';
-      $html .= '          </div>';
-      $html .= '      </div>';
-      $html .= '</div>';
-    }
-    return $html;
-  }
-}
-
 if ( ! function_exists('format_table_cell'))
 {
   /**

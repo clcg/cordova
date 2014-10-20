@@ -56,23 +56,6 @@
             </tr>
           </table>
         </div>
-        <div id="evidence" class="section-small" style="display:<?php echo $disp_summary?>">
-          <h4><span>Variant Evidence Summary (In Progress)</span></h4>
-          <table border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <th scope="row"><em>In Silico</em> Computational</th>
-              <td><small class="evidence-least">least</small> <img src="<?php print site_url('assets/public/img/evidence-'.$summary_insilico.'.png'); ?>"/> <small class="evidence-most">most</small></td>
-            </tr>                                             
-            <tr>                                              
-              <th scope="row">Variant Frequency</th>          
-              <td><small class="evidence-least">&nbsp;</small> <img src="<?php print site_url('assets/public/img/evidence-'.$summary_frequency.'.png'); ?>"/> <small class="evidence-most">&nbsp;</small></td>
-            </tr>                                             
-            <tr>                                              
-              <th scope="row">Published Data</th>             
-              <td><small class="evidence-least">&nbsp;</small> <img src="<?php print site_url('assets/public/img/evidence-'.$summary_published.'.png'); ?>"/> <small class="evidence-most">&nbsp;</small></td>
-            </tr>
-          </table>
-        </div>
       </div>
     
       <h3><span>Interpretation</span></h3>

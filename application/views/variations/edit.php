@@ -68,7 +68,6 @@ echo form_open('variations/edit/'.$id, $attributes);
                     </div>
               </div>
         </div>
-        <?php echo edit_evidence_summary($variation); ?>
     </div>
     <div class="accordion" id="accordion-prediction-scores">
           <div class="accordion-group">
