@@ -526,11 +526,19 @@ class Variations_model extends MY_Model {
    *
    * @author Sean Ephraim
    * @access public
-   * @param string $gene Gene name
+   * @param string $gene
+   *    Gene name
+   * @param string $columns
+   *    (optional) Columns to select from the database; defaults to all
    * @return object Gene variations
    */
-  public function get_variants_by_gene($gene)
+  public function get_variants_by_gene($gene, $columns=NULL)
   {
+    // Optionally select specific columns (otherwise select *)
+    if ($columns !== NULL && $columns !== '') {
+      $this->db->select($columns);
+    }
+
     $query = $this->db
                   ->where('gene', $gene)
                   ->order_by('variation', 'asc')

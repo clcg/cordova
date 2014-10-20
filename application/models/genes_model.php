@@ -76,49 +76,6 @@ class Genes_model extends MY_Model {
     return $genes;
   }
 
-  /**
-   * Create a formatted table of variants for a list of genes
-   *
-   * @author Nikhil Anand
-   * @author Sean Ephraim
-   * @author Zachary Ladlie
-   * @access public
-   * @param array $genes
-   *   A list of genes
-   * @return void
-   */
-  public function format_genes_list($genes) {
-    // TODO Show the table opened if we have only one result
-    $display   = "display:none;";
-    $collapsed = "";
-//    if (sizeof($genes) == 1) {
-//      $display = "";
-//      $collapsed = "collapsed";
-//    }
-    
-    $genes_list = '';
-
-    foreach ($genes as $gene) {
-      // Build CSV, Tab-delimited, JSON and XML links
-      $uri_str = site_url("api?type=gene&amp;terms=$gene&amp;format=");
-      $uri_csv = $uri_str  . 'csv';
-      $uri_tab = $uri_str  . 'tab';
-      $uri_jsn = $uri_str  . 'json';
-      $uri_xml = $uri_str  . 'xml';
-        
-      // Fieldset containing gene name and table header
-      $genes_list .=<<<EOF
-      \n
-      <fieldset>
-          <legend class="genename $collapsed" id="$gene"><strong>$gene</strong> <span><a href="$uri_csv">CSV</a> <a href="$uri_tab">Tab</a> <a href="$uri_jsn">JSON</a> <a href="$uri_xml">XML</a></span></legend>
-          <div id="table-$gene" class="variant-list-container" style="$display">
-          </div>
-      </fieldset>
-EOF;
-    }
-    
-    return $genes_list;
-  }
 }
 
 /* End of file genes_model.php */

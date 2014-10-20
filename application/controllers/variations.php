@@ -43,7 +43,8 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  string $gene Name of gene
+   * @param  string $gene
+   *    Name of gene
    * @return void
    */
   public function show_variants($gene) {
@@ -53,7 +54,9 @@ class Variations extends MY_Controller {
     $data['content'] = 'variations/index';
 
     $data['gene'] = $gene;
-    $data['rows'] = $this->variations_model->get_variants_by_gene($gene);
+    // Columns to select for this page
+    $columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+    $data['rows'] = $this->variations_model->get_variants_by_gene($gene, $columns);
 
     $this->load->view($this->editor_layout, $data);
   }
@@ -435,12 +438,12 @@ class Variations extends MY_Controller {
   /** 
    * Letter
    *
-   * Create the table of variants for the selected letter.
+   * Display all genes start with a certain letter
    *
-   * @author Zach Ladlie
    * @author Sean Ephraim
    * @access public
-   * @param  char $letter The gene's starting letter
+   * @param  string $letter
+   *    The gene's starting letter
    * @return void
    */
   public function letter($letter) {
@@ -448,8 +451,8 @@ class Variations extends MY_Controller {
     $data['content'] = 'variations/letter';
 
     $this->load->model('genes_model');
-    $genes = $this->genes_model->get_genes($letter, FALSE);
-    $data['genes_list'] = $this->genes_model->format_genes_list($genes);
+    $this->load->helper('genes');
+    $data['genes'] = $this->genes_model->get_genes($letter, FALSE);
 
     $this->load->view($this->public_layout, $data);
   }
@@ -469,7 +472,9 @@ class Variations extends MY_Controller {
     $data['content'] = 'variations/gene';
 
     $data['gene'] = $gene;
-    $data['variations'] = $this->variations_model->get_variants_by_gene($gene);
+    // Columns to select for this page
+    $columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+    $data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
 
     $this->load->view('variations/gene', $data);
   }
@@ -483,7 +488,8 @@ class Variations extends MY_Controller {
    *
    * @author Sean Ephraim
    * @access public
-   * @param  int $id Variant's unique ID
+   * @param  int $id
+   *    Variant's unique ID
    * @return void
    */
   public function show_variant($id) {
