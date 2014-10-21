@@ -142,15 +142,15 @@ $config['tables']['versions'] = 'versions'; // i.e. 'versions'
 |--------------------------------------------------------------------------
 |
 | Specify the available pathogenicity options such as 'Pathogenic',
-| 'Non-pathogenic', 'Unknown significance', etc.
+| 'Benign', 'Unknown significance', etc.
 |
 */
 $config['pathogenicities'] = array(
    'Unknown significance',
-   'Possibly pathogenic',
-   'Predicted non-pathogenic',
-   'Non-pathogenic',
-   'Probable non-pathogenic',
+   'Benign',
+   'Probable benign',
+   'Predicted benign',
+   'Predicted pathogenic',
    'Probable pathogenic',
    'Pathogenic',
 );

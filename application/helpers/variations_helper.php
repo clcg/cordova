@@ -606,56 +606,57 @@ if ( ! function_exists('edit_allele_frequencies'))
       $html .= '                <div class="accordion-inner">';
       // EVS
       if (in_array('evs', $freqs)) {
-        $html .= variant_form_input('evs_ea_ac', 'EVS European American Alternate Allele Count', $variation->evs_ea_ac, $unlock);
-        $html .= variant_form_input('evs_ea_an', 'EVS European American Total Allele Count', $variation->evs_ea_an, $unlock);
-        $html .= variant_form_input('evs_aa_ac', 'EVS African American Alternate Allele Count', $variation->evs_aa_ac, $unlock);
-        $html .= variant_form_input('evs_aa_an', 'EVS African American Total Allele Count', $variation->evs_aa_an, $unlock);
+        $html .= variant_form_input('evs_ea_ac', 'EVS European-American Alternate Allele Count', $variation->evs_ea_ac, $unlock);
+        $html .= variant_form_input('evs_ea_an', 'EVS European-American Total Allele Count', $variation->evs_ea_an, $unlock);
+        $html .= variant_form_input('evs_ea_af', 'EVS European-American Frequency', $variation->evs_ea_af, $unlock);
+        $html .= variant_form_input('evs_aa_ac', 'EVS African-American Alternate Allele Count', $variation->evs_aa_ac, $unlock);
+        $html .= variant_form_input('evs_aa_an', 'EVS African-American Total Allele Count', $variation->evs_aa_an, $unlock);
+        $html .= variant_form_input('evs_aa_af', 'EVS African-American Frequency', $variation->evs_aa_af, $unlock);
+        $html .= variant_form_input('evs_all_ac', 'EVS All Populations Alternate Allele Count', $variation->evs_all_ac, $unlock);
+        $html .= variant_form_input('evs_all_an', 'EVS All Populations Total Allele Count', $variation->evs_all_an, $unlock);
+        $html .= variant_form_input('evs_all_af', 'EVS All Populations Frequency', $variation->evs_all_af, $unlock);
       }
       // OtoSCOPE
       if (in_array('otoscope', $freqs)) {
-        $html .= variant_form_input('otoscope_ac', 'OtoSCOPE Alternate Allele Count', $variation->otoscope_ac, $unlock);
-        $html .= variant_form_input('otoscope_an', 'OtoSCOPE Total Allele Count', $variation->otoscope_an, $unlock);
+        $html .= variant_form_input('otoscope_aj_ac', 'OtoSCOPE Ashkenazi Jewish Alternate Allele Count', $variation->otoscope_aj_ac, $unlock);
+        $html .= variant_form_input('otoscope_aj_an', 'OtoSCOPE Ashkenazi Jewish Total Allele Count', $variation->otoscope_aj_an, $unlock);
+        $html .= variant_form_input('otoscope_aj_af', 'OtoSCOPE Ashkenazi Jewish Allele Frequency', $variation->otoscope_aj_af, $unlock);
+        $html .= variant_form_input('otoscope_co_ac', 'OtoSCOPE Colombian Allele Count', $variation->otoscope_co_ac, $unlock);
+        $html .= variant_form_input('otoscope_co_an', 'OtoSCOPE Colombian Total Allele Count', $variation->otoscope_co_an, $unlock);
+        $html .= variant_form_input('otoscope_co_af', 'OtoSCOPE Colombian Allele Frequency', $variation->otoscope_co_af, $unlock);
+        $html .= variant_form_input('otoscope_us_ac', 'OtoSCOPE European-Americans Alternate Allele Count', $variation->otoscope_us_ac, $unlock);
+        $html .= variant_form_input('otoscope_us_an', 'OtoSCOPE European-Americans Total Allele Count', $variation->otoscope_us_an, $unlock);
+        $html .= variant_form_input('otoscope_us_af', 'OtoSCOPE European-Americans Allele Frequency', $variation->otoscope_us_af, $unlock);
+        $html .= variant_form_input('otoscope_jp_ac', 'OtoSCOPE Japanese Alternate Allele Count', $variation->otoscope_jp_ac, $unlock);
+        $html .= variant_form_input('otoscope_jp_an', 'OtoSCOPE Japanese Total Allele Count', $variation->otoscope_jp_an, $unlock);
+        $html .= variant_form_input('otoscope_jp_af', 'OtoSCOPE Japanese Allele Frequency', $variation->otoscope_jp_af, $unlock);
+        $html .= variant_form_input('otoscope_es_ac', 'OtoSCOPE Spanish Alternate Allele Count', $variation->otoscope_es_ac, $unlock);
+        $html .= variant_form_input('otoscope_es_an', 'OtoSCOPE Spanish Total Allele Count', $variation->otoscope_es_an, $unlock);
+        $html .= variant_form_input('otoscope_es_af', 'OtoSCOPE Spanish Allele Frequency', $variation->otoscope_es_af, $unlock);
+        $html .= variant_form_input('otoscope_tr_ac', 'OtoSCOPE Turkish Alternate Allele Count', $variation->otoscope_tr_ac, $unlock);
+        $html .= variant_form_input('otoscope_tr_an', 'OtoSCOPE Turkish Total Allele Count', $variation->otoscope_tr_an, $unlock);
+        $html .= variant_form_input('otoscope_tr_af', 'OtoSCOPE Turkish Allele Frequency', $variation->otoscope_tr_af, $unlock);
+        $html .= variant_form_input('otoscope_all_ac', 'OtoSCOPE All Populations Alternate Allele Count', $variation->otoscope_all_ac, $unlock);
+        $html .= variant_form_input('otoscope_all_an', 'OtoSCOPE All Populations Total Allele Count', $variation->otoscope_all_an, $unlock);
+        $html .= variant_form_input('otoscope_all_af', 'OtoSCOPE All Populations Allele Frequency', $variation->otoscope_all_af, $unlock);
       }
       // 1000 Genomes
       if (in_array('1000genomes', $freqs)) {
-        $html .= variant_form_input('tg_acb_ac', '1000 Genomes African Caribbean in Barbados Alternate Allele Count', $variation->tg_acb_ac, $unlock);
-        $html .= variant_form_input('tg_acb_an', '1000 Genomes African Caribbean in Barbados Total Allele Count', $variation->tg_acb_an, $unlock);
-        $html .= variant_form_input('tg_asw_ac', '1000 Genomes African Ancestry in Southwest US Alternate Allele Count', $variation->tg_asw_ac, $unlock);
-        $html .= variant_form_input('tg_asw_an', '1000 Genomes African Ancestry in Southwest US Total Allele Count', $variation->tg_asw_an, $unlock);
-        $html .= variant_form_input('tg_cdx_ac', '1000 Genomes Chinese Dai in Xishuangbanna Alternate Allele Count', $variation->tg_cdx_ac, $unlock);
-        $html .= variant_form_input('tg_cdx_an', '1000 Genomes Chinese Dai in Xishuangbanna Total Allele Count', $variation->tg_cdx_an, $unlock);
-        $html .= variant_form_input('tg_ceu_ac', '1000 Genomes Utah residents, Northern and Western European Ancestry Alternate Allele Count', $variation->tg_ceu_ac, $unlock);
-        $html .= variant_form_input('tg_ceu_an', '1000 Genomes Utah residents, Northern and Western European Ancestry Total Allele Count', $variation->tg_ceu_an, $unlock);
-        $html .= variant_form_input('tg_chb_ac', '1000 Genomes Han Chinese in Beijing, China Alternate Allele Count', $variation->tg_chb_ac, $unlock);
-        $html .= variant_form_input('tg_chb_an', '1000 Genomes Han Chinese in Beijing, China Total Allele Count', $variation->tg_chb_an, $unlock);
-        $html .= variant_form_input('tg_chs_ac', '1000 Genomes Han Chinese South Alternate Allele Count', $variation->tg_chs_ac, $unlock);
-        $html .= variant_form_input('tg_chs_an', '1000 Genomes Han Chinese South Total Allele Count', $variation->tg_chs_an, $unlock);
-        $html .= variant_form_input('tg_clm_ac', '1000 Genomes Colombian in Medellin, Colombia Alternate Allele Count', $variation->tg_clm_ac, $unlock);
-        $html .= variant_form_input('tg_clm_an', '1000 Genomes Colombian in Medellin, Colombia Total Allele Count', $variation->tg_clm_an, $unlock);
-        $html .= variant_form_input('tg_fin_ac', '1000 Genomes Finnish from Finland Alternate Allele Count', $variation->tg_fin_ac, $unlock);
-        $html .= variant_form_input('tg_fin_an', '1000 Genomes Finnish from Finland Total Allele Count', $variation->tg_fin_an, $unlock);
-        $html .= variant_form_input('tg_gbr_ac', '1000 Genomes British from England and Scotland Alternate Allele Count', $variation->tg_gbr_ac, $unlock);
-        $html .= variant_form_input('tg_gbr_an', '1000 Genomes British from England and Scotland Total Allele Count', $variation->tg_gbr_an, $unlock);
-        $html .= variant_form_input('tg_gih_ac', '1000 Genomes Gujarati Indian in Houston, TX Alternate Allele Count', $variation->tg_gih_ac, $unlock);
-        $html .= variant_form_input('tg_gih_an', '1000 Genomes Gujarati Indian in Houston, TX Total Allele Count', $variation->tg_gih_an, $unlock);
-        $html .= variant_form_input('tg_ibs_ac', '1000 Genomes Iberian populations in Spain Alternate Allele Count', $variation->tg_ibs_ac, $unlock);
-        $html .= variant_form_input('tg_ibs_an', '1000 Genomes Iberian populations in Spain Total Allele Count', $variation->tg_ibs_an, $unlock);
-        $html .= variant_form_input('tg_jpt_ac', '1000 Genomes Japanese in Toyko, Japan Alternate Allele Count', $variation->tg_jpt_ac, $unlock);
-        $html .= variant_form_input('tg_jpt_an', '1000 Genomes Japanese in Toyko, Japan Total Allele Count', $variation->tg_jpt_an, $unlock);
-        $html .= variant_form_input('tg_khv_ac', '1000 Genomes Kinh in Ho Chi Minh City, Vietnam Alternate Allele Count', $variation->tg_khv_ac, $unlock);
-        $html .= variant_form_input('tg_khv_an', '1000 Genomes Kinh in Ho Chi Minh City, Vietnam Total Allele Count', $variation->tg_khv_an, $unlock);
-        $html .= variant_form_input('tg_lwk_ac', '1000 Genomes Luhya in Webuye, Kenya Alternate Allele Count', $variation->tg_lwk_ac, $unlock);
-        $html .= variant_form_input('tg_lwk_an', '1000 Genomes Luhya in Webuye, Kenya Total Allele Count', $variation->tg_lwk_an, $unlock);
-        $html .= variant_form_input('tg_mxl_ac', '1000 Genomes Mexican Ancestry in Los Angeles, CA Alternate Allele Count', $variation->tg_mxl_ac, $unlock);
-        $html .= variant_form_input('tg_mxl_an', '1000 Genomes Mexican Ancestry in Los Angeles, CA Total Allele Count', $variation->tg_mxl_an, $unlock);
-        $html .= variant_form_input('tg_pel_ac', '1000 Genomes Peruvian in Lima, Peru Alternate Allele Count', $variation->tg_pel_ac, $unlock);
-        $html .= variant_form_input('tg_pel_an', '1000 Genomes Peruvian in Lima, Peru Total Allele Count', $variation->tg_pel_an, $unlock);
-        $html .= variant_form_input('tg_pur_ac', '1000 Genomes Puerto Rican in Puerto Rico Alternate Allele Count', $variation->tg_pur_ac, $unlock);
-        $html .= variant_form_input('tg_pur_an', '1000 Genomes Puerto Rican in Puerto Rico Total Allele Count', $variation->tg_pur_an, $unlock);
-        $html .= variant_form_input('tg_tsi_ac', '1000 Genomes Toscani in Italia Alternate Allele Count', $variation->tg_tsi_ac, $unlock);
-        $html .= variant_form_input('tg_tsi_an', '1000 Genomes Toscani in Italia Total Allele Count', $variation->tg_tsi_an, $unlock);
-        $html .= variant_form_input('tg_yri_ac', '1000 Genomes Yoruba in Ibadan, Nigeria Alternate Allele Count', $variation->tg_yri_ac, $unlock);
-        $html .= variant_form_input('tg_yri_an', '1000 Genomes Yoruba in Ibadan, Nigeria Total Allele Count', $variation->tg_yri_an, $unlock);
+        $html .= variant_form_input('tg_afr_ac', '1000 Genomes African Alternate Allele Count', $variation->tg_afr_ac, $unlock);
+        $html .= variant_form_input('tg_afr_an', '1000 Genomes African Total Allele Count', $variation->tg_afr_an, $unlock);
+        $html .= variant_form_input('tg_afr_af', '1000 Genomes African Allele Frequency', $variation->tg_afr_af, $unlock);
+        $html .= variant_form_input('tg_eur_ac', '1000 Genomes European Alternate Allele Count', $variation->tg_eur_ac, $unlock);
+        $html .= variant_form_input('tg_eur_an', '1000 Genomes European Total Allele Count', $variation->tg_eur_an, $unlock);
+        $html .= variant_form_input('tg_eur_af', '1000 Genomes European Allele Frequency', $variation->tg_eur_af, $unlock);
+        $html .= variant_form_input('tg_amr_ac', '1000 Genomes American Alternate Allele Count', $variation->tg_amr_ac, $unlock);
+        $html .= variant_form_input('tg_amr_an', '1000 Genomes American Total Allele Count', $variation->tg_amr_an, $unlock);
+        $html .= variant_form_input('tg_amr_af', '1000 Genomes American Allele Frequency', $variation->tg_amr_af, $unlock);
+        $html .= variant_form_input('tg_asn_ac', '1000 Genomes Asian Alternate Allele Count', $variation->tg_asn_ac, $unlock);
+        $html .= variant_form_input('tg_asn_an', '1000 Genomes Asian Total Allele Count', $variation->tg_asn_an, $unlock);
+        $html .= variant_form_input('tg_asn_af', '1000 Genomes Asian Allele Frequency', $variation->tg_asn_af, $unlock);
+        $html .= variant_form_input('tg_all_ac', '1000 Genomes All Populations Alternate Allele Count', $variation->tg_all_ac, $unlock);
+        $html .= variant_form_input('tg_all_an', '1000 Genomes All Populations Total Allele Count', $variation->tg_all_an, $unlock);
+        $html .= variant_form_input('tg_all_af', '1000 Genomes All Populations Allele Frequency', $variation->tg_all_af, $unlock);
       }
       // End collapsable accordion
       $html .= '                </div>';

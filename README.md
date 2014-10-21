@@ -345,5 +345,3 @@ Here are a few nice guides for doing this:
 [Sean Ephraim](www.linkedin.com/in/seanephraim/) | sean.ephraim@gmail.com
 
 Nikhil Anand | mail@nikhil.io
-
-Zach Ladley | zachary-ladlie@uiowa.edu
