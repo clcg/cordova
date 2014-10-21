@@ -1741,15 +1741,16 @@ EOF;
   }
 
   /**
-   * Num Variants In Queue
+   * Num Unreleased
    *
-   * Returns total number rows in the variant queue table.
+   * Returns total number of variants with unreleased changes.
    *
    * @author Sean Ephraim
-   * @return int Number of rows in the variant queue table
+   * @return int 
+   *    Number of unreleased changes
    */
-  public function num_variants_in_queue() {
-    return $this->db->count_all($this->tables['vd_queue']);
+  public function num_unreleased() {
+    return $this->db->count_all($this->tables['reviews']);
   }
 }
 

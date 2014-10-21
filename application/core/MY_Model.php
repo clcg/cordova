@@ -282,20 +282,24 @@ class MY_Model extends CI_Model {
    * @param int $start_pos
    *    Starting row
    * @param int $limit
-   *    Number of rows total (from/including the starting row)
+   *    (optional) Number of rows total (from/including the starting row)
+   * @param boolean $full_records
+   *    (optional) If TRUE, returns full records instead of just the ID
    * @return array
-   *    Unique IDs
+   *    Array of unique IDs (default); or array of record objects
    */
-  public function get_ids_within_range($table, $start_pos, $limit = 1) {
-    $result = $this->db->select('id')
+  public function get_ids_within_range($table, $start_pos, $limit = 1, $full_records = FALSE) {
+    $columns = ($full_records) ? '*' : 'id';
+    $result = $this->db->select($columns)
                        ->get($table, $limit, $start_pos)
                        ->result();
-    $ids = array();
     // Create a nice array from the result
+    $records = array();
     foreach ($result as $row) {
-      array_push($ids, $row->id);
+      $item = ($full_records) ? $row : $row->id;
+      array_push($records, $item);
     }
-    return $ids;
+    return $records;
   }
 
   /**

@@ -263,17 +263,17 @@ class Variations extends MY_Controller {
       $page_num = $id;
       $this->load->library('pagination');
       $config['base_url'] = site_url('variations/unreleased/page');
-      $config['total_rows'] = $this->variations_model->num_variants_in_queue();
+      $config['total_rows'] = $this->variations_model->num_unreleased();
       $config['per_page'] = 100; 
       $this->pagination->initialize($config); 
       $data['page_links'] = $this->pagination->create_links();
       // Get variant IDs within specified range
       $start_pos = ($page_num - 1)*$config['per_page'];
-      $variant_ids = $this->variations_model->get_ids_within_range($this->tables['vd_queue'], $start_pos, $config['per_page']);
+      $reviews = $this->variations_model->get_ids_within_range($this->tables['reviews'], $start_pos, $config['per_page'], TRUE);
       // Query variant changes individually, then push them onto array
       $data['variants'] = array();
-      foreach ($variant_ids as $variant_id) {
-        $changes = $this->variations_model->get_unreleased_changes($variant_id);
+      foreach ($reviews as $review) {
+        $changes = $this->variations_model->get_unreleased_changes($review->variant_id);
         array_push($data['variants'], array_shift($changes)); // Take first (and only) result, push onto array
       }
     }
@@ -291,8 +291,8 @@ class Variations extends MY_Controller {
       else {
         // Header for multiple variations
         $range_limit_1 = $start_pos + 1;
-        $range_limit_2 = $start_pos + count($variant_ids);
-        $num_unreleased = $this->variations_model->num_variants_in_queue();
+        $range_limit_2 = $start_pos + count($reviews);
+        $num_unreleased = $this->variations_model->num_unreleased();
         $data['header'] = "$num_unreleased Unreleased changes | Showing $range_limit_1 - $range_limit_2";
       }
     }
