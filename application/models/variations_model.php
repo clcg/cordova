@@ -841,7 +841,8 @@ class Variations_model extends MY_Model {
    *
    * @author  Sean Ephraim
    * @access  public
-   * @param   boolean   $confirmed_only (optional) Only release confirmed variants?
+   * @param   boolean   $confirmed_only
+   *    (optional) Only release confirmed variants?
    * @return  boolean   TRUE on success, else FALSE
    */
   public function push_data_live($confirmed_only = TRUE)
@@ -849,10 +850,18 @@ class Variations_model extends MY_Model {
     // Set unlimited memory/time when retrieving all variants in the queue (queue could be quite large)
     ini_set('memory_limit', '-1');
     set_time_limit(0);
+
+    // Get all variants to update
     $new_records = $this->variations_model->get_all_variants($this->tables['vd_queue']);
 
-    // Remove unconfirmed variants
     if ($confirmed_only === TRUE) {
+      // Get only variants confirmed for deletion
+      $delete_records = $this->db->get_where($this->tables['reviews'],
+                                             array(
+                                               'scheduled_for_deletion' => 1,
+                                               'confirmed_for_release' => 1,
+                                             ))->result();
+      // Remove unconfirmed variants from update list
       foreach ($new_records as $key => $new_record) {
         $query = $this->db->get_where($this->tables['reviews'], array(
                                                                   'variant_id' => $new_record->id,
@@ -863,8 +872,15 @@ class Variations_model extends MY_Model {
         }
       }
     }
+    else {
+      // Get all variants scheduled for deletion (confirmed or not)
+      $delete_records = $this->db->get_where($this->tables['reviews'],
+                                             array(
+                                               'scheduled_for_deletion' => 1,
+                                             ))->result();
+    }
 
-    if (empty($new_records) && $this->version != 0) {
+    if (empty($new_records) && empty($delete_records) && $this->version != 0) {
       // ERROR: no new records to update
       // NOTE: an empty update is only allowed for Version 0
       return FALSE;
@@ -909,9 +925,10 @@ class Variations_model extends MY_Model {
     }
 
     // Remove variants from the *new* live table that were scheduled for deletion
-    $delete_records = $this->db->get_where($this->tables['reviews'], array('scheduled_for_deletion' => 1))->result();
     foreach ($delete_records as $delete_record) {
       $this->db->delete($new_live_table, array('id' => $delete_record->variant_id));
+      $this->db->delete($new_queue_table, array('id' => $delete_record->variant_id));
+      $this->db->delete($new_reviews_table, array('variant_id' => $delete_record->variant_id));
     }
 
     // Get genes and associated variant counts, insert into new variant count table
