@@ -48,7 +48,7 @@
         <li><strong>otoscope</strong> show the <a href="http://www.healthcare.uiowa.edu/labs/morl/otoscope/home.html">MORL&#8217;s OtoScope&trade;</a> allele counts</li>
       </ul>
     <p>
-      The fields also come in pairs: <code>{field}_<strong>ac</strong></code> and <code>{field}_<strong>an</strong></code>. Fields suffixed with &#8220;<code><strong>ac</strong></code>&#8221; show <em>allele count</em>, while those with &#8220;<code><strong>an</strong></code>&#8221; show <em>total allele count</em>. For example, <code><span class="blue">tb</span>_<span class="green">ibs</span>_<span class="orange">ac</span></code> shows <span class="blue">1000 Genome</span> <span class="orange">allele counts</span> for <span class="green">Iberian populations in Spain</span>.
+      The fields also come in pairs: <code>{field}_<strong>ac</strong></code> and <code>{field}_<strong>an</strong></code>. Fields suffixed with &#8220;<code><strong>ac</strong></code>&#8221; show <em>allele count</em>, while those with &#8220;<code><strong>an</strong></code>&#8221; show <em>total allele count</em>. For example, <code><span class="blue">tb</span>_<span class="green">ibs</span>_<span class="orange">ac</span></code> shows <span class="blue">1000 Genomes</span> <span class="orange">allele counts</span> for <span class="green">Iberian populations in Spain</span>.
     </p>
     <table border="0" cellspacing="0" cellpadding="0" class="api-columns">
       <caption>Population Frequency Fields</caption>

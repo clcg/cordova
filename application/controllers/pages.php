@@ -75,7 +75,7 @@ class Pages extends MY_Controller {
     $data['reg_keys'] = array_keys($data['reg_fields']);
     // Population fields/keys (table values)
     $data['pop_fields'] = array(
-                    'evs_ea' => 'European American Alternate Allele Count',
+                    'evs_ea_*' => 'European American Alternate Allele Count',
                     'evs_aa_*' => 'African American Total Allele Count',
                     'tg_acb_*' => 'African Caribbean in Barbados',
                     'tg_asw_*' => 'African Ancestry in Southwest US',
