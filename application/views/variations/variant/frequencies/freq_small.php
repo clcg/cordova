@@ -35,9 +35,10 @@
         <th scope="row"><h5>1000 Genomes</h5></th>
         <td>
           <div><img src="<?php print site_url("variant/freq?value=".($tg_afr_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_afr_label ?></small><br /><span>AFR</span><br /><strong>African</strong></div>
-          <div><img src="<?php print site_url("variant/freq?value=".($tg_eur_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_amr_label ?></small><br /><span>AMR</span><br /><strong>American</strong></div>
-          <div><img src="<?php print site_url("variant/freq?value=".($tg_amr_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_asn_label ?></small><br /><span>ASN</span><br /><strong>Asian</strong></div>
-          <div><img src="<?php print site_url("variant/freq?value=".($tg_asn_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_eur_label ?></small><br /><span>EUR</span><br /><strong>European</strong></div>    
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_eur_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_eur_label ?></small><br /><span>EUR</span><br /><strong>European</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_amr_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_amr_label ?></small><br /><span>AMR</span><br /><strong>American</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_sas_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_sas_label ?></small><br /><span>SAS</span><br /><strong>South Asian</strong></div>    
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_eas_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_eas_label ?></small><br /><span>EAS</span><br /><strong>East Asian</strong></div>    
           <div><img src="<?php print site_url("variant/freq?value=".($tg_all_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_all_label ?></small><br /><span>ALL</span><br /><strong>All populations</strong></div>
         </td>
       </tr>

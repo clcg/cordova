@@ -45,10 +45,11 @@
         <tr>
           <td><img src="<?php print site_url("variant/freq?value=".$tg_afr_af*100); ?>" /><br /><small><?php print $tg_afr_label ?></small><br /><span>African</span></td>
           <td><img src="<?php print site_url("variant/freq?value=".$tg_amr_af*100); ?>" /><br /><small><?php print $tg_amr_label ?></small><br /><span>American</span></td>
-          <td><img src="<?php print site_url("variant/freq?value=".$tg_asn_af*100); ?>" /><br /><small><?php print $tg_asn_label ?></small><br /><span>Asian</span></td>
+          <td><img src="<?php print site_url("variant/freq?value=".$tg_eur_af*100); ?>" /><br /><small><?php print $tg_eur_label ?></small><br /><span>European</span></td>
         </tr>  
         <tr>
-          <td><img src="<?php print site_url("variant/freq?value=".$tg_eur_af*100); ?>" /><br /><small><?php print $tg_eur_label ?></small><br /><span>European</span></td>
+          <td><img src="<?php print site_url("variant/freq?value=".$tg_sas_af*100); ?>" /><br /><small><?php print $tg_sas_label ?></small><br /><span>South Asian</span></td>
+          <td><img src="<?php print site_url("variant/freq?value=".$tg_eas_af*100); ?>" /><br /><small><?php print $tg_eas_label ?></small><br /><span>East Asian</span></td>
           <td><img src="<?php print site_url("variant/freq?value=".$tg_all_af*100); ?>" /><br /><small><?php print $tg_all_label ?></small><br /><span>All populations</span></td>
           <td><div style="width:200px;"></div></td>
         </tr>  

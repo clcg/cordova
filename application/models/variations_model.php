@@ -304,6 +304,10 @@ class Variations_model extends MY_Model {
         'tg_eur_af'              => $annot_result['tg_eur_af'],
         'tg_amr_ac'              => $annot_result['tg_amr_ac'],
         'tg_amr_af'              => $annot_result['tg_amr_af'],
+        'tg_sas_ac'              => $annot_result['tg_sas_ac'],
+        'tg_sas_af'              => $annot_result['tg_sas_af'],
+        'tg_eas_ac'              => $annot_result['tg_eas_ac'],
+        'tg_eas_af'              => $annot_result['tg_eas_af'],
         'tg_asn_ac'              => $annot_result['tg_asn_ac'],
         'tg_asn_af'              => $annot_result['tg_asn_af'],
         'tg_all_ac'              => $annot_result['tg_all_ac'],
@@ -1737,7 +1741,8 @@ EOF;
       ($data['tg_afr_af'] == '') ? $data['tg_afr_label'] = '(No data)' : ($data['tg_afr_af'] == 0) ? $data['tg_afr_label'] = $zero_label : $data['tg_afr_label'] = $data['tg_afr_ac'] . "/" . intval($data['tg_afr_ac']/$data['tg_afr_af']) . " (" . number_format((float) $data['tg_afr_af'], 3, '.', '') . ")";
       ($data['tg_eur_af'] == '') ? $data['tg_eur_label'] = '(No data)' : ($data['tg_eur_af'] == 0) ? $data['tg_eur_label'] = $zero_label : $data['tg_eur_label'] = $data['tg_eur_ac'] . "/" . intval($data['tg_eur_ac']/$data['tg_eur_af']) . " (" . number_format((float) $data['tg_eur_af'], 3, '.', '') . ")";
       ($data['tg_amr_af'] == '') ? $data['tg_amr_label'] = '(No data)' : ($data['tg_amr_af'] == 0) ? $data['tg_amr_label'] = $zero_label : $data['tg_amr_label'] = $data['tg_amr_ac'] . "/" . intval($data['tg_amr_ac']/$data['tg_amr_af']) . " (" . number_format((float) $data['tg_amr_af'], 3, '.', '') . ")";
-      ($data['tg_asn_af'] == '') ? $data['tg_asn_label'] = '(No data)' : ($data['tg_asn_af'] == 0) ? $data['tg_asn_label'] = $zero_label : $data['tg_asn_label'] = $data['tg_asn_ac'] . "/" . intval($data['tg_asn_ac']/$data['tg_asn_af']) . " (" . number_format((float) $data['tg_asn_af'], 3, '.', '') . ")";
+      ($data['tg_sas_af'] == '') ? $data['tg_sas_label'] = '(No data)' : ($data['tg_sas_af'] == 0) ? $data['tg_sas_label'] = $zero_label : $data['tg_sas_label'] = $data['tg_sas_ac'] . "/" . intval($data['tg_sas_ac']/$data['tg_sas_af']) . " (" . number_format((float) $data['tg_sas_af'], 3, '.', '') . ")";
+      ($data['tg_eas_af'] == '') ? $data['tg_eas_label'] = '(No data)' : ($data['tg_eas_af'] == 0) ? $data['tg_eas_label'] = $zero_label : $data['tg_eas_label'] = $data['tg_eas_ac'] . "/" . intval($data['tg_eas_ac']/$data['tg_eas_af']) . " (" . number_format((float) $data['tg_eas_af'], 3, '.', '') . ")";
       ($data['tg_all_af'] == '') ? $data['tg_all_label'] = '(No data)' : ($data['tg_all_af'] == 0) ? $data['tg_all_label'] = $zero_label : $data['tg_all_label'] = $data['tg_all_ac'] . "/" . intval($data['tg_all_ac']/$data['tg_all_af']) . " (" . number_format((float) $data['tg_all_af'], 3, '.', '') . ")";
     }
     else {
