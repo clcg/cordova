@@ -143,9 +143,9 @@ Setting Cordova's **environment** is useful when switching between development a
 1. To set your site **environment**, open the `[cordova]/index.php` file. 
 1. Edit the environment variable to be one of the following options. If in doubt, use **Option 1**.
 
-    **Option 1**: `config['environment'] = 'production'` -- use this option when your site is ready to be released to the public.
+    **Option 1**: `define('ENVIRONMENT', 'production');` -- use this option when your site is ready to be released to the public.
 
-    **Option 2**: `config['environment'] = 'development'` -- Use this option when your site isn't quite ready to be released to the public yet. If you only have a production server (and no development server), always use **Option 1**.
+    **Option 2**: `define('ENVIRONMENT', 'development');` -- Use this option when your site isn't quite ready to be released to the public yet. If you only have a production server (and no development server), always use **Option 1**.
 1. Save the file and close it.
 
 ##### 6. Configure admin email and password
