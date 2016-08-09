@@ -35,10 +35,27 @@
         <th scope="row"><h5>1000 Genomes</h5></th>
         <td>
           <div><img src="<?php print site_url("variant/freq?value=".($tg_afr_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_afr_label ?></small><br /><span>AFR</span><br /><strong>African</strong></div>
-          <div><img src="<?php print site_url("variant/freq?value=".($tg_eur_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_amr_label ?></small><br /><span>AMR</span><br /><strong>American</strong></div>
-          <div><img src="<?php print site_url("variant/freq?value=".($tg_amr_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_asn_label ?></small><br /><span>ASN</span><br /><strong>Asian</strong></div>
-          <div><img src="<?php print site_url("variant/freq?value=".($tg_asn_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_eur_label ?></small><br /><span>EUR</span><br /><strong>European</strong></div>    
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_eur_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_eur_label ?></small><br /><span>EUR</span><br /><strong>European</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_amr_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_amr_label ?></small><br /><span>AMR</span><br /><strong>American</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_eas_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_eas_label ?></small><br /><span>EAS</span><br /><strong>East Asian</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($tg_sas_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_sas_label ?></small><br /><span>SAS</span><br /><strong>South Asian</strong></div>
           <div><img src="<?php print site_url("variant/freq?value=".($tg_all_af*100)."&amp;small"); ?>" /><br /><small><?php print $tg_all_label ?></small><br /><span>ALL</span><br /><strong>All populations</strong></div>
+        </td>
+      </tr>
+    </table>
+
+    <table border="0" cellspacing="0" cellpadding="0" style="display:<?php echo $disp_exac?>">
+      <tr>
+        <th scope="row"><h5>ExAC</h5></th>
+        <td>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_afr_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_afr_label ?></small><br /><span>AFR</span><br /><strong>African</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_amr_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_amr_label ?></small><br /><span>AMR</span><br /><strong>American (Latino)</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_fin_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_fin_label ?></small><br /><span>FIN</span><br /><strong>European (Finnish)</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_nfe_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_nfe_label ?></small><br /><span>NFE</span><br /><strong>European (non-Finnish)</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_eas_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_eas_label ?></small><br /><span>EAS</span><br /><strong>East Asian</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_sas_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_sas_label ?></small><br /><span>SAS</span><br /><strong>South Asian</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_oth_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_oth_label ?></small><br /><span>OTH</span><br /><strong>Other</strong></div>
+          <div><img src="<?php print site_url("variant/freq?value=".($exac_all_af*100)."&amp;small"); ?>" /><br /><small><?php print $exac_all_label ?></small><br /><span>ALL</span><br /><strong>All populations</strong></div>
         </td>
       </tr>
     </table>
