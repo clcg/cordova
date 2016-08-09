@@ -1624,18 +1624,13 @@ EOF;
     }
 
     // SIFT
-    if (is_numeric($data['sift_score'])) {
-      // Damage threshold
-      if ($data['sift_score'] < 0.05) {
-        $data['class_sift'] = "red";
-        $data['desc_sift'] = "Damaging";
-      } 
-      else {
-        $data['class_sift'] = "green";
-        $data['desc_sift'] = "Tolerated";    
-      }
-    }
-    else {
+    if (stristr($data['sift_pred'], "D") !== FALSE) {
+      $data['class_sift'] = "red";
+      $data['desc_sift'] = "Damaging";
+    } elseif (stristr($data['sift_pred'], "T") !== FALSE) {
+      $data['class_sift'] = "green";
+      $data['desc_sift'] = "Tolerated";    
+    } else {
       $data['class_sift'] = "gray";
       $data['desc_sift'] = "Unknown";
     }
