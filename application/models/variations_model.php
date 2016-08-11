@@ -1346,6 +1346,7 @@ EOF;
    *
    * @author Nikhil Anand
    * @author Zachary Ladlie
+   * @author Lucas Murray
    * @access public
    * @param string $result 
    * 			An array of database results for a gene letter
@@ -1375,7 +1376,7 @@ EOF;
       $table .=<<<EOF
       \n
       <fieldset>
-          <legend class="genename $collapsed" id="$gene"><strong>$gene</strong> <span><a href="$uri_csv">CSV</a> <a href="$uri_tab">Tab</a> <a href="$uri_jsn">JSON</a> <a href="$uri_xml">XML</a></span></legend>
+          <legend class="genename $collapsed" id="$gene"><strong>$gene</strong> <span><a href="$uri_csv">CSV</a> <a href="$uri_tab">Tab</a> <a href="$uri_jsn">JSON</a> <a href="$uri_xml">XML</a><a href="https://github.com/wtollefson/dvd-structures/tree/master/$gene">3D Structure</a></span></legend>
           <div id="table-$gene" style="$display">
               <table class="gene-table">
               <thead>
