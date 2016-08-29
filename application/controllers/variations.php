@@ -452,7 +452,18 @@ class Variations extends MY_Controller {
 
     $this->load->model('genes_model');
     $this->load->helper('genes');
-    $data['genes'] = $this->genes_model->get_genes($letter, FALSE);
+    $data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+
+    # Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+    $data['display_names'] = Array();
+    foreach ($data['genes'] as $gene => $alias) {
+      if ($alias !== NULL) {
+        $data['display_names'][$gene] = "$gene ($alias)";
+      }
+      else {
+        $data['display_names'][$gene] = $gene;
+      }
+    }
 
     $this->load->view($this->public_layout, $data);
   }
