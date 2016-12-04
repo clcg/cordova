@@ -5,8 +5,9 @@ class MY_Controller extends CI_Controller {
   public $public_layout;
   public $editor_layout;
   public $version;
+  public $versionId; //Rob Marini Edit: versionId made public
   public $user;
-
+ 
 	public function __construct()
   {
     parent::__construct();
@@ -15,11 +16,12 @@ class MY_Controller extends CI_Controller {
     // Variables for ALL controllers
     $this->public_layout = "layouts/public/master";
     $this->editor_layout = "layouts/editor/master";
-		$this->version = $this->variations_model->get_db_version_num();
+    $this->version = $this->variations_model->get_db_version_num();
 
     // Variables for ALL views
     $data->version = $this->variations_model->get_db_version_num(TRUE);
-		$data->update_date = date("j M Y", strtotime($this->variations_model->get_last_update_date()));
+    $data->versionId = $this->variations_model->get_db_version_id(TRUE); //Rob Marini Edit: added function to get new versionId variable
+    $data->update_date = date("j M Y", strtotime($this->variations_model->get_last_update_date()));
     $data->site_full_name = $strings['site_full_name'];
     $data->site_short_name = $strings['site_short_name'];
     $data->footer_info = $strings['footer_info'];
