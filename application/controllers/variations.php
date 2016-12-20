@@ -237,6 +237,55 @@ class Variations extends MY_Controller {
   }
 
   /**
+   * Uplaod Genes
+   *
+   * First interface of variant-CADI. Allows the user to upload
+   * genes in file format as specified in the interface or to 
+   * enter genes in a text box.
+   *
+   * @author arhallier@gmail.com
+   * @access public
+   * @param none
+   */
+
+  public function upload_genes() {
+    redirect_all_nonmembers();
+    $data['title'] = "Uplaod Genes";
+    $data['content'] = 'variations/upload_genes';
+    $this->load->helper('file');
+    $annotation_path = $this->config->item('annotation_path');
+    $time_stamp = date("YmdHis");
+    $data['time_stamp'] = $time_stamp;
+    $file_path = "$annotation_path/mygenes$time_stamp.txt";
+    $this->session->set_flashdata('file_path', $file_path);
+    //if input is from the text box
+    if($this->input->post('text-submit'))
+    {
+      $genesOrFile = $this->input->post('text');
+      $this->session->set_flashdata('genes', $genesOrFile);
+      if($fh = fopen("$file_path", 'w+')){ 
+        fwrite($fh, $genesOrFile);
+        fclose($fh);
+        redirect('variations/query_public_database/'.$time_stamp);
+      }
+      #need to add an else here 
+    }
+    //if the input is from the file submit
+    if($this->input->post('file-submit'))
+    {
+      $this->load->library('upload');
+      $this->upload->set_allowed_types('*');
+      $genesOrFile = $_FILES["file"]["name"];
+      $this->session->set_flashdata('genes', $genesOrFile);
+      move_uploaded_file($_FILES["file"]["tmp_name"], "$file_path");
+      redirect('variations/query_public_database/'.$time_stamp);
+      #need to add some try catches here
+    }
+    $this->load->view($this->editor_layout, $data);
+  }
+
+
+  /**
    * Show unreleased
    *
    * Show all of the unreleased changes made to the variation data.

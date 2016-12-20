@@ -65,6 +65,7 @@ $route['genes'] = 'genes/show_genes';
 $route['variations/view/(:any)'] = 'variations/view/$1';
 $route['variations/edit/(:any)'] = 'variations/edit/$1';
 $route['variations/add'] = 'variations/add';
+$route['variations/upload_genes'] = 'variations/upload_genes';
 $route['variations/submit'] = 'variations/submit_changes';
 $route['variations/unreleased'] = 'variations/show_unreleased';
 $route['variations/unreleased/(:any)'] = 'variations/show_unreleased/$1';
