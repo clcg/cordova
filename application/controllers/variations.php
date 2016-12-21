@@ -326,6 +326,32 @@ class Variations extends MY_Controller {
    $this->load->view($this->editor_layout, $data);
   }
 
+  public function norm_nomenclature() {
+    redirect_all_nonmembers();
+    $data['title'] = "Normalize Nomenclature";
+    $data['content'] = 'variations/norm_nomenclature';
+    $annotation_path = $this->config->item('annotation_path');
+    $time_stamp=date("YmdHis");
+    $uniqueDiseases = $this->variations_model->get_disease_names();
+    $data['uniqueDiseases'] = $uniqueDiseases;
+    $data['csv_file_path'] = $uniqueDiseases['csvDiseasePath'];
+    if($this->input->post('submit')){
+      $updatedDiseaseNamesFile = $this->variations_model->update_disease_names($_POST, $nameUpdatesFile = null, $uniqueDiseases['diseaseNames']);
+      redirect("/variations/norm_nomenclature");
+    }
+    if($this->input->post('file-submit')){ 
+      $this->load->library('upload');
+      $this->upload->set_allowed_types('*');
+      $nameUpdatesFile = BASEPATH."submittedDiseaseNames$time_stamp.txt";
+      if (isset($_FILES["myfile"]["name"])){
+        move_uploaded_file($_FILES["myfile"]["tmp_name"], BASEPATH."submittedDiseaseNames$time_stamp.txt");
+      }
+      $updatedDiseaseNamesFile = $this->variations_model->update_disease_names($_POST, $nameUpdatesFile,  $uniqueDiseases['diseaseNames'], $input_file_type = TRUE);
+      redirect("/variations/norm_nomenclature");
+    }
+    $this->load->view($this->editor_layout, $data);
+  }
+
   /**
    * Show unreleased
    *

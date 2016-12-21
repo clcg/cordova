@@ -1818,6 +1818,7 @@ EOF;
     $PATH = getenv('PATH');
     $vd_queue = $this->tables['vd_queue'];
     $BASEPATH = BASEPATH;
+    $BASEPATH = rtrim($BASEPATH, '/'); 
     
     ini_set('memory_limit', '-1');
     set_time_limit(0);
@@ -1917,6 +1918,114 @@ EOF;
     
     return $timeStamp;
   }
+
+  /**
+  * Get Disease Names
+  *
+  * Generates a new file from the pipeline output that removes
+  * unaccepted characters in gene names. It returns a list of 
+  * unique gene names found in the cleaned file.
+  *
+  * @author Andrea Hallier
+  * @input oldFile, newFile
+  */
+  public function get_disease_names(){
+    $queueTable = $this->tables['vd_queue'];
+    $sql = "SELECT gene, disease FROM $queueTable group by gene, disease"; 
+    $query = $this->db->query($sql);
+    $result = $query->result();
+    $diseaseNames = array();
+    $annotation_path = $this->config->item('annotation_path');
+    //NEED TO MAKE VAR FOR THIS PATH TO FIND ROOT OF SYSTEM
+    $tmpDir = BASEPATH."tmp";
+    $time_stamp = date("YmdHis");
+    $queueOutFilePath = "$tmpDir/queueOutputPath$time_stamp.csv";
+    $handle = fopen($queueOutFilePath, 'w') or die('Cannot open file:  '.$queueOutFilePath);
+    $sql = "SELECT * FROM $queueTable INTO OUTFILE '$handle' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'";
+    $csvDiseasePath = "$tmpDir/csvDisease$time_stamp.csv";
+    
+    $rowCount = 1; 
+    $csvDisease = fopen($csvDiseasePath, "w");
+    fwrite($csvDisease, "Gene, Current, New\n");
+    foreach($query->result() as $row){
+      if(strcmp($row->disease,"+")){
+        array_push($diseaseNames, urlencode(urldecode($row->disease)));
+        fwrite($csvDisease, "\"".$row->gene."\",\"".urldecode($row->disease)."\",\"NewName\"\n");
+      }
+    }
+    $csvDiseaseDownloadPath = "http://cordova-dev.eng.uiowa.edu/cordova_sites_ah/vvd/tmp/csvDisease$time_stamp.csv";
+    $csvQueueDownloadPath = "http://cordova-dev.eng.uiowa.edu/cordova_sites_ah/vvd/tmp/queueOutputPath$time_stamp.csv";
+    $data = array('diseaseNames' => $diseaseNames,
+                  'csvDiseasePath' => $csvDiseasePath,
+                  'csvDiseaseDownloadPath' => $csvDiseaseDownloadPath,
+                  'queueDownloadPath' => $csvQueueDownloadPath);
+
+    return $data;
+  }  
+
+  /**
+  * Update Disease Names
+  *
+  * Takes the user input from the normralize nomenclature form, the list of 
+  * unique diseases determeined prviously and file paths to create new files
+  * and read from old files.The old file informations and the submitted names
+  * are used to create a new updated file with new disease names.
+  *
+  * @author Andrea Hallier
+  * @input POST, uniqueDiseases, nameUpdatesFile, oldFileLocation, newFileLocation
+  */
+
+  public function update_disease_names($_POST, $nameUpdatesFile,  $uniqueDiseases, $input_type_file = FALSE){
+    $queueTable = $this->tables['vd_queue'];
+    if($input_type_file == FALSE){
+      foreach($uniqueDiseases as $disease){
+        $string = str_replace(" ", "_", $disease);
+        if($_POST[$string]){
+          $newName = urlencode($_POST[$string]);
+          $sql = "UPDATE $queueTable SET disease='$newName' WHERE disease='$disease'";
+          $query = $this->db->query($sql);
+        }
+      } 
+    }
+    if($input_type_file == TRUE){
+      $submittedNameUpdates = fopen($nameUpdatesFile, "r");
+      $row = 1;
+      while($line = fgets($submittedNameUpdates)){
+        if($row != 1){
+          $data = explode("\",\"", $line);
+          $newName = urlencode(str_replace('"', "", $data[2]));
+          $disease = urlencode($data[1]);
+          $gene = str_replace('"', "", $data[0]);
+          $sql = "UPDATE $queueTable SET disease='$newName' WHERE disease='$disease' and gene='$gene'";
+          $query = $this->db->query($sql);
+        }
+        $row ++;
+      }
+    } 
+    $timeStamp = date("Ymdhms");
+    //$query5 = $this->db->query("SELECT * from $queueTable INTO OUTFILE '/tmp/queueNomenUpdates$timeStamp.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n';");
+    //exec("cp /tmp/queueNomenUpdates$timeStamp.csv /var/www/html/cordova_sites_ah/rdvd/tmp/queueNomenUpdates$timeStamp.csv");
+    return $query;
+  } 
+
+  public function get_table_data($table, $path, $orderby){
+    $queryTable = $this->tables["$table"];
+    $data = fopen($path, "w");
+    $sql="SELECT * 
+    FROM $queryTable
+    $orderby";
+    $sqlResult = mysql_query($sql);
+    //write to file
+    while($row = mysql_fetch_assoc($sqlResult))
+    {
+      $scoredata[] = implode("; ", $row);
+      fwrite($data,implode("\r\n", $scoredata));
+    }
+    fclose($data);
+    return $sqlResult;
+  }
+
+
 
 }
 /* End of file variations_model.php */
