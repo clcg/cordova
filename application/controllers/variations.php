@@ -268,7 +268,9 @@ class Variations extends MY_Controller {
         fclose($fh);
         redirect('variations/query_public_database/'.$time_stamp);
       }
-      #need to add an else here 
+      else{
+        die("Could not open file.");
+      }#need to add an else here 
     }
     //if the input is from the file submit
     if($this->input->post('file-submit'))
@@ -284,6 +286,45 @@ class Variations extends MY_Controller {
     $this->load->view($this->editor_layout, $data);
   }
 
+  /**
+   * Query Public Database
+   *
+   * Annotation pipeline for submitted genes is run when
+   * the user selects submit.
+   *
+   * @author arhallier@gmail.com
+   * @access public
+   * @param none
+   */
+  public function query_public_database($time_stamp) {
+    redirect_all_nonmembers();
+    $data['title'] = "Query Public Databases";
+    $data['content'] = 'variations/query_public_database';
+    $annotation_path = $this->config->item('annotation_path');
+    $genes = $this->session->flashdata('genes');
+    $data['genes'] = $genes;
+    $genesFile = "$annotation_path/mygenes$time_stamp.txt";
+    $data['time_stamp'] = $time_stamp;
+    $this->load->library('email');
+    $this->email->clear();
+    $config['mailtype'] = 'text';
+    $config['wordwrap'] = TRUE;
+    $config['newline'] = "\r\n";
+    $config['crlf'] = "\r\n";
+    $this->email->initialize($config);
+    $this->email->from($this->config->item('contact_email'));
+    $this->email->to($this->config->item('contact_email')); 
+    $this->email->subject('Cordova variant-CADI Variant Collection Update');
+    $this->email->message("The variant collection has completed, please follow this link to continue initializing your database. ".$this->config->base_url()."variations/norm_nomenclature/".$time_stamp);  
+
+    if($this->input->post('submit'))
+    {
+      $success = $this->variations_model->run_annotation_pipeline($time_stamp, $genesFile);     
+      $this->email->attach(BASEPATH."tmp/myvariants$time_stamp.log");
+      $this->email->send();
+    }
+   $this->load->view($this->editor_layout, $data);
+  }
 
   /**
    * Show unreleased

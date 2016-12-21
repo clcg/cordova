@@ -1800,8 +1800,125 @@ EOF;
   public function num_unreleased() {
     return $this->db->count_all($this->tables['reviews']);
   }
-}
 
+  /**
+  * Run Annotation Pipeline
+  *
+  * Takes the timestamp associated with this submit and the list
+  * of genes submitted and runs a series of scripts to collect
+  * and annotate variants associated with the genes submitted.
+  *
+  * @author Andrea Hallier
+  * @input timeStamp, genesFile
+  */
+  public function run_annotation_pipeline($timeStamp, $genesFile){
+    $this->load->database();
+    $RUBY = $this->config->item('ruby_path');
+    $annotation_path = $this->config->item('annotation_path');
+    $PATH = getenv('PATH');
+    $vd_queue = $this->tables['vd_queue'];
+    $BASEPATH = BASEPATH;
+    
+    ini_set('memory_limit', '-1');
+    set_time_limit(0);
+    //exec("nohup sh -c '$RUBY /asap/cordova_pipeline/genes2regions.rb $genesFile &> $regionsFile && $RUBY /asap/cordova_pipeline/regions2variants.rb $regionsFile &> $variantsFile && $RUBY /asap/cordova_pipeline/map.rb $variantsFile &> $mapFile ; cut -f1 $mapFile>$listFile && $RUBY /asap/kafeen/kafeen.rb --progress -i $listFile -o $kafeenFile && $RUBY /asap/cordova_pipeline/annotate_with_hgmd_clinvar.rb $kafeenFile $mapFile &> $hgmd_clinvarFile && cut -f-6  $kafeenFile > $f1File && cut -f2-4 $hgmd_clinvarFile > $f2File && cut -f10- $kafeenFile > $f3File && paste $f1File $f2File > $f4File && paste $f4File $f3File > $finalFile' &");
+    //exec("nohup sh -c '$RUBY /Shared/utilities/cordova_pipeline_v2/pipeline.rb $genesFile' &");
+    //$op = system("$RUBY /Shared/utilities/cordova_pipeline_v2/pipeline.rb $genesFile &> outPutLog.txt",$returns);
+    //exec("export PATH=$PATH:/Shared/utilities/vcftools_0.1.13/bin/");
+    
+    //exec("cd $annotation_path && export PATH=$PATH:/Shared/utilities/vcftools_0.1.13/bin/:/Shared/utilities/bin/ && $RUBY pipeline.rb $genesFile &> outPutLog$timeStamp.txt && gunzip /Shared/utilities/cordova_pipeline_v2/mygenes$timeStamp.vcf.gz && vcf-to-tab < /Shared/utilities/cordova_pipeline_v2/mygenes$timeStamp.vcf &> /Shared/utilities/cordova_pipeline_v2/mygenes$timeStamp.tab");
+
+    //exec("cd $annotation_path && export PATH=$PATH:/Shared/utilities/vcftools_0.1.13/bin/:/Shared/utilities/bin/ && $RUBY pipeline.rb $genesFile &> outPutLog$timeStamp.txt && gunzip /Shared/utilities/cordova_pipeline_v2/mygenes$timeStamp.vcf.gz && vcftools --vcf mygenes$timeStamp.vcf --get-INFO ASAP_VARIANT --get-INFO GENE --get-INFO ASAP_HGVS_C --get-INFO ASAP_HGVS_P --get-INFO ASAP_LOCALE --get-INFO FINAL_PATHOGENICITY --get-INFO FINAL_DISEASE --out mygenes$timeStamp.tab &> vcftoolOUTPUT.txt && cut -f1,5- mygenes$timeStamp.tab.INFO -d'	' &> mygenes$timeStamp.final");
+    
+    $queueTable = $this->tables['vd_queue'];
+    $liveTable = $this->tables['vd_live'];
+    $resultsTable = $this->tables['reviews'];
+    $database = $this->db->database;
+    $date = date("Y-m-d H:i:s"); 
+   
+    //GOING TO NEED TO MOVE THIS!!! NOT SAFE HERE!! MIGHT BREAK SOMETHING ELSE, IE IF NOT UNIUQE BEFORE NOW...
+    $this->db->query("ALTER TABLE $queueTable ADD UNIQUE INDEX (`variation`)");
+    
+    //$COLUMNS=("dbsnp","evs_all_ac","evs_all_an","evs_all_af","evs_ea_ac","evs_ea_an","evs_ea_af","evs_aa_ac","evs_aa_an","evs_aa_af","tg_all_ac","tg_all_an","tg_all_af","tg_afr_ac","tg_afr_an","tg_afr_af","tg_amr_ac","tg_amr_an","tg_amr_af","tg_eas_ac","tg_eas_an","tg_eas_af","tg_eur_ac","tg_eur_an","tg_eur_af","tg_sas_ac","tg_sas_an","tg_sas_af","otoscope_all_ac","otoscope_all_an","otoscope_all_af","otoscope_aj_ac","otoscope_aj_an","otoscope_aj_af","otoscope_co_ac","otoscope_co_an","otoscope_co_af","otoscope_us_ac","otoscope_us_an","otoscope_us_af","otoscope_jp_ac","otoscope_jp_an","otoscope_jp_af","otoscope_es_ac","otoscope_es_an","otoscope_es_af","otoscope_tr_ac","otoscope_tr_an","otoscope_tr_af","gene","sift_score","sift_pred","polyphen2_score","polyphen2_pred","lrt_score","lrt_pred,mutationtaster_score,mutationtaster_pred,gerp_rs,phylop_score,gerp_pred,phylop_pred,variation,hgvs_nucleotide_change,hgvs_protein_change,variantlocale,pathogenicity,disease,pubmed_id,comments,exac_afr_ac,exac_afr_an,exac_afr_af,exac_amr_ac,exac_amr_an,exac_amr_af,exac_eas_ac,exac_eas_an,exac_eas_af,exac_fin_ac,exac_fin_an,exac_fin_af,exac_nfe_ac,exac_nfe_an,exac_nfe_af,exac_oth_ac,exac_oth_an,exac_oth_af,exac_sas_ac,exac_sas_an,exac_sas_af,exac_all_ac,exac_all_an,exac_all_af");
+    $COLUMNS = "(id,chr,pos,ref,alt,gene,sift_score,sift_pred,polyphen2_score,polyphen2_pred,lrt_score,lrt_pred,mutationtaster_score,mutationtaster_pred,gerp_rs,phylop_score,gerp_pred,phylop_pred,variation,hgvs_nucleotide_change,hgvs_protein_change,variantlocale,pathogenicity,disease,pubmed_id,comments,dbsnp,evs_all_af,evs_ea_ac,evs_ea_af,evs_aa_ac,evs_aa_an,evs_aa_af,tg_all_af,tg_afr_af,tg_amr_af,tg_eur_af)";
+    exec("cd $annotation_path && export PATH=$PATH:/Shared/utilities/vcftools_0.1.13/bin/:/Shared/utilities/bin/ && $RUBY pipeline.rb $genesFile &> outPutLog$timeStamp.txt && gunzip mygenes$timeStamp.vcf.gz && bash convert_Cordova_VCF_to_mysqlimport_TSV.sh mygenes$timeStamp.vcf &> mygenes$timeStamp.final && cp mygenes$timeStamp.final $queueTable.tsv && cut -f 0-32 $queueTable.tsv > $queueTable.tsvcleaned");
+    exec("cp $annotation_path/outPutLog$timeStamp.txt $BASEPATH/tmp/myvariants$timeStamp.log");
+    
+    $file = fopen("$annotation_path/$queueTable.tsvcleaned", "r");
+    //$numLines = count(file("$annotation_path/$queueTable.tsvcleaned"));
+    $finalTsvPath = "$annotation_path/final$queueTable.tsv";
+    exec("cp $finalTsvPath /var/www/html/cordova_sites_ah/vvd/tmp/");
+    $finalTsv = fopen($finalTsvPath, 'w'); 
+    //get max id from queuei
+    $maxid = 0;
+    $row = $this->db->query("SELECT MAX(id) AS `maxid` FROM $liveTable")->row();
+    if ($row) {
+      #get max id from current queueTable
+      $maxid = $row->maxid; 
+      #Increment the id
+      $maxid = $maxid+1;
+    }
+    #else the max id = 0
+    $i = $maxid;
+    //for each entry in tsv, add temp id
+    while($line = fgets($file)){
+      $data = explode("\t", $line);
+      #encode the disease name, prone to incompatable characters
+      if(isset($data[18])){
+        $data[18] = urlencode($data[18]);
+      }
+      $dataString = implode("\t",$data);
+      $newline = "$i"."\t"."$dataString";
+      fwrite($finalTsv,$newline);
+      $i=$i+1;
+    }
+    #chmod($finalTsvPath,0777);
+    //mysql import tsv with replace on id and variation
+    //$this->db->query("DELETE * FROM $queueTable");
+    //$this->db->query("DELETE * FROM $liveTable");
+    //$this->db->query("DELETE * FROM $resultsTable");
+    $this->db->query("LOAD DATA LOCAL INFILE '".$finalTsvPath."' 
+        REPLACE INTO TABLE $queueTable 
+        FIELDS TERMINATED BY '\t'
+        LINES TERMINATED BY '\\n' 
+        IGNORE 1 LINES
+        $COLUMNS");
+    //does not allow duplicate entries, deletes old reccord and inserts new one
+    //join with live table on variation and update ids in queue
+    //could speed this up by only querrying the new variants in queue, ie id>maxid or id=null
+    //maybe create a view?? to hold the newest variants in queue
+    $query1 = $this->db->query("update $queueTable u
+            inner join $liveTable s on
+            u.variation = s.variation
+            set u.id = s.id");
+
+    //insert ids(autogenerated) and variant into live table where queue id is greater than maxid
+    //this should be fine,, because there is no gene name associated with the variant in the live table
+    $query2 = $this->db->query("INSERT INTO $liveTable (variation) SELECT variation FROM $queueTable WHERE id>=$maxid");
+
+    //Reindex id's in queue
+    $query3 = $this->db->query("update $queueTable u
+              inner join $liveTable s on
+              u.variation = s.variation
+              set u.id = s.id");
+
+    //insert ids and dates into reviews where queue id is greater than maxid
+    //There is a problem here, this only inserts restuls when id>max id, needs to be when case is in queue and not in results...
+    //This works when not re-entering exsisting genes.
+    $query4 = $this->db->query("INSERT INTO $resultsTable (variant_id,created) SELECT id,'$date' FROM $queueTable WHERE id NOT IN(SELECT variant_id FROM $resultsTable)");
+    
+    //exec("touch /var/www/html/cordova_sites_ah/rdvd/tmp/queue.csv && chmod 777 /var/www/html/cordova_sites_ah/rdvd/tmp/queue.csv");
+    $query5 = $this->db->query("SELECT * from $queueTable INTO OUTFILE '/tmp/queue$timeStamp.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n';");
+    exec("cp /tmp/queue$timeStamp.csv /var/www/html/cordova_sites_ah/vvd/tmp/queue$timeStamp.csv");
+
+
+
+    //Get id's from reviews where variation matches, ie it has been replaced and exsists in review and is null in live
+    
+    return $timeStamp;
+  }
+
+}
 /* End of file variations_model.php */
 /* Location: ./application/models/variations_model.php */
 

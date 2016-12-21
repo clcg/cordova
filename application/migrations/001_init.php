@@ -101,6 +101,11 @@ class Migration_Init extends CI_Migration {
           'unsigned' => TRUE,
           'null' => FALSE,
       ),
+      'variation' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
       'created' => array(
           'type' => 'DATETIME',
           'null' => TRUE,
@@ -321,6 +326,26 @@ class Migration_Init extends CI_Migration {
           'constraint' => 100, 
           'null' => TRUE,
       ),
+      'chr' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'pos' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'ref' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'alt' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
       'gene' => array(
           'type' => 'VARCHAR',
           'constraint' => 10, 
@@ -379,6 +404,10 @@ class Migration_Init extends CI_Migration {
       'comments' => array(
           'type' => 'LONGTEXT',
           'null' => TRUE,
+      ),
+      'release_date' => array(
+          'type' => 'DATETIME',
+          'null' => FALSE,
       ),
       'lrt_omega' => array(
           'type' => 'FLOAT',
@@ -453,12 +482,27 @@ class Migration_Init extends CI_Migration {
           'constraint' => 11,
           'null' => TRUE,
       ),
+      'evs_ea_af' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
       'evs_aa_ac' => array(
           'type' => 'INT',
           'constraint' => 11,
           'null' => TRUE,
       ),
       'evs_aa_an' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'evs_aa_af' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'evs_all_af' => array(
           'type' => 'INT',
           'constraint' => 11,
           'null' => TRUE,
@@ -479,6 +523,21 @@ class Migration_Init extends CI_Migration {
           'null' => TRUE,
       ),
       'tg_acb_an' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'tg_afr_af' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'tg_amr_af' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'tg_asn_af' => array(
           'type' => 'INT',
           'constraint' => 11,
           'null' => TRUE,
@@ -539,6 +598,11 @@ class Migration_Init extends CI_Migration {
           'null' => TRUE,
       ),
       'tg_clm_an' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
+      'tg_eur_af' => array(
           'type' => 'INT',
           'constraint' => 11,
           'null' => TRUE,
@@ -663,11 +727,21 @@ class Migration_Init extends CI_Migration {
           'constraint' => 11,
           'null' => TRUE,
       ),
+      'tg_all_af' => array(
+          'type' => 'INT',
+          'constraint' => 11,
+          'null' => TRUE,
+      ),
     );
     $this->dbforge->add_field($fields);
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('variations_0', TRUE);
 
+    #create variaitons log
+    $fields['id']['auto_increment'] = FALSE;
+    $this->dbforge->add_field($fields);
+    $this->dbforge->create_table('variations_log', TRUE);
+    
     # Variations queue table
     # NOTE: This is the EXACT same structure as the variations_0
     #       table (described above) except that the 'id' field
@@ -723,6 +797,79 @@ class Migration_Init extends CI_Migration {
       'genes' => 0,
     );
     $this->db->insert('versions', $data); 
+    
+    #create expert curations table 
+    $fields = array(
+      'id' => array(
+          'type' => 'INT',
+          'constraint' => 11, 
+          'unsigned' => TRUE,
+          'null' => FALSE,
+          'auto_increment' => TRUE
+      ),
+      'variation' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'chr' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'pos' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'ref' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'alt' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'gene' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 10, 
+          'null' => TRUE,
+      ),
+      'pathogenicity' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'disease' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'pubmed_id' => array(
+          'type' => 'VARCHAR',
+          'constraint' => 100, 
+          'null' => TRUE,
+      ),
+      'date' => array(
+          'type' => 'DATETIME',
+          'null' => FALSE,
+      ),
+      'delete' => array(
+          'type' => 'INT',
+          'constraint' => 1, 
+          'unsigned' => TRUE,
+          'null' => TRUE,
+      )
+    );
+    $this->dbforge->add_field($fields);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('expert_curations', TRUE);
+    //create expert log 
+    $fields['id']['auto_increment'] = FALSE;
+    $this->dbforge->add_field($fields);
+    $this->dbforge->create_table('expert_log', TRUE);
   }
  
   /**
@@ -742,6 +889,9 @@ class Migration_Init extends CI_Migration {
     $this->dbforge->drop_table('variant_count_0', TRUE);
     $this->dbforge->drop_table('variations_0', TRUE);
     $this->dbforge->drop_table('variations_queue_0', TRUE);
+    $this->dbforge->drop_table('variations_log', TRUE);
+    $this->dbforge->drop_table('expert_curations', TRUE);
+    $this->dbforge->drop_table('expert_log', TRUE);
     $this->dbforge->drop_table('versions', TRUE);
   }
 }
