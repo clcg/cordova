@@ -352,6 +352,35 @@ class Variations extends MY_Controller {
     $this->load->view($this->editor_layout, $data);
   }
 
+  public function expert_curation() {
+    redirect_all_nonmembers();
+    $data['title'] = "Expert Curation";
+    $data['content'] = 'variations/expert_curation';
+    $data['time_stamp'] = date("YmdHis");;
+    $annotation_path = $this->config->item('annotation_path');
+    $time_stamp = date("YmdHms");
+    $data['variant_file'] = BASEPATH."diseaseNameUpdates$time_stamp.txt";
+    #on file submit
+    if($this->input->post('file-expert'))
+    {
+      $this->load->library('upload');
+      $this->upload->set_allowed_types('*');
+      move_uploaded_file($_FILES["file"]["tmp_name"], BASEPATH."expertFile$time_stamp.txt");
+      $expertCurations = BASEPATH."expertFile$time_stamp.txt";
+      $results = $this->variations_model->load_expert_curations($expertCurations);    
+      
+      redirect("variations/expert_curation");
+    }
+    if($this->input->post('apply-curations')){
+      $numUpdated = $this->variations_model->apply_expert_curations();
+      //set flash data 
+      redirect("variations/expert_curation");
+    }
+    $this->load->view($this->editor_layout,$data);
+  }
+
+  
+
   /**
    * Show unreleased
    *

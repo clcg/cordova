@@ -2008,6 +2008,102 @@ EOF;
     return $query;
   } 
 
+  /**
+  * Expert Curation
+  *
+  * Takes three file locations. The old file, the file containing changes to be applied and
+  * a location for the new file. The old and update file are read and a new file is produced
+  * with the changes applied.
+  *
+  * @author Andrea Hallier
+  * @input newFileLocation, oldFileLocation, updateFileLocation
+  */
+
+  public function load_expert_curations($expertCurations){
+    $expertTable = $this->tables['expert_curations'];
+    $expertLogTable = $this->tables['expert_log'];
+    $submittedExpertCurations = fopen($expertCurations, "r");
+    $sql="SELECT variation FROM $expertTable";
+    
+    mysql_query("START TRANSACTION");
+    
+    $query = mysql_query($sql);
+    $date = date ("Y-m-d H:i:s");
+    $currentVariants = array();
+    while($row = mysql_fetch_assoc($query))
+    {
+        $currentVariants[] = $row['variation'];
+    }     
+    $currentVariantsString = implode("','", $currentVariants);
+    //return $currentVariants;
+    $row = 1;
+    while($line = fgets($submittedExpertCurations)){
+      if($row != 1){
+        $data = explode("\",\"", $line);
+        $gene = (str_replace('"', "", $data[0]));
+        $chr = ($data[1]);
+        $pos = ($data[2]);
+        $ref = ($data[3]);
+        $alt = ($data[4]);
+        $variation = ($data[5]);
+        $path = ($data[6]);
+        $disease = urlencode($data[7]);
+        $pubmed = ($data[8]);
+        $comments = urlencode($data[9]);
+        $delete = ($data[10]);
+        $disable = str_replace('"', "", $data[11]);
+        //if exsists, copy old one to log
+        $logit="insert into $expertLogTable (gene, chr, pos, ref, alt, variation, pathogenicity, disease, pubmed_id, comments, delete_on_release, disabled_curation, date_inserted) select * from $expertTable where variation = '$variation'";
+        $logitR =  $this->db->query($logit);
+        $upsert = "REPLACE INTO $expertTable (gene, chr, pos, ref, alt, variation, pathogenicity, disease, pubmed_id, comments, delete_on_release, disabled_curation, date_inserted) VALUES ('$gene','$chr','$pos','$ref','$alt','$variation','$path','$disease','$pubmed','$comments','$delete','$disable','$date')";
+        $upsertR = $this->db->query($upsert);
+        //$update = "UPDATE $expertTable SET pathogenicity='$path', disease='$disease', pubmed_id='$pubmed',comments='$comments',delete_on_release='$delete',disabled_curation='$disable',date_inserted='$date' WHERE chr=$chr AND pos=$pos AND ref='$ref' AND alt='$alt' AND gene='$gene'";
+        //$insert = "INSERT INTO $expertTable (gene, chr, pos, ref, alt, variation, pathogenicity, disease, pubmed_id, comments, delete_on_release, disabled_curation, date_inserted) VALUES ('$gene','$chr','$pos','$ref','$alt','$variation','$path','$disease','$pubmed','$comments','$delete','$disable','$date')";
+        //if ((sizeof($currentVariants))>0){
+        //  $updateR = $this->db->query($update);
+        //  //add updated variants to log!!!!!!!
+        //}
+        //if (sizeof($currentVariants)<=0 or $updateR->num_rows <= 0){  
+        //  $insertR = $this->db->query($insert);
+        //} 
+      }
+      $row ++;
+    }
+
+    $sql="SELECT variation FROM $expertTable";
+    $query = mysql_query($sql) or die('cant get expert variations 2');
+    $currentVariants = array();
+    while($row = mysql_fetch_assoc($query))
+    {
+        $currentVariants[] = $row['variation'];
+    }     
+    $numUpdates = sizeof($currentVariants);
+
+    mysql_query("COMMIT");
+
+    return $numUpdates;
+  }
+
+  public function apply_expert_curations(){
+    $expertTable = $this->tables['expert_curations'];
+    $queueTable = $this->tables['vd_queue'];
+    $reviewTable = $this->tables['reviews'];
+
+    //update queue where curation is not disabled
+    //$updateQueue = "UPDATE a SET a.pathogenicity = b.pathogenicity, a.disease = b.disease, a.pubmed_id = b.pubmed_id, a.comments = b.comments FROM $queueTable AS a INNER JOIN $expertTable AS b ON a.variation = b.variation WHERE b.delete_on_release != 'TRUE' AND b.disabled_curation != 'TRUE'";
+    $updateQueue = "UPDATE $queueTable a INNER JOIN $expertTable b ON a.variation = b.variation SET a.pathogenicity = b.pathogenicity, a.disease = b.disease, a.pubmed_id = b.pubmed_id, a.comments = b.comments";
+    $deleteVariants = "UPDATE $reviewTable SET scheduled_for_deletion = 1 WHERE variant_id IN (SELECT id FROM $queueTable WHERE variation IN (SELECT variation FROM $expertTable WHERE delete_on_release = 'TRUE' and disabled_curation != 'TRUE'))";
+    //get all that are not in queue now
+    //get id if in live table now
+    //add to queue with largest live table id or matching live table id
+    //add to reviews what was added to queue, be sure you are checking for deletes
+    //$insertVariants  = "";
+    $deleteR = $this->db->query($deleteVariants);
+    $updateR = $this->db->query($updateQueue);
+    $numUpdates = "Working on it";
+    return $numUpdates; 
+  }
+  
   public function get_table_data($table, $path, $orderby){
     $queryTable = $this->tables["$table"];
     $data = fopen($path, "w");
