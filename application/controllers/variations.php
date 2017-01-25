@@ -573,12 +573,13 @@ class Variations extends MY_Controller {
   	$positionFormatted = $this->format_position_from_url_safe($position);
   	
   	//findingthe matching variation/position
-  	foreach($geneVariants as $key => $value) {
-  		$largeStr = $geneVariants[$key];
+  	//foreach($geneVariants as $key => $value) {
+  	foreach($geneVariants as $value) {
+  		$largeStr = $value['variation'];
   		
   		if (strpos($largeStr, $positionFormatted) !== false) {
   			//get id
-  			$id = $geneVariants['id'];
+  			$id = $value['id'];
   		}
 
   	}
