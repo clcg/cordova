@@ -77,6 +77,7 @@ $route['letter/(:any)'] = 'variations/letter/$1';
 $route['gene/(:any)'] = 'variations/variations_table/$1';
 $route['variant/freq'] = 'variations/frequency';
 $route['variant/(:any)'] = 'variations/show_variant/$1';
+$route['variant/(:any)/(:any)'] = 'variations/show_variant/$1/$2'; //$1 as the gene, $2 as the position of variant
 $route['pdf/(:any)'] = 'variations/download_variant_pdf/$1';
 $route['api'] = 'api/index';
 $route['email'] = 'email/index';

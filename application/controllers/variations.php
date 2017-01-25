@@ -531,6 +531,54 @@ class Variations extends MY_Controller {
 
     $this->load->view($content, $data);
   }
+  
+  /**
+   * Show Variant
+   *
+   * Display the variant data page by providing the target gene and position of the target variant.
+   * pChart is required to load the frequencies.
+   * For more info, refer to the frequency() function.
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  string $gene
+   *    gene as string, such as AJUBA
+   * @param  string $position
+   * 	position as a string, chr14_12345
+   * 	can be fuzzy searched, see variations_model.php function 
+   * 	'get_variants_by_position'
+   * @return void
+   */
+  public function show_variant($gene, $position) {
+  	// Install pChart (if it's missing)
+  	if (!file_exists(APPPATH.'third_party/pChart')) {
+  		$dir = APPPATH."third_party/";
+  		// Download pChart
+  		file_put_contents($dir."pChart.tar.gz", file_get_contents("http://www.pchart.net/release/pChart2.1.4.tar.gz"));
+  		// Decompress from gz
+  		$p = new PharData($dir.'pChart.tar.gz');
+  		$p->decompress(); // creates pChart.tar
+  		// Unarchive from the tar
+  		$p = new PharData($dir.'pChart.tar');
+  		$p->extractTo($dir.'pChart_temp');
+  		rename($dir.'pChart_temp/pChart2.1.4', $dir.'pChart');
+  		// Remove unwanted files/directories
+  		unlink($dir.'pChart.tar.gz');
+  		unlink($dir.'pChart.tar');
+  		rmdir($dir.'pChart_temp');
+  	}
+  
+  	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
+  	$geneVariants = $this->variations_model->get_variants_by_gene($gene);
+  	$data = $this->variations_model->get_variants_by_position($position, $geneVariants);
+  	$data['title'] = $data['variation'];
+  	$content = 'variations/variant/index';
+  
+  	// Set display style for frequency data
+  	$freqs = $this->config->item('frequencies');
+  
+  	$this->load->view($content, $data);
+  }
 
   /** 
    * Download Variant PDF
