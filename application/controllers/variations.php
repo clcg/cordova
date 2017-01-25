@@ -577,8 +577,7 @@ class Variations extends MY_Controller {
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionFormatted = $this->format_position_from_url_safe($position);
   	$variant = $this->variations_model->get_variants_by_position($positionFormatted);
-  	$devOutput1 =  $this->printToDevOutputFile($variant);
-  	$devOutput1->printToDevOutputFile($variant);
+  	$this->printToDevOutputFile($variant);
   	
   	//findingthe matching variation/position
   	//foreach($geneVariants as $key => $value) {
