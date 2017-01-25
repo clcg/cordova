@@ -570,7 +570,8 @@ class Variations extends MY_Controller {
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$geneVariants = $this->variations_model->get_variants_by_gene($gene);
-  	$data = $this->variations_model->get_variants_by_position($position, $geneVariants);
+  	$positionFormatted = $this->format_position($position);
+  	$data = $this->variations_model->get_variants_by_position($positionFormatted, $geneVariants);
   	$data['title'] = $data['variation'];
   	$content = 'variations/variant/index';
   
@@ -579,6 +580,25 @@ class Variations extends MY_Controller {
   
   	$this->load->view($content, $data);
   }
+  
+  /**
+   * format_position
+   * 
+   * formats argument string into one that would be searchable i mysql tables
+   * 
+   * @author Robert Marini
+   * @access public
+   * @param string $position
+   * 	position as a url compliant string using underscores to separate pieces
+   * @return string $formattedPosition
+   */
+  public function format_position($position) {
+  	
+  	$positionFormatted = str_replace($position, '_', ':');
+  	return $positionFormatted;
+  	
+  }
+  
 
   /** 
    * Download Variant PDF
