@@ -548,6 +548,12 @@ class Variations extends MY_Controller {
    * 	can be fuzzy searched, see variations_model.php function 
    * 	'get_variants_by_position'
    * @return void
+   * 
+   * dev notes:
+   * 	iterate through query->result
+   * 	do a print statement thorugh all of records in result
+   * 		create a basic output html to write dev output to
+   * 
    */
   public function show_variant_with_gene_position($gene, $position) {
   	// Install pChart (if it's missing)
@@ -569,26 +575,25 @@ class Variations extends MY_Controller {
   	}
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
-  	$geneVariants = $this->variations_model->get_variants_by_gene($gene);
   	$positionFormatted = $this->format_position_from_url_safe($position);
+  	$variant = $this->variations_model->get_variants_by_position($positionFormatted);
   	
   	//findingthe matching variation/position
   	//foreach($geneVariants as $key => $value) {
-  	foreach($geneVariants as $value) {
-  		$largeStr = $value['variation'];
+//   	foreach($geneVariants as $value) {
+//   		$largeStr = $value['variation'];
   		
-  		if (strpos($largeStr, $positionFormatted) !== false) {
-  			//get id
-  			$id = $value['id'];
-  		}
+//   		if (strpos($largeStr, $positionFormatted) !== false) {
+//   			//get id
+//   			$id = $value['id'];
+//   		}
 
-  	}
-  	
-  	$variant = $this->variations_model->get_variants_by_position($positionFormatted, $geneVariants);
+//   	}
+//   	$variant = $this->variations_model->get_variants_by_position($positionFormatted, $geneVariants);
   	
   	//once the gene-position is narrowed down, get the id and get $data variable from the function call below
   	//$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
-  	$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
+  	$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
   	$data['title'] = $data['variation'];
   	$content = 'variations/variant/index';
   
@@ -607,11 +612,13 @@ class Variations extends MY_Controller {
    * @access public
    * @param string $position
    * 	position as a url compliant string using underscores to separate pieces
+   * 	chr10:89623197:T>G would be chr10_89623197_T-G
    * @return string $formattedPosition
    */
   public function format_position_from_url_safe($position) {
   	
   	$positionFormatted = str_replace($position, '_', ':');
+  	$positionFormatted = str_replace($positionFormatted, '-', '>');
   	return $positionFormatted;
   	
   }
