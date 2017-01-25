@@ -549,7 +549,7 @@ class Variations extends MY_Controller {
    * 	'get_variants_by_position'
    * @return void
    */
-  public function show_variant($gene, $position) {
+  public function show_variant_with_gene_position($gene, $position) {
   	// Install pChart (if it's missing)
   	if (!file_exists(APPPATH.'third_party/pChart')) {
   		$dir = APPPATH."third_party/";
