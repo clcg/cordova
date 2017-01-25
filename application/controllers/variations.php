@@ -616,7 +616,7 @@ class Variations extends MY_Controller {
    */
   public function printToDevOutputFile($content) {
   
-  	$file = './dev/MockConsoleOutput.txt';
+  	$file = './MockConsoleOutput.txt';
   
   	file_put_contents($file, $content);
   }
