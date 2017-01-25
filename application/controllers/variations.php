@@ -555,7 +555,7 @@ class Variations extends MY_Controller {
    * 		create a basic output html to write dev output to
    * 
    */
-  public function show_variant_with_gene_position($gene, $position) {
+  public function show_variant_with_position($position) {
   	// Install pChart (if it's missing)
   	if (!file_exists(APPPATH.'third_party/pChart')) {
   		$dir = APPPATH."third_party/";
