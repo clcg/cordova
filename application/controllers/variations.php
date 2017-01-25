@@ -577,7 +577,7 @@ class Variations extends MY_Controller {
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionFormatted = $this->format_position_from_url_safe($position);
   	$variant = $this->variations_model->get_variants_by_position($positionFormatted);
-  	$devOutput1 =  new $this->devOutputSupportFunctions->devStuff();
+  	$devOutput1 =  new $this->printToDevOutputFile($variant);
   	$devOutput1->printToDevOutputFile($variant);
   	
   	//findingthe matching variation/position
@@ -603,6 +603,23 @@ class Variations extends MY_Controller {
   	$freqs = $this->config->item('frequencies');
   
   	$this->load->view($content, $data);
+  }
+  
+  /**
+   * printToDevOutputFile
+   *
+   * prints argument to file to act as a mock console
+   *
+   * @author Robert Marini
+   * @access public
+   * @param string $content
+   * 	anything really
+   */
+  public function printToDevOutputFile($content) {
+  
+  	$file = './dev/MockConsoleOutput.txt';
+  
+  	file_put_contents($file, $content);
   }
   
   /**
