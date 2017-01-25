@@ -570,8 +570,11 @@ class Variations extends MY_Controller {
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$geneVariants = $this->variations_model->get_variants_by_gene($gene);
-  	$positionFormatted = $this->format_position($position);
-  	$data = $this->variations_model->get_variants_by_position($positionFormatted, $geneVariants);
+  	$positionFormatted = $this->format_position_from_url_safe($position);
+  	$variant = $this->variations_model->get_variants_by_position($positionFormatted, $geneVariants);
+  	
+  	//once the gene-position is narrowed down, get the id and get $data variable from the function call below
+  	$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
   	$data['title'] = $data['variation'];
   	$content = 'variations/variant/index';
   
@@ -592,7 +595,7 @@ class Variations extends MY_Controller {
    * 	position as a url compliant string using underscores to separate pieces
    * @return string $formattedPosition
    */
-  public function format_position($position) {
+  public function format_position_from_url_safe($position) {
   	
   	$positionFormatted = str_replace($position, '_', ':');
   	return $positionFormatted;
