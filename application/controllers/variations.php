@@ -577,6 +577,7 @@ class Variations extends MY_Controller {
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //'chr10:89623197'
+  	$this->printToScreen($variants);
 
   	
   	foreach ($variants as $aVariant) {
