@@ -650,6 +650,7 @@ class Variations extends MY_Controller {
   	
   	$position = str_replace($positionUrlSafe, '_', ':');
   	$explodedPosition = explode(':',$position);
+  	$this->printToScreen($explodedPosition);
   	$alleleReplacement = $explodedPosition[count($explodedPosition) - 1];
   	$allele = str_replace($alleleReplacement, '%3E', '>');
   	
