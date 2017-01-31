@@ -576,8 +576,8 @@ class Variations extends MY_Controller {
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionFormatted = $this->format_position_from_url_safe($position);
-  	$variant = $this->variations_model->get_variants_by_position($positionFormatted);
-  	$this->printToDevOutputFile($variant);
+  	$variant = $this->variations_model->get_variants_by_position("chr13:20763686");
+  	$this->printToScreen($variant);
   	
   	//findingthe matching variation/position
   	//foreach($geneVariants as $key => $value) {
@@ -614,11 +614,13 @@ class Variations extends MY_Controller {
    * @param string $content
    * 	anything really
    */
-  public function printToDevOutputFile($content) {
+  public function printToScreen($something) {
   
-  	$file = '/home/rmarini/MockConsoleOutput.txt';
-  
-  	file_put_contents($file, $content);
+  	print "<pre>";
+  	print_r($something);
+  	print "</pre>";
+  	die();
+  	
   }
   
   /**
