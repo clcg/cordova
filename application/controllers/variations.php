@@ -577,7 +577,7 @@ class Variations extends MY_Controller {
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionFormatted = $this->format_position_from_url_safe($position);
   	$this->load->model('variations_model');
-  	$variant = $this->variations_model->get_variants_by_position("chr13:20763686");
+  	$variant = $this->variations_model->get_variants_by_position("chr10:89623197:T>G");
   	$this->printToScreen($variant);
   	
   	//findingthe matching variation/position
@@ -638,8 +638,7 @@ class Variations extends MY_Controller {
    */
   public function format_position_from_url_safe($position) {
   	
-  	$positionFormatted = str_replace($position, '_', ':');
-  	$positionFormatted = str_replace($positionFormatted, '-', '>');
+  	$positionFormatted = str_replace($position, '%3E', '>');
   	return $positionFormatted;
   	
   }
