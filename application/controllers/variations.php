@@ -655,9 +655,10 @@ class Variations extends MY_Controller {
   	$position = '';
   	
   	foreach ($explodedPosition as $posPiece){
-  		$this->printToScreen($posPiece);
-  		if(strpos($posPiece,'>') !== false) {
+  		if(strpos($posPiece,'>') == false) {
   			$position .= ':' . $posPiece;
+  		} else {
+  			break;
   		}
   		
   	}
