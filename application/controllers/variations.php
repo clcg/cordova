@@ -576,12 +576,11 @@ class Variations extends MY_Controller {
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
-  	$this->printToScreen($positionAndAllele);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //'chr10:89623197'
   	
   	foreach ($variants as $aVariant) {
   		
-  		if(strpos($positionAndAllele['allele'],$aVariant['position']) !== false) {
+  		if(strpos($aVariant['position'], $positionAndAllele['allele']) !== false) {
   			$variant = $aVariant;
   			break;
   		}
