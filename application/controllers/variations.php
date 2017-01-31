@@ -652,6 +652,8 @@ class Variations extends MY_Controller {
   	$positionOrig = str_replace('%3E', '>',$positionOrig);
   	$explodedPosition = explode(':',$positionOrig);
   	$allele = $explodedPosition[count($explodedPosition) - 1];
+  	$position = '';
+  	
   	foreach ($explodedPosition as $posPiece){
   		
   		if(strpos($posPiece,'>') !== false) {
