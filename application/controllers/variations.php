@@ -581,8 +581,7 @@ class Variations extends MY_Controller {
   	
   	foreach ($variants as $aVariant) {
   		$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-  		$this->printToScreen($aVariant);
-  		if(strpos($aVariant['variant'], $positionAndAllele['allele']) !== false) {
+  		if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
   			$variant = $aVariant;
   			break;
   		}
