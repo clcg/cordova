@@ -578,7 +578,6 @@ class Variations extends MY_Controller {
   	$positionFormatted = $this->format_position_from_url_safe($position);
   	$this->load->model('variations_model');
   	$variant = $this->variations_model->get_variants_by_position("chr10:89623197:T>G");
-  	$this->printToScreen($variant);
   	
   	//findingthe matching variation/position
   	//foreach($geneVariants as $key => $value) {
@@ -603,6 +602,7 @@ class Variations extends MY_Controller {
   	$freqs = $this->config->item('frequencies');
   
   	$this->load->view($content, $data);
+  	$this->printToScreen($variant);
   }
   
   /**
@@ -615,10 +615,10 @@ class Variations extends MY_Controller {
    * @param string $content
    * 	anything really
    */
-  public function printToScreen($something) {
+  public function printToScreen($somethingToSee) {
   
   	print "<pre>";
-  	print_r($something);
+  	print_r($somethingToSee);
   	print "</pre>";
   	die();
   	
@@ -639,6 +639,7 @@ class Variations extends MY_Controller {
   public function format_position_from_url_safe($position) {
   	
   	$positionFormatted = str_replace($position, '%3E', '>');
+  	$positionFormatted = str_replace($positionFormatted, '_', ':');
   	return $positionFormatted;
   	
   }
