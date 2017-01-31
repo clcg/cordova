@@ -587,20 +587,6 @@ class Variations extends MY_Controller {
   		
   	}
   	
-  	//findingthe matching variation/position
-  	//foreach($geneVariants as $key => $value) {
-//   	foreach($geneVariants as $value) {
-//   		$largeStr = $value['variation'];
-  		
-//   		if (strpos($largeStr, $positionFormatted) !== false) {
-//   			//get id
-//   			$id = $value['id'];
-//   		}
-
-//   	}
-//   	$variant = $this->variations_model->get_variants_by_position($positionFormatted, $geneVariants);
-  	
-  	//$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
   	$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
   	$data['title'] = $data['variation'];
   	$content = 'variations/variant/index';
