@@ -613,7 +613,7 @@ class Variations extends MY_Controller {
   }
   
   /**
-   * printToDevOutputFile
+   * printToScreen
    *
    * prints argument to file to act as a mock console
    *

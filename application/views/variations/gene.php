@@ -13,6 +13,7 @@
             </thead>
             <tbody>
                 <?php foreach ($variations as $variation): ?>
+                <?php $this->printToScreen($variation)?>
                 <tr class="$zebra showinfo" id="mutation-<?php echo $variation->id; ?>">
                     <td class="external-link"><a href="<?php echo site_url('variant/' . $variation->variation); ?>"><span>More Information &raquo;</span></a></td>
                     <td class="showinfo-popup"><a><code><?php echo format_table_cell('hgvs_protein_change', $variation->hgvs_protein_change); ?></code></a></td>
