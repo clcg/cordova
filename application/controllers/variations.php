@@ -600,9 +600,11 @@ class Variations extends MY_Controller {
   
   	// Set display style for frequency data
   	$freqs = $this->config->item('frequencies');
-  
-  	$this->load->view($content, $data);
+  	
   	$this->printToScreen($variant);
+  	
+  	$this->load->view($content, $data);
+  	
   }
   
   /**
