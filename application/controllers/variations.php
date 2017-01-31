@@ -653,10 +653,17 @@ class Variations extends MY_Controller {
   	$explodedPosition = explode(':',$positionOrig);
   	$allele = $explodedPosition[count($explodedPosition) - 1];
   	$position = '';
+  	$first = true;
   	
   	foreach ($explodedPosition as $posPiece){
   		if(strpos($posPiece,'>') == false) {
-  			$position .= ':' . $posPiece;
+  			if($first) {
+  				$position .= $posPiece;
+  				$first = false;
+  			} else {
+  				$position .= ':' . $posPiece;
+  			}
+  			
   		} else {
   			break;
   		}
