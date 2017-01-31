@@ -555,7 +555,7 @@ class Variations extends MY_Controller {
    * 		create a basic output html to write dev output to
    * 
    */
-  public function show_variant_with_position($position) {
+  public function show_variant_with_position($positionUrlSafe) {
   	// Install pChart (if it's missing)
   	if (!file_exists(APPPATH.'third_party/pChart')) {
   		$dir = APPPATH."third_party/";
@@ -575,9 +575,18 @@ class Variations extends MY_Controller {
   	}
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
-  	$positionFormatted = $this->format_position_from_url_safe($position);
-  	$this->load->model('variations_model');
-  	$variant = $this->variations_model->get_variants_by_position('chr10:89623197');
+  	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
+  	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //'chr10:89623197'
+  	
+  	foreach ($variants as $aVariant) {
+  		
+  		if(strpos($positionAndAllele['allele'],$aVariant['position']) !== false) {
+  			$variant = $aVariant;
+  			break;
+  		}
+  		
+  	}
+  	
   	$this->printToScreen($variant);
   	
   	//findingthe matching variation/position
@@ -636,11 +645,18 @@ class Variations extends MY_Controller {
    * 	chr10:89623197:T>G would be chr10_89623197_T-G
    * @return string $formattedPosition
    */
-  public function format_position_from_url_safe($position) {
+  public function format_position_from_url_safe($positionUrlSafe) {
   	
-  	$positionFormatted = str_replace($position, '%3E', '>');
-  	$positionFormatted = str_replace($positionFormatted, '_', ':');
-  	return $positionFormatted;
+  	$position = str_replace($positionUrlSafe, '_', ':');
+  	$alleleReplacement = str_split($position,':')[-1];
+  	$allele = str_replace($alleleReplacement, '%3E', '>');
+  	
+  	$formattedAndAllele = array(
+  			"position" => $positionFormatted,
+  			"allele" => $allele,
+  	);
+  	
+  	return $formattedAndAllele;
   	
   }
   
