@@ -588,8 +588,6 @@ class Variations extends MY_Controller {
   		
   	}
   	
-  	$this->printToScreen($variant);
-  	
   	//findingthe matching variation/position
   	//foreach($geneVariants as $key => $value) {
 //   	foreach($geneVariants as $value) {
