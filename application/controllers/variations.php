@@ -653,7 +653,7 @@ class Variations extends MY_Controller {
   	$allele = str_replace($alleleReplacement, '%3E', '>');
   	
   	$formattedAndAllele = array(
-  			"position" => $positionFormatted,
+  			"position" => $position,
   			"allele" => $allele,
   	);
   	
