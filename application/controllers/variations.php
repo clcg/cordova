@@ -654,10 +654,10 @@ class Variations extends MY_Controller {
   	$allele = $explodedPosition[count($explodedPosition) - 1];
   	$position = '';
   	
-  	foreach ($explodedPosition as $key => $value){
-  		$this->printToScreen($key);
-  		if(strpos($key,'>') !== false) {
-  			$position += ':' + $key;
+  	foreach ($explodedPosition as $posPiece){
+  		$this->printToScreen($posPiece);
+  		if(strpos($posPiece,'>') !== false) {
+  			$position .= ':' . $posPiece;
   		}
   		
   	}
