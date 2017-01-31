@@ -23,7 +23,7 @@
           <!-- trying to make search bar -->
           <p>Search for Variant by Position</p>
           <form name="positionSearchBar" method="show_variant_with_position" action="variations.php"> 
-          	<input name="search" type="text" size="40" maxlength="18"/>
+          	<input name="search" type="text" size="20" maxlength="18"/>
           	<input type="submit" name="Submit" value="Search"/>
           </form>
           <!-- end of trying ot make searc bar section -->
