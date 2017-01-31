@@ -648,10 +648,17 @@ class Variations extends MY_Controller {
    */
   public function format_position_from_url_safe($positionUrlSafe) {
   	
-  	$position = str_replace('_', ':',$positionUrlSafe);
-  	$explodedPosition = explode(':',$position);
-  	$alleleReplacement = $explodedPosition[count($explodedPosition) - 1];
-  	$allele = str_replace('%3E', '>',$alleleReplacement);
+  	$positionOrig = str_replace('_', ':',$positionUrlSafe);
+  	$positionOrig = str_replace('%3E', '>',$positionOrig);
+  	$explodedPosition = explode(':',$positionOrig);
+  	$allele = $explodedPosition[count($explodedPosition) - 1];
+  	foreach ($explodedPosition as $posPiece){
+  		
+  		if(strpos($posPiece,'>') !== false) {
+  			$position += ':' + $posPiece;
+  		}
+  		
+  	}
   	
   	$formattedAndAllele = array(
   			"position" => $position,
