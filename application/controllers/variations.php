@@ -576,6 +576,7 @@ class Variations extends MY_Controller {
   
   	//$data = $this->variations_model->get_variant_display_variables($id, $this->tables['vd_live']);
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
+  	$this->printToScreen($positionAndAllele);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //'chr10:89623197'
   	
   	foreach ($variants as $aVariant) {
@@ -642,7 +643,7 @@ class Variations extends MY_Controller {
    * @access public
    * @param string $position
    * 	position as a url compliant string using underscores to separate pieces
-   * 	chr10:89623197:T>G would be chr10_89623197_T-G
+   * 	chr10:89623197:T>G would be chr10_89623197_T%3EG
    * @return string $formattedPosition
    */
   public function format_position_from_url_safe($positionUrlSafe) {
