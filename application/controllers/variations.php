@@ -631,6 +631,7 @@ class Variations extends MY_Controller {
   public function format_position_from_url_safe($positionUrlSafe) {
   	
   	$positionOrig = str_replace('_', ':',$positionUrlSafe);
+  	$positionOrig = str_replace('%3A', ':',$positionUrlSafe);
   	$positionOrig = str_replace('%3E', '>',$positionOrig);
   	$explodedPosition = explode(':',$positionOrig);
   	$allele = $explodedPosition[count($explodedPosition) - 1];
@@ -658,6 +659,26 @@ class Variations extends MY_Controller {
   	);
   	
   	return $formattedAndAllele;
+  	
+  }
+  
+  /**
+   * position by search bar
+   *
+   * formats argument string into one that would be searchable i mysql tables
+   *
+   * @author Robert Marini
+   * @access public
+   * @param string $searchStrPos
+   * 	position as a url compliant string:
+   * 		chr14%3A23440404%3AG>A would be chr14:23440404:G>A
+   * @return [void]
+   */
+  public function searchBarPos ($searchStrPos) {
+  	
+  	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
+  	$unformattedAndAllele = $this->format_position_from_url_safe($searchStrPos);
+  	$this->show_variant_with_position($unformattedAndAllele[0] . ':' . $unformattedAndAllele[1]);
   	
   }
   
