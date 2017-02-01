@@ -25,6 +25,15 @@
               <li><a href="<?php echo site_url('help'); ?>" id="help">How to use this site</a></li>
               <li><a href="<?php echo site_url('doc'); ?>" id="api">API Documentation</a></li>
               <li><a href="javascript://" class="contact-popup">Contact Us</a></li>
+              <li>
+              	<!-- trying to make search bar -->
+		        <p>Search for Variant by Position</p>
+		        <form name="positionSearchBar" method="post" action="variations.php"> 
+		      		<input name="searchBarPos" type="text" size="20" maxlength="40"/>
+		      		<!-- <input type="submit" name="Submit" value="Search"/> -->
+		      	</form>
+		        <!-- end of trying ot make searc bar section -->
+              </li>
             </ul>
             <ul id="sidebar-version">
               <li>Database Version <?php echo $version; ?></li>
@@ -32,13 +41,7 @@
             </ul>
           </div>
           
-          <!-- trying to make search bar -->
-          <p>Search for Variant by Position</p>
-          <form name="positionSearchBar" method="searchBarPos" action="variations.php"> 
-          	<input name="search" type="text" size="20" maxlength="40"/>
-          	<!-- <input type="submit" name="Submit" value="Search"/> -->
-          </form>
-          <!-- end of trying ot make searc bar section -->
+          
           
         </fieldset>
       </div><!-- #sidebar-sorters -->
