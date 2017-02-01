@@ -19,15 +19,6 @@
     	  </div>
         <fieldset class="sidebar-collapsible">
           <legend>Information</legend>
-          
-          <!-- trying to make search bar -->
-          <p>Search for Variant by Position</p>
-          <form name="positionSearchBar" method="searchBarPos" action="variations.php"> 
-          	<input name="search" type="text" size="20" maxlength="18"/>
-          	<!-- <input type="submit" name="Submit" value="Search"/> -->
-          </form>
-          <!-- end of trying ot make searc bar section -->
-          
           <div id="sidebar-sorters-information">
             <ul>
               <li><a href="<?php echo base_url(); ?>" id="about">About</a></li>
@@ -40,6 +31,15 @@
               <li>Updated <?php echo $update_date ; ?></li>
             </ul>
           </div>
+          
+          <!-- trying to make search bar -->
+          <p>Search for Variant by Position</p>
+          <form name="positionSearchBar" method="searchBarPos" action="variations.php"> 
+          	<input name="search" type="text" size="20" maxlength="18"/>
+          	<!-- <input type="submit" name="Submit" value="Search"/> -->
+          </form>
+          <!-- end of trying ot make searc bar section -->
+          
         </fieldset>
       </div><!-- #sidebar-sorters -->
     </div><!-- #sidebar -->
