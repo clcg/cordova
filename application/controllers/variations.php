@@ -678,6 +678,7 @@ class Variations extends MY_Controller {
   	
   	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
   	$splitStrPos = explode($searchStrPos,'=');
+  	$this->printToScreen($splitStrPos);
   	$unformattedAndAllele = $this->format_position_from_url_safe($splitStrPos[1]);
   	$this->show_variant_with_position($unformattedAndAllele[0] . ':' . $unformattedAndAllele[1]);
   	
