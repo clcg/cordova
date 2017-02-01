@@ -677,7 +677,8 @@ class Variations extends MY_Controller {
   public function searchBarPos ($searchStrPos) {
   	
   	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
-  	$unformattedAndAllele = $this->format_position_from_url_safe($searchStrPos);
+  	$splitStrPos = explode($searchStrPos,'=');
+  	$unformattedAndAllele = $this->format_position_from_url_safe($splitStrPos[1]);
   	$this->show_variant_with_position($unformattedAndAllele[0] . ':' . $unformattedAndAllele[1]);
   	
   }
