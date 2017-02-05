@@ -674,7 +674,7 @@ class Variations extends MY_Controller {
    * 		chr14%3A23440404%3AG>A would be chr14:23440404:G>A
    * @return [void]
    */
-  public function searchBarPos ($searchStrPos) {
+  public function search_bar_pos ($searchStrPos) {
   	
   	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
   	$splitStrPos = explode($searchStrPos,'=');
