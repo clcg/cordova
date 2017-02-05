@@ -27,10 +27,9 @@
               <li><a href="javascript://" class="contact-popup">Contact Us</a></li>
               <li>
               	<!-- trying to make search bar -->
-		        <p>Search for Variant by Position</p>
 		        <form name="positionSearchBar" method="post" action="variant/positionSearch"> <!--  action="positionSearch" -->
-		      		Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
-		      		<br/><br/>
+		      		Search for Variant by Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
+		      		<br/>
 		      		<input type="submit" name="submit" value="Search"/>
 		      	</form>
 		        <!-- end of trying ot make searc bar section -->
