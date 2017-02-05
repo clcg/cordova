@@ -28,7 +28,7 @@
               <li>
               	<!-- trying to make search bar -->
               	<br/><br/>
-		        <form name="positionSearchBar" method="post" action="variant/positionSearch"> <!--  action="positionSearch" -->
+		        <form name="positionSearchBar" method="post" action="positionSearch"> <!--  action="positionSearch" -->
 		      		Search for Variant by Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
 		      		<br/>
 		      		<input type="submit" name="submit" value="Search"/>
