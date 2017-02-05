@@ -81,7 +81,7 @@ $route['variant/(:any)'] = 'variations/show_variant_with_position/$1'; //$1 as t
 $route['pdf/(:any)'] = 'variations/download_variant_pdf/$1';
 $route['api'] = 'api/index';
 $route['email'] = 'email/index';
-$route['variations.php?(:any)'] = 'variations/search_bar_pos/$1';
+$route['positionSearch/(:any)'] = 'variations/search_bar_pos/$1';
 
 /* Controller/function route (w/ 2 parameters) */
 $route['(:any)/(:any)/(:any)/(:any)'] = '$1/$2/$3/$4';
