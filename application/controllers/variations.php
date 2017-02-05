@@ -674,13 +674,15 @@ class Variations extends MY_Controller {
    * 		chr14%3A23440404%3AG>A would be chr14:23440404:G>A
    * @return [void]
    */
-  public function search_bar_pos ($searchStrPos) {
+  public function search_bar_pos () { //$searchStrPos
+  	
+  	$this->printToScreen($_POST);
   	
   	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
-  	$splitStrPos = explode($searchStrPos,'=');
-  	$this->printToScreen($searchStrPos);
-  	$unformattedAndRefAlt = $this->format_position_from_url_safe($splitStrPos[1]);
-  	$this->show_variant_with_position($unformattedAndAllele[0] . ':' . $unformattedAndRefAlt[1]);
+//   	$splitStrPos = explode($searchStrPos,'=');
+//   	$this->printToScreen($searchStrPos);
+//   	$unformattedAndRefAlt = $this->format_position_from_url_safe($splitStrPos[1]);
+//   	$this->show_variant_with_position($unformattedAndAllele[0] . ':' . $unformattedAndRefAlt[1]);
   	
   }
   
