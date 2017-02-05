@@ -28,9 +28,10 @@
               <li>
               	<!-- trying to make search bar -->
 		        <p>Search for Variant by Position</p>
-		        <form name="positionSearchBar" method="searchBarPos" action="position"> <!--  action="positionSearch" -->
-		      		<input name="search" type="text" size="20" maxlength="40"/>
-		      		<!-- <input type="submit" name="Submit" value="Search"/> -->
+		        <form name="positionSearchBar" method="post" action="variations.php"> <!--  action="positionSearch" -->
+		      		Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
+		      		<br/><br/>
+		      		<input type="submit" name="submit" value="Search"/>
 		      	</form>
 		        <!-- end of trying ot make searc bar section -->
               </li>
