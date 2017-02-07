@@ -579,7 +579,7 @@ class Variations extends MY_Controller {
   	if(strpos($positionAndAllele['allele'],'NA') !== false){
 
 // 		$this->pos_search_variations_table($variants);
-		$this->pos_serach_letter($variations);
+		$this->pos_search_letter($variations);
 		
   	} else {
   		foreach ($variants as $aVariant) {
@@ -614,7 +614,7 @@ class Variations extends MY_Controller {
    *    The gene's starting letter
    * @return void
    */
-  public function pos_serach_letter($variations) {
+  public function pos_search_letter($variations) {
   	$data['title'] = strtolower($variations[0]->gene[0]);
   	$data['content'] = 'variations/letter';
   
