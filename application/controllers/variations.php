@@ -604,7 +604,7 @@ class Variations extends MY_Controller {
   }
   
   /**
-   * pos_search_letter
+   * pos_search_letter - derelict at the moment
    *
    * Display all genes start with a certain letter
    *
@@ -676,7 +676,7 @@ class Variations extends MY_Controller {
 	$data['variations'] = $variations; //$variationsColumns;
   
 	$this->load->view($this->public_layout, $data);
-  	$this->load->view('variations/gene', $data);
+//   	$this->load->view('variations/gene', $data);
   }
   
   /**
