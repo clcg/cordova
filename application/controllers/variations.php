@@ -652,7 +652,7 @@ class Variations extends MY_Controller {
   		
   	}
   	
-  	printToScreen($allele);
+  	$this->printToScreen($allele);
   	
   	$formattedAndAllele = array(
   			"position" => $position,
