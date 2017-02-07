@@ -630,7 +630,6 @@ class Variations extends MY_Controller {
    */
   public function format_position_from_url_safe($positionUrlSafe) {
   	
-  	$positionOrig = str_replace('_', ':',$positionUrlSafe);
   	$positionOrig = str_replace('%3A', ':',$positionUrlSafe);
   	$positionOrig = str_replace('%3E', '>',$positionOrig);
   	$explodedPosition = explode(':',$positionOrig);
@@ -652,6 +651,8 @@ class Variations extends MY_Controller {
   		}
   		
   	}
+  	
+  	printToScreen($allele);
   	
   	$formattedAndAllele = array(
   			"position" => $position,
@@ -676,15 +677,8 @@ class Variations extends MY_Controller {
    */
   public function search_bar_pos () { //$searchStrPos
   	
-//   	$this->printToScreen($_GET["searchPosition"]);
   	$this->show_variant_with_position($_GET["searchPosition"]);
-  	
-  	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
-//   	$splitStrPos = explode($searchStrPos,'=');
-//   	$this->printToScreen($searchStrPos);
-//   	$unformattedAndRefAlt = $this->format_position_from_url_safe($splitStrPos[1]);
-//   	$this->show_variant_with_position($unformattedAndAllele[0] . ':' . $unformattedAndRefAlt[1]);
-  	
+  		
   }
   
 
