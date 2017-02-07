@@ -623,10 +623,10 @@ class Variations extends MY_Controller {
    */
   public function pos_search_variations_table($variations) {
   	$this->printToScreen($variations);
-  	$data['title'] = $variations[0]['gene'];
+  	$data['title'] = $variations[0]->gene;
   	$data['content'] = 'variations/gene';
   
-  	$data['gene'] = $variations[0]['gene'];
+  	$data['gene'] = $variations[0]->gene;
   	// Columns to select for this page
 //   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
 //   	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
