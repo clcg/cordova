@@ -585,9 +585,9 @@ class Variations extends MY_Controller {
 			$temp[] = $aVariant;
 		}
 		$variants = $temp;
-  		$content = 'variations/letter/' . strtolower($variants[0]['gene'][0]);
+  		$content = 'letter/';// . strtolower($variants[0]['gene'][0]);
   		$data = $variants; //this may not be needed
-  		$data['title'] = $data['gene'];
+  		$data['title'] = $data[0]['gene'];
   		$genes = $variants; //
   	} else {
   		foreach ($variants as $aVariant) {
