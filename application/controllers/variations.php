@@ -633,7 +633,7 @@ class Variations extends MY_Controller {
   	$i = 0;
   	foreach($variations as $variant){
 	  	foreach($columns as $column){
-	  		$variationsColumns[i][$column] = $variant[$column];
+	  		$variationsColumns[$i][$column] = $variant[$column];
 	  	}
 	  	++$i;
   	}
