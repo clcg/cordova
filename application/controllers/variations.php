@@ -579,8 +579,9 @@ class Variations extends MY_Controller {
   	
   	if(strpos($positionAndAllele['allele'],'NA') !== false){
 //   		$this->printToScreen($variants);
-  		$content = 'variations/letter';
+  		$content = 'variations/letter/' . $variants[0]['gene'][0];
   		$data = $variants; //this may not be needed
+  		$data['title'] = $data['gene'];
   		$genes = $variants; //
   	} else {
   		foreach ($variants as $aVariant) {
@@ -685,7 +686,7 @@ class Variations extends MY_Controller {
    * 		chr14%3A23440404%3AG>A would be chr14:23440404:G>A
    * @return [void]
    */
-  public function search_bar_pos () { //$searchStrPos
+  public function search_bar_pos () {
   	
   	$this->show_variant_with_position($_GET["searchPosition"]);
   		
