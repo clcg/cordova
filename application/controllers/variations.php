@@ -578,8 +578,8 @@ class Variations extends MY_Controller {
   	
   	if(strpos($positionAndAllele['allele'],'NA') !== false){
 
-// 		$this->pos_search_variations_table($variants);
-		$this->pos_search_letter($variants);
+		$this->pos_search_variations_table($variants);
+// 		$this->pos_search_letter($variants);
 		
   	} else {
   		foreach ($variants as $aVariant) {
@@ -675,7 +675,7 @@ class Variations extends MY_Controller {
 //   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
 	$data['variations'] = $variations; //$variationsColumns;
   
-// 	$this->load->view($this->public_layout, $data);
+	$this->load->view($this->public_layout, $data);
   	$this->load->view('variations/gene', $data);
   }
   
