@@ -1,10 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * including reference to global variable: genes, for fuzzy position searches
- */
-global $genes;
-
 class Variations extends MY_Controller {
 
 	
@@ -539,7 +534,7 @@ class Variations extends MY_Controller {
   }
   
   /**
-   * Show Variant
+   * show_variant_with_position
    *
    * Display the variant data page by providing the target gene and position of the target variant.
    * pChart is required to load the frequencies.
@@ -547,12 +542,10 @@ class Variations extends MY_Controller {
    *
    * @author Robert Marini
    * @access public
-   * @param  string $gene
-   *    gene as string, such as AJUBA
    * @param  string $position
    * 	position as a string, chr14_12345
    * 	can be fuzzy searched, see variations_model.php function 
-   * 	'get_variants_by_position'
+   * 	'get_variants_with_position'
    * @return void
    * 
    * dev notes:
@@ -591,10 +584,11 @@ class Variations extends MY_Controller {
 			$temp[] = $aVariant;
 		}
 		$variants = $temp;
-  		$content = 'variations/letter';// . strtolower($variants[0]['gene'][0]);
-  		$data = $variants; //this may not be needed
-  		$data['title'] = $data[0]['gene'];
-  		$genes = $variants; //
+		$this->pos_search_variations_table($variants);
+//   		$content = 'variations/letter';// . strtolower($variants[0]['gene'][0]);
+//   		$data = $variants; //this may not be needed
+//   		$data['title'] = $data[0]['gene'];
+//   		$genes = $variants; //
   	} else {
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
@@ -609,13 +603,44 @@ class Variations extends MY_Controller {
   		$data['title'] = $data['variation'];
   		$content = 'variations/variant/index';
   		
+  		// Set display style for frequency data
+  		$freqs = $this->config->item('frequencies');
+  		
+  		$this->load->view($content, $data);
   	}
   	
-  	// Set display style for frequency data
-  	$freqs = $this->config->item('frequencies');
+  }
   
-  	$this->load->view($content, $data);
-  	
+  /**
+   * pos_search_variations_table
+   *
+   * Load all variations for a specific position search.
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  array $variations variation previously loaded
+   * @return void
+   */
+  public function pos_search_variations_table($variations) {
+  	$data['title'] = $variations[0]['gene'];
+  	$data['content'] = 'variations/gene';
+  
+  	$data['gene'] = $variations[0]['gene'];
+  	// Columns to select for this page
+//   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+  	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
+  	$variationsColumns = array();
+  	$i = 0;
+  	foreach($variations as $variant){
+	  	foreach($columns as $column){
+	  		$variationsColumns[i][$column] = $variant[$column];
+	  	}
+	  	++$i;
+  	}
+//   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
+	$data['variations'] = $variationsColumns;
+  
+  	$this->load->view('variations/gene', $data);
   }
   
   /**
