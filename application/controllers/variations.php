@@ -577,23 +577,29 @@ class Variations extends MY_Controller {
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	
-  	foreach ($variants as $aVariant) {
-  		$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-  		if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
-  			$variant = $aVariant;
-  			break;
-  		}
-  		
+  	if(strpos($positionAndAllele['allele'],'None') == false){
+	  	foreach ($variants as $aVariant) {
+	  		$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
+	  		if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
+	  			$variant = $aVariant;
+	  			break;
+	  		}
+	  		
+	  	}
+	  	
+	  	$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
+	  	$data['title'] = $data['variation'];
+	  	$content = 'variations/variant/index';
+	  	
+	  	// Set display style for frequency data
+	  	$freqs = $this->config->item('frequencies');
+	  	 
+	  	$this->load->view($content, $data);
+	  	
+  	} else {
+  		$this->printToScreen($variants);
+  		$content = 'variations/letter';
   	}
-  	
-  	$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
-  	$data['title'] = $data['variation'];
-  	$content = 'variations/variant/index';
-  
-  	// Set display style for frequency data
-  	$freqs = $this->config->item('frequencies');
-  	
-  	$this->load->view($content, $data);
   	
   }
   
@@ -653,15 +659,13 @@ class Variations extends MY_Controller {
   	}
   	
   	if(strpos($allele,'>') == false) {
-  		$allele = '';
+  		$allele = 'None';
   	}
   	
   	$formattedAndAllele = array(
   			"position" => $position,
   			"allele" => $allele,
   	);
-  	
-  	$this->printToScreen($formattedAndAllele);
   	
   	return $formattedAndAllele;
   	
