@@ -577,18 +577,10 @@ class Variations extends MY_Controller {
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	
   	if(strpos($positionAndAllele['allele'],'NA') !== false){
-//   		$this->printToScreen($variants);
-// 		$temp = array();
-// 		foreach ($variants as $aVariant){
-// 			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-// 			$temp[] = $aVariant;
-// 		}
-// 		$variants = $temp;
-		$this->pos_search_variations_table($variants);
-//   		$content = 'variations/letter';// . strtolower($variants[0]['gene'][0]);
-//   		$data = $variants; //this may not be needed
-//   		$data['title'] = $data[0]['gene'];
-//   		$genes = $variants; //
+
+// 		$this->pos_search_variations_table($variants);
+		$this->pos_serach_letter($variations);
+		
   	} else {
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
@@ -608,6 +600,48 @@ class Variations extends MY_Controller {
   		
   		$this->load->view($content, $data);
   	}
+  	
+  }
+  
+  /**
+   * pos_search_letter
+   *
+   * Display all genes start with a certain letter
+   *
+   * @author Sean Ephraim
+   * @access public
+   * @param  string $letter
+   *    The gene's starting letter
+   * @return void
+   */
+  public function pos_serach_letter($variations) {
+  	$data['title'] = strtolower($variations[0]->gene[0]);
+  	$data['content'] = 'variations/letter';
+  
+  	$this->load->model('genes_model');
+  	$this->load->helper('genes');
+//   	foreach($variantions as $variant){
+  		
+//   	}
+//   	$data['genes'] = 
+//   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE); //need to emulate output from this
+  
+  	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+//   	$data['display_names'] = Array();
+//   	foreach ($data['genes'] as $gene => $alias) {
+//   		if ($alias !== NULL) {
+//   			$data['display_names'][$gene] = "$gene ($alias)";
+//   		}
+//   		else {
+//   			$data['display_names'][$gene] = $gene;
+//   		}
+//   	}
+	foreach($variations as $variant) {
+		$data['display_names'][$variant[0]->gene] = [$variant[0]->gene];
+	}
+  
+  	$this->load->view($this->public_layout, $data);
+  	$this->pos_search_variations_table($variations);
   	
   }
   
