@@ -676,7 +676,8 @@ class Variations extends MY_Controller {
    */
   public function search_bar_pos () { //$searchStrPos
   	
-  	$this->printToScreen($_GET["searchPosition"]);
+//   	$this->printToScreen($_GET["searchPosition"]);
+  	$this->show_variant_with_position($_GET["searchPosition"]);
   	
   	//create a supporting function to convert the hex characters into acceptable string arguments for calling of show_variant_with_position(<some string>)...or just do it here
 //   	$splitStrPos = explode($searchStrPos,'=');
