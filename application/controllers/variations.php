@@ -652,12 +652,16 @@ class Variations extends MY_Controller {
   		
   	}
   	
-  	$this->printToScreen($allele);
+  	if(strpos($allele,'>') == false) {
+  		$allele = '';
+  	}
   	
   	$formattedAndAllele = array(
   			"position" => $position,
   			"allele" => $allele,
   	);
+  	
+  	$this->printToScreen($formattedAndAllele);
   	
   	return $formattedAndAllele;
   	
