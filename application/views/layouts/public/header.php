@@ -31,7 +31,7 @@
 		        <form name="positionSearchBar" method="get" action="positionSearch">
 		      		Search for Variant by Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
 		      		<br/>
-		      		<input type="submit" name="submit" value="Search"/>
+<!-- 		      		<input type="submit" name="submit" value="Search"/> -->
 		      	</form>
 		        <!-- end of trying ot make searc bar section -->
               </li>
