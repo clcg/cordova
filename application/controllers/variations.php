@@ -1,7 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * including reference to global variable: genes, for fuzzy position searches
+ */
+global $genes;
+
 class Variations extends MY_Controller {
-  
+
+	
   /**
    * Array of strings for views, filenames, etc.
    *
