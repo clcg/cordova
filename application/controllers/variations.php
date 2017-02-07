@@ -580,7 +580,8 @@ class Variations extends MY_Controller {
   	if(strpos($positionAndAllele['allele'],'NA') !== false){
 //   		$this->printToScreen($variants);
   		$content = 'variations/letter';
-  		$data = $variants;
+  		$data = $variants; //this may not be needed
+  		$genes = $variants; //
   	} else {
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
