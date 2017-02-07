@@ -28,11 +28,10 @@
               <li>
               	<!-- trying to make search bar -->
               	<br/><br/>
-		        <form name="positionSearchBar" method="post" action="positionSearch">
+		        <form name="positionSearchBar" method="get" action="positionSearch">
 		      		Search for Variant by Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
 		      		<br/>
 		      		<input type="submit" name="submit" value="Search"/>
-		      		<input type="hidden" name="$this->security->get_csrf_token_name()" value="$this->security->get_csrf_hash()">
 		      	</form>
 		        <!-- end of trying ot make searc bar section -->
               </li>
