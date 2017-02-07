@@ -622,6 +622,7 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function pos_search_variations_table($variations) {
+  	$this->printToScreen($variations);
   	$data['title'] = $variations[0]['gene'];
   	$data['content'] = 'variations/gene';
   
