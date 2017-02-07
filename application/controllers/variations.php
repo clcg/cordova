@@ -637,7 +637,7 @@ class Variations extends MY_Controller {
 //   		}
 //   	}
 	foreach($variations as $variant) {
-		$data['display_names'][$variant[0]->gene] = $variant[0]->gene;
+		$data['display_names'][$variant->gene] = $variant->gene;
 	}
   
   	$this->load->view($this->public_layout, $data);
