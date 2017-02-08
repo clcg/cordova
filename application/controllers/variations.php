@@ -576,7 +576,7 @@ class Variations extends MY_Controller {
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	
-  	if(strpos($positionAndAllele['allele'],'NA') !== false){
+  	if(strpos($positionAndAllele['allele'],'NA') !== false || count($variants) > 1){
 
 		$this->pos_search_variations_table($variants);
 // 		$this->pos_search_letter($variants);
@@ -677,7 +677,7 @@ class Variations extends MY_Controller {
   
 	$this->load->view($this->public_layout, $data);
 // 	$this->load->view($this->va,$data); //trying to improve format
-  	$this->load->view('variations/gene', $data); //trying to improve format
+//   	$this->load->view('variations/gene', $data); //trying to improve format
   }
   
   /**
