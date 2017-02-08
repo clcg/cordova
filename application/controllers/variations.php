@@ -576,10 +576,30 @@ class Variations extends MY_Controller {
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	
-  	if(strpos($positionAndAllele['allele'],'NA') !== false || count($variants) > 1){
-
-		$this->pos_search_variations_table($variants);
-// 		$this->pos_search_letter($variants);
+  	if(strpos($positionAndAllele['allele'],'NA') !== false){
+		if(count($variants) > 1){
+			foreach ($variants as $aVariant) {
+				$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
+				if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
+					$variant = $aVariant;
+					break;
+				}
+			
+			}
+			
+			$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
+			$data['title'] = $data['variation'];
+			$content = 'variations/variant/index';
+			
+			// Set display style for frequency data
+			$freqs = $this->config->item('frequencies');
+			
+			$this->load->view($content, $data);
+			
+		}else{
+			$this->pos_search_variations_table($variants);
+// 			$this->pos_search_letter($variants);
+		}
 		
   	} else {
   		foreach ($variants as $aVariant) {
