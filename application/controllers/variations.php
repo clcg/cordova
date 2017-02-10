@@ -773,7 +773,7 @@ class Variations extends MY_Controller {
     public function pos_search_variations_table($variations) {
   
     	$data['title'] = 'Variations - ' . strtoupper($variations[0]->gene);
-    	$data['content'] = 'variations/index';
+    	$data['content'] = 'variations/gene';
   
     	$data['gene'] = $variations[0]->gene;
     	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
