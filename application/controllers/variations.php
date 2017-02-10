@@ -782,9 +782,9 @@ class Variations extends MY_Controller {
     	//slim $variations into array of only the columns
     	$rows = array(); //empty array 
     	foreach ($variations as $variation) {
-    		$tempRow = array();
+    		$tempRow = new stdClass;
     		foreach ($columnArray as $column) {
-    			$tempRow[] = $variation->$column;
+    			$tempRow->$column = $variation->$column;
     		}
     		$rows[] = $tempRow;
     	}
