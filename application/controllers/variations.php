@@ -790,6 +790,7 @@ class Variations extends MY_Controller {
     	}
     	
     	$data['rows'] = $rows;
+    	$this->printToScreen($data);
     	
   		$data['variations'] = $variations; //$variationsColumns;
   
