@@ -779,18 +779,19 @@ class Variations extends MY_Controller {
     	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
     	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
     	$columnArray = explode(',',$columns);
+    	
     	//slim $variations into array of only the columns
     	$rows = array(); //empty array 
-    	foreach ($variations as $variation) {
+    	foreach ($variations as $variation) { //
     		$tempRow = new stdClass;
     		foreach ($columnArray as $column) {
     			$tempRow->$column = $variation->$column;
     		}
+    		$data['display_names'][$variantion->gene] = $variation->gene;
     		$rows[] = $tempRow;
     	}
     	
     	$data['rows'] = $rows;
-    	$this->printToScreen($data);
     	
   		$data['variations'] = $variations; //$variationsColumns;
   
