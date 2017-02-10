@@ -28,7 +28,7 @@
               <li>
               	<!-- trying to make search bar -->
               	<br/><br/>
-		        <form name="positionSearchBar" method="get" action= base_url() . "posSearch">
+		        <form name="positionSearchBar" method="get" action= "<?php echo base_url() . '/posSearch'; ?>">
 		      		Search for Variant by Position: <input name="" value="" type="text" size="20" maxlength="40"/>
 		      		<br/>
 		      	</form>
