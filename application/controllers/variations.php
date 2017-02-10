@@ -587,7 +587,7 @@ class Variations extends MY_Controller {
 			
 			}
 			
-			$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
+			$data = $this->variations_model->get_variant_display_variables($aVariant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
 			$data['title'] = $data['variation'];
 			$content = 'variations/variant/index';
 			
