@@ -577,7 +577,7 @@ class Variations extends MY_Controller {
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	
   	if(strpos($positionAndAllele['allele'],'NA') !== false){
-		if(count($variants) > 1){
+		if(count($variants) == 1){
 			foreach ($variants as $aVariant) {
 				$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
 				if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
@@ -600,7 +600,9 @@ class Variations extends MY_Controller {
 			$this->pos_search_variations_table($variants);
 // 			$this->pos_search_letter($variants);
 		}
-		
+  	} elseif (count($variants) < 1){
+  		//display that no vairant or gene was found
+  		$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
   	} else {
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
