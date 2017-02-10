@@ -29,7 +29,7 @@
               	<!-- trying to make search bar -->
               	<br/><br/>
 		        <form name="positionSearchBar" method="get" action= "<?php echo base_url() . 'posSearch'; ?>">
-		      		Search for Variant by Position: <input name="" value="" type="text" size="20" maxlength="40"/>
+		      		Search for Variant by Position: <input name="posSearch" value="" type="text" size="20" maxlength="40"/>
 		      		<br/>
 		      	</form>
 		        <!-- end of trying ot make searc bar section -->

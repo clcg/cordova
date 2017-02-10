@@ -711,7 +711,7 @@ class Variations extends MY_Controller {
    */
   public function search_bar_pos () {
   	
-  	$this->show_variant_with_position($_GET["searchPosition"]);
+  	$this->show_variant_with_position($_GET["posSearch"]); //searchPosition
   		
   }
   
