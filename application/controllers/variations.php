@@ -587,7 +587,7 @@ class Variations extends MY_Controller {
 			
 			}
 			
-			$data = $this->variations_model->get_variant_display_variables($aVariant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
+			$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
 			$data['title'] = $data['variation'];
 			$content = 'variations/variant/index';
 			
@@ -763,30 +763,30 @@ class Variations extends MY_Controller {
    * @param  stdobj $variations variation previously loaded
    * @return void
    */
-  //   public function pos_search_variations_table($variations) {
+    public function pos_search_variations_table($variations) {
   
-  //   	$data['title'] = $variations[0]->gene;
-  //   	$data['content'] = 'variations/gene';
+    	$data['title'] = $variations[0]->gene;
+    	$data['content'] = 'variations/gene';
   
-  //   	$data['gene'] = $variations[0]->gene;
-  //   	// Columns to select for this page
-  // //   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
-  // //   	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
-  // //   	$variationsColumns = array();
-  // //   	$i = 0;
-  // //   	foreach($variations as $variant){
-  // // 	  	foreach($columns as $column){
-  // // 	  		$variationsColumns[$i][$column] = $variant[$column];
-  // // 	  	}
-  // // 	  	++$i;
-  // //   	}
-  // //   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
-  // 	$data['variations'] = $variations; //$variationsColumns;
+    	$data['gene'] = $variations[0]->gene;
+    	// Columns to select for this page
+  //   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+  //   	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
+  //   	$variationsColumns = array();
+  //   	$i = 0;
+  //   	foreach($variations as $variant){
+  // 	  	foreach($columns as $column){
+  // 	  		$variationsColumns[$i][$column] = $variant[$column];
+  // 	  	}
+  // 	  	++$i;
+  //   	}
+  //   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
+  	$data['variations'] = $variations; //$variationsColumns;
   
-  // 	$this->load->view($this->public_layout, $data);
-  // // 	$this->load->view($this->va,$data); //trying to improve format
-  // //   	$this->load->view('variations/gene', $data); //trying to improve format
-  //   }
+  	$this->load->view($this->public_layout, $data);
+  // 	$this->load->view($this->va,$data); //trying to improve format
+  //   	$this->load->view('variations/gene', $data); //trying to improve format
+    }
   
 
   /** 
