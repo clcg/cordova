@@ -787,7 +787,7 @@ class Variations extends MY_Controller {
     		foreach ($columnArray as $column) {
     			$tempRow->$column = $variation->$column;
     		}
-    		$data['display_names'][$variantion->gene] = $variation->gene;
+    		$data['display_names'][$variation->gene] = $variation->gene;
     		$rows[] = $tempRow;
     	}
     	
