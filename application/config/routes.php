@@ -81,9 +81,9 @@ $route['variant/(:any)'] = 'variations/show_variant_with_position/$1'; //$1 as t
 $route['pdf/(:any)'] = 'variations/download_variant_pdf/$1';
 $route['api'] = 'api/index';
 $route['email'] = 'email/index';
-$route['positionSearch'] = 'variations/search_bar_pos';
-$route['(:any)/positionSearch'] = 'variations/search_bar_pos';
-$route['(:any)/(:any)/positionSearch'] = 'variations/search_bar_pos';
+$route['posSearch'] = 'variations/search_bar_pos';
+$route['(:any)/posSearch'] = 'variations/search_bar_pos';
+$route['(:any)/(:any)/posSearch'] = 'variations/search_bar_pos';
 
 /* Controller/function route (w/ 2 parameters) */
 $route['(:any)/(:any)/(:any)/(:any)'] = '$1/$2/$3/$4';

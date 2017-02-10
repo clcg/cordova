@@ -28,8 +28,8 @@
               <li>
               	<!-- trying to make search bar -->
               	<br/><br/>
-		        <form name="positionSearchBar" method="get" action="positionSearch">
-		      		Search for Variant by Position: <input name="searchPosition" value="" type="text" size="20" maxlength="40"/>
+		        <form name="positionSearchBar" method="get" action= base_url() . "posSearch">
+		      		Search for Variant by Position: <input name="" value="" type="text" size="20" maxlength="40"/>
 		      		<br/>
 		      	</form>
 		        <!-- end of trying ot make searc bar section -->

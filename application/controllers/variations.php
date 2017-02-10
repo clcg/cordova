@@ -596,13 +596,15 @@ class Variations extends MY_Controller {
 			
 			$this->load->view($content, $data);
 			
-		}else{
+		} elseif (count($variants) < 1){
+			//display that no vairant or gene was found
+			$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
+		  
+		} else {
 			$this->pos_search_variations_table($variants);
 // 			$this->pos_search_letter($variants);
 		}
-  	} elseif (count($variants) < 1){
-  		//display that no vairant or gene was found
-  		$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
+  	
   	} else {
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
