@@ -623,82 +623,6 @@ class Variations extends MY_Controller {
   	
   }
   
-  /**
-   * pos_search_letter - derelict at the moment
-   *
-   * Display all genes start with a certain letter
-   *
-   * @author Sean Ephraim
-   * @access public
-   * @param  string $letter
-   *    The gene's starting letter
-   * @return void
-   */
-  public function pos_search_letter($variations) {
-  	$data['title'] = strtolower($variations[0]->gene[0]);
-  	$data['content'] = 'variations/letter';
-  
-  	$this->load->model('genes_model');
-  	$this->load->helper('genes');
-//   	foreach($variantions as $variant){
-  		
-//   	}
-//   	$data['genes'] = 
-//   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE); //need to emulate output from this
-  
-  	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
-//   	$data['display_names'] = Array();
-//   	foreach ($data['genes'] as $gene => $alias) {
-//   		if ($alias !== NULL) {
-//   			$data['display_names'][$gene] = "$gene ($alias)";
-//   		}
-//   		else {
-//   			$data['display_names'][$gene] = $gene;
-//   		}
-//   	}
-	foreach($variations as $variant) {
-		$data['display_names'][$variant->gene] = $variant->gene;
-	}
-  
-  	$this->load->view($this->public_layout, $data);
-  	$this->pos_search_variations_table($variations);
-  	
-  }
-  
-  /**
-   * pos_search_variations_table
-   *
-   * Load all variations for a specific position search.
-   *
-   * @author Robert Marini
-   * @access public
-   * @param  stdobj $variations variation previously loaded
-   * @return void
-   */
-  public function pos_search_variations_table($variations) {
-
-  	$data['title'] = $variations[0]->gene;
-  	$data['content'] = 'variations/gene';
-  
-  	$data['gene'] = $variations[0]->gene;
-  	// Columns to select for this page
-//   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
-//   	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
-//   	$variationsColumns = array();
-//   	$i = 0;
-//   	foreach($variations as $variant){
-// 	  	foreach($columns as $column){
-// 	  		$variationsColumns[$i][$column] = $variant[$column];
-// 	  	}
-// 	  	++$i;
-//   	}
-//   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
-	$data['variations'] = $variations; //$variationsColumns;
-  
-	$this->load->view($this->public_layout, $data);
-// 	$this->load->view($this->va,$data); //trying to improve format
-//   	$this->load->view('variations/gene', $data); //trying to improve format
-  }
   
   /**
    * printToScreen
@@ -735,6 +659,7 @@ class Variations extends MY_Controller {
   	
   	$positionOrig = str_replace('%3A', ':',$positionUrlSafe);
   	$positionOrig = str_replace('%3E', '>',$positionOrig);
+  	$positionOrig = str_replace('%7F', '',$positionOrig);
   	$explodedPosition = explode(':',$positionOrig);
   	$allele = $explodedPosition[count($explodedPosition) - 1];
   	$position = '';
@@ -785,6 +710,83 @@ class Variations extends MY_Controller {
   	$this->show_variant_with_position($_GET["searchPosition"]);
   		
   }
+  
+  /**
+   * pos_search_letter - derelict at the moment
+   *
+   * Display all genes start with a certain letter
+   *
+   * @author Sean Ephraim
+   * @access public
+   * @param  string $letter
+   *    The gene's starting letter
+   * @return void
+   */
+  //   public function pos_search_letter($variations) {
+  //   	$data['title'] = strtolower($variations[0]->gene[0]);
+  //   	$data['content'] = 'variations/letter';
+  
+  //   	$this->load->model('genes_model');
+  //   	$this->load->helper('genes');
+  // //   	foreach($variantions as $variant){
+  
+  // //   	}
+  // //   	$data['genes'] =
+  // //   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE); //need to emulate output from this
+  
+  //   	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+  // //   	$data['display_names'] = Array();
+  // //   	foreach ($data['genes'] as $gene => $alias) {
+  // //   		if ($alias !== NULL) {
+  // //   			$data['display_names'][$gene] = "$gene ($alias)";
+  // //   		}
+  // //   		else {
+  // //   			$data['display_names'][$gene] = $gene;
+  // //   		}
+  // //   	}
+  // 	foreach($variations as $variant) {
+  // 		$data['display_names'][$variant->gene] = $variant->gene;
+  // 	}
+  
+  //   	$this->load->view($this->public_layout, $data);
+  //   	$this->pos_search_variations_table($variations);
+   
+  //   }
+  
+  /**
+   * pos_search_variations_table
+   *
+   * Load all variations for a specific position search.
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  stdobj $variations variation previously loaded
+   * @return void
+   */
+  //   public function pos_search_variations_table($variations) {
+  
+  //   	$data['title'] = $variations[0]->gene;
+  //   	$data['content'] = 'variations/gene';
+  
+  //   	$data['gene'] = $variations[0]->gene;
+  //   	// Columns to select for this page
+  // //   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+  // //   	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
+  // //   	$variationsColumns = array();
+  // //   	$i = 0;
+  // //   	foreach($variations as $variant){
+  // // 	  	foreach($columns as $column){
+  // // 	  		$variationsColumns[$i][$column] = $variant[$column];
+  // // 	  	}
+  // // 	  	++$i;
+  // //   	}
+  // //   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
+  // 	$data['variations'] = $variations; //$variationsColumns;
+  
+  // 	$this->load->view($this->public_layout, $data);
+  // // 	$this->load->view($this->va,$data); //trying to improve format
+  // //   	$this->load->view('variations/gene', $data); //trying to improve format
+  //   }
   
 
   /** 
