@@ -764,30 +764,37 @@ class Variations extends MY_Controller {
    *
    * @author Robert Marini
    * @access public
+   * @description
+   * 	parallels show_variants($gene) function by Sean but works in arguments of already collected 
+   * 		information of variations.
    * @param  stdobj $variations variation previously loaded
    * @return void
    */
     public function pos_search_variations_table($variations) {
   
-    	$data['title'] = $variations[0]->gene;
-    	$data['content'] = 'variations/gene';
+    	$data['title'] = 'Variations - ' . strtoupper($variations[0]->gene);
+    	$data['content'] = 'variations/index';
   
     	$data['gene'] = $variations[0]->gene;
-    	// Columns to select for this page
-  //   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
-  //   	$columns = array('id','hgvs_protein_change','hgvs_nucleotide_change','variantlocale','variation','pathogenicity','disease');
-  //   	$variationsColumns = array();
-  //   	$i = 0;
-  //   	foreach($variations as $variant){
-  // 	  	foreach($columns as $column){
-  // 	  		$variationsColumns[$i][$column] = $variant[$column];
-  // 	  	}
-  // 	  	++$i;
-  //   	}
-  //   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
-  	$data['variations'] = $variations; //$variationsColumns;
+    	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
+    	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+    	//slim $variations into array of only the columns
+    	$rows = array(); //empty array 
+    	foreach ($variations as $variation) {
+    		$tempRow = array();
+    		foreach ($columns as $column) {
+    			$tempRow[] = $variation->$column;
+    		}
+    		$rows[] = $tempRow;
+    	}
+    	
+    	$this->printToScreen($rows);
+    	
+    	$data['rows'] = $rows;
+    	
+  		$data['variations'] = $variations; //$variationsColumns;
   
-  	$this->load->view($this->public_layout, $data);
+  		$this->load->view($this->show_variants($gene), $data);
   // 	$this->load->view($this->va,$data); //trying to improve format
   //   	$this->load->view('variations/gene', $data); //trying to improve format
     }
