@@ -777,8 +777,6 @@ class Variations extends MY_Controller {
 //     	$data['genes'] = $data['display_names']; //from letter
     	
   		$data['variations'] = $variations; //$variationsColumns;
-  		
-  		$this->printToScreen($data);
   
 //   		$this->load->view($this->show_variants($gene), $data);
 		$this->load->view($this->public_layout, $data);
