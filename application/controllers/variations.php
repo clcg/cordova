@@ -715,47 +715,6 @@ class Variations extends MY_Controller {
   		
   }
   
-  /**
-   * pos_search_letter - derelict at the moment
-   *
-   * Display all genes start with a certain letter
-   *
-   * @author Sean Ephraim
-   * @access public
-   * @param  string $letter
-   *    The gene's starting letter
-   * @return void
-   */
-  //   public function pos_search_letter($variations) {
-  //   	$data['title'] = strtolower($variations[0]->gene[0]);
-  //   	$data['content'] = 'variations/letter';
-  
-  //   	$this->load->model('genes_model');
-  //   	$this->load->helper('genes');
-  // //   	foreach($variantions as $variant){
-  
-  // //   	}
-  // //   	$data['genes'] =
-  // //   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE); //need to emulate output from this
-  
-  //   	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
-  // //   	$data['display_names'] = Array();
-  // //   	foreach ($data['genes'] as $gene => $alias) {
-  // //   		if ($alias !== NULL) {
-  // //   			$data['display_names'][$gene] = "$gene ($alias)";
-  // //   		}
-  // //   		else {
-  // //   			$data['display_names'][$gene] = $gene;
-  // //   		}
-  // //   	}
-  // 	foreach($variations as $variant) {
-  // 		$data['display_names'][$variant->gene] = $variant->gene;
-  // 	}
-  
-  //   	$this->load->view($this->public_layout, $data);
-  //   	$this->pos_search_variations_table($variations);
-   
-  //   }
   
   /**
    * pos_search_variations_table
@@ -782,6 +741,7 @@ class Variations extends MY_Controller {
     	
     	//slim $variations into array of only the columns
     	$rows = array(); //empty array 
+    	$genes = array();
     	foreach ($variations as $variation) { //
     		$tempRow = new stdClass;
     		foreach ($columnArray as $column) {
@@ -792,6 +752,7 @@ class Variations extends MY_Controller {
     	}
     	
     	$data['rows'] = $rows;
+    	$data['genes'] = $data['display_names'];
     	
   		$data['variations'] = $variations; //$variationsColumns;
   
