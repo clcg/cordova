@@ -733,7 +733,10 @@ class Variations extends MY_Controller {
   
     	$data['title'] = 'Variations - ' . strtoupper($variations[0]->gene);
     	$data['content'] = 'variations/letter';
-  
+    	
+    	$this->load->model('genes_model'); //from letter
+    	$this->load->helper('genes'); //from letter
+    	
     	$data['gene'] = $variations[0]->gene;
     	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
     	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
@@ -752,7 +755,7 @@ class Variations extends MY_Controller {
     	}
     	
     	$data['rows'] = $rows;
-    	$data['genes'] = $data['display_names'];
+    	$data['genes'] = $data['display_names']; //from letter
     	
   		$data['variations'] = $variations; //$variationsColumns;
   
