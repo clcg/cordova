@@ -742,15 +742,16 @@ class Variations extends MY_Controller {
     	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
     	$data['display_names'] = Array();
     	foreach ($data['genes'] as $gene => $alias) {
-    		if ($alias !== NULL) {
-    			$data['display_names'][$gene] = "$gene ($alias)";
-    		}
-    		else {
-    			$data['display_names'][$gene] = $gene;
+    		if (strcmp($gene, $variations[0]->gene) == 0) {
+	    		if ($alias !== NULL) {
+	    			$data['display_names'][$gene] = "$gene ($alias)";
+	    		}
+	    		else {
+	    			$data['display_names'][$gene] = $gene;
+	    		}
     		}
     	}
     	//end from letter function
-    	
     	
     	$data['gene'] = $variations[0]->gene;
     	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
