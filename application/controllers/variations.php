@@ -749,6 +749,8 @@ class Variations extends MY_Controller {
 	    		else {
 	    			$data['display_names'][$gene] = $gene;
 	    		}
+    		} else {
+    			unset($data['genes'][$gene]);
     		}
     	}
     	//end from letter function
