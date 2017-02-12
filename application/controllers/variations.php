@@ -751,7 +751,7 @@ class Variations extends MY_Controller {
     			$tempRow->$column = $variation->$column;
     		}
     		$data['display_names'][$variation->gene] = $variation->gene;
-    		$data['genes'][$variation->gene] = NULL; //letter...hardcoded for the moment but this will need to be pulled from variant_count gene_aliases after proof it works
+    		$data['genes'][$variation->gene] = 'NULL'; //letter...hardcoded for the moment but this will need to be pulled from variant_count gene_aliases after proof it works
     		$rows[] = $tempRow;
     	}
     	
