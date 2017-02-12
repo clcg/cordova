@@ -762,23 +762,19 @@ class Variations extends MY_Controller {
     	
     	//slim $variations into array of only the columns
     	$rows = array(); //empty array 
-    	$genes = array();
-    	foreach ($variations as $variation) { //
+    	foreach ($variations as $variation) { 
     		$tempRow = new stdClass;
     		foreach ($columnArray as $column) {
     			$tempRow->$column = $variation->$column;
     		}
-//     		$data['display_names'][$variation->gene] = $variation->gene;
 
     		$rows[] = $tempRow;
     	}
     	
     	$data['rows'] = $rows;
-//     	$data['genes'] = $data['display_names']; //from letter
     	
-  		$data['variations'] = $variations; //$variationsColumns;
-  
-//   		$this->load->view($this->show_variants($gene), $data);
+//   		$data['variations'] = $variations; //$variationsColumns;
+
 		$this->load->view($this->public_layout, $data);
     }
   
