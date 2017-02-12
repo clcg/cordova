@@ -732,10 +732,25 @@ class Variations extends MY_Controller {
     public function pos_search_variations_table($variations) {
   
     	$data['title'] = 'Variations - ' . strtoupper($variations[0]->gene);
+    	$letter = $variations[0]->gene[0];
     	$data['content'] = 'variations/letter';
     	
+    	//from letter function
     	$this->load->model('genes_model'); //from letter
     	$this->load->helper('genes'); //from letter
+    	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+    	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+    	$data['display_names'] = Array();
+    	foreach ($data['genes'] as $gene => $alias) {
+    		if ($alias !== NULL) {
+    			$data['display_names'][$gene] = "$gene ($alias)";
+    		}
+    		else {
+    			$data['display_names'][$gene] = $gene;
+    		}
+    	}
+    	//end from letter function
+    	
     	
     	$data['gene'] = $variations[0]->gene;
     	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
@@ -750,8 +765,8 @@ class Variations extends MY_Controller {
     		foreach ($columnArray as $column) {
     			$tempRow->$column = $variation->$column;
     		}
-    		$data['display_names'][$variation->gene] = $variation->gene;
-    		$data['genes'][$variation->gene] = 'NULL'; //letter...hardcoded for the moment but this will need to be pulled from variant_count gene_aliases after proof it works
+//     		$data['display_names'][$variation->gene] = $variation->gene;
+
     		$rows[] = $tempRow;
     	}
     	
@@ -762,9 +777,6 @@ class Variations extends MY_Controller {
   
 //   		$this->load->view($this->show_variants($gene), $data);
 		$this->load->view($this->public_layout, $data);
-  		
-  // 	$this->load->view($this->va,$data); //trying to improve format
-  //   	$this->load->view('variations/gene', $data); //trying to improve format
     }
   
 
