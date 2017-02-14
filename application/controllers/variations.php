@@ -771,13 +771,15 @@ class Variations extends MY_Controller {
     		$rows[] = $tempRow;
     	}
     	
+    	$data['genes'] = $rows; //testing this
+    	
     	$data['rows'] = $rows;
     	$data['columns'] = $columns;
     	
   		$data['variations'] = $variations; //$variationsColumns;
 
 		$this->load->view($this->public_layout, $data);
-// 		$this->load->view($this->genes, $data);
+		$this->load->view($this->genes, $data);
 // 		$this->load->view($this->editor_layout, $data);
     }
   
