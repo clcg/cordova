@@ -773,11 +773,10 @@ class Variations extends MY_Controller {
     	
     	$data['rows'] = $rows;
     	
-//   		$data['variations'] = $variations; //$variationsColumns;
+  		$data['variations'] = $variations; //$variationsColumns;
 
 		$this->load->view($this->public_layout, $data);
-		redirect_all_nonmembers();
-		$this->load->view($this->editor_layout, $data);
+// 		$this->load->view($this->editor_layout, $data);
     }
   
 
