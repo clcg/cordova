@@ -782,7 +782,7 @@ class Variations extends MY_Controller {
 //   		$data['geneTable'] = 'variations/gene';
 //   		$data['content'] = 'variations/letter_searchPos';
 // 		$data['content'] = 'variations/gene';
-  		
+  		$data['content'] = 'variations/gene';
 		$this->load->view($this->public_layout, $data);
 //   		$this->load->view($this->, $data);
     }
