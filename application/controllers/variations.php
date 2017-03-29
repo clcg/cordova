@@ -609,7 +609,7 @@ class Variations extends MY_Controller {
 			//multiple variants found from search result
 			
 			$this->searchPosVariants = $variants;
-			$letter = $variations[0]->gene[0];
+			$letter = $variants[0]->gene[0];
 			$this->load->view('variations/letter',$letter);
 			
 // 			$this->pos_search_variations_table($variants); //worked for crude/ugly display
