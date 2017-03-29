@@ -75,6 +75,7 @@ $route['variations'] = 'variations/index';
 $route['doc'] = 'pages/doc';
 $route['letter/(:any)'] = 'variations/letter/$1';
 $route['gene/(:any)'] = 'variations/variations_table/$1';
+$route['geneVariantPos/(:any)'] = 'variations/variations_table_variant_pos_search/$1'; //variant by position search, Rob Marini edit
 $route['variant/freq'] = 'variations/frequency';
 //$route['variant/(:any)'] = 'variations/show_variant/$1';
 $route['variant/(:any)'] = 'variations/show_variant_with_position/$1'; //$1 as the position of variant

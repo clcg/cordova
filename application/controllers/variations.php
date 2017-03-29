@@ -541,6 +541,33 @@ class Variations extends MY_Controller {
 	
     $this->load->view('variations/gene', $data);
   }
+  
+  /**
+   * variations_table_variant_pos_search
+   *
+   * Load all variations for a specific position based search string
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  string $searchStr, a string of the chr:pos
+   * @return void
+   */
+  public function variations_table($searchStr) {
+  	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
+  	$this->printToScreen($variants);
+  	
+  	$data['title'] = $gene;
+  	$data['content'] = 'variations/gene';
+  
+  	$data['gene'] = $gene;
+  	// Columns to select for this page
+  	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+  	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
+  
+  	$this->printToScreen($data['variations']);
+  
+  	$this->load->view('variations/gene', $data);
+  }
 
   /** 
    * Show Variant

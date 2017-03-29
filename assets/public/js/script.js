@@ -92,11 +92,10 @@ $(document).ready(function(){
 //          var temp = parts[i].split("=");
 //          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
 //      }
-    	  var loadURL = "../"
+    	  var loadURL = "../geneVariantPos/" + parts[1]; //providing the position searched here
 	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
       } else {	  
-    	  alert(this.id);
-	      var loadURL = "../gene/"+this.id;
+	      var loadURL = "../gene/"+this.id; //this.id is the gene name
       }
       
       //variations_table.html(loading_modal).load(loadURL);
