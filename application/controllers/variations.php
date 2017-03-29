@@ -448,7 +448,6 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function letter($letter) {
-  	$this->printToScreen($letter);
     $data['title'] = $letter;
     $data['content'] = 'variations/letter';
 
@@ -610,8 +609,8 @@ class Variations extends MY_Controller {
 			//multiple variants found from search result
 			
 			$this->searchPosVariants = $variants;
-			$genes = $variants[0]->gene;
-			$this->load->view('variations/letter',$genes);
+			$letter = $variants[0]->gene[0];
+			$this->letter($letter);
 			
 // 			$this->pos_search_variations_table($variants); //worked for crude/ugly display
 		}
