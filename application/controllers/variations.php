@@ -478,12 +478,11 @@ class Variations extends MY_Controller {
    *
    * @author Robert Marini
    * @access public
-   * @param  array? $variants
+   * @param  array $variants, specifically, $variants is an array of stdClass Objects
    *    The variants returned from position search
    * @return void
    */
   public function searchPosLetter($variants) {
-  	$this->printToScreen($variants);
   	$data['title'] = $variants[0]->gene;
   	$data['content'] = 'variations/letter'; //may need to change this
   	$letter = $variants[0]->gene[0];
@@ -494,10 +493,11 @@ class Variations extends MY_Controller {
   
   	//narrowing results to just the $variants related genes
   	$tempGenes = Array();
-  	foreach ($data['genes'] as $gene) {
+  	$genesKeys = array_keys($data['genes']);
+  	foreach ($genesKeys as $key) {
   		foreach ($variants as $variant) {
-  			if(strcmp($variant->gene, $gene) == 0){
-  				array_push($tempGenes,$gene);
+  			if(strcmp($variant->gene, $key) == 0){
+  				array_push($tempGenes,$data['genes'][$key]);
   			}
   		}
   	}
