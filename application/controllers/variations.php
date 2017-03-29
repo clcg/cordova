@@ -552,7 +552,7 @@ class Variations extends MY_Controller {
    * @param  string $searchStr, a string of the chr:pos
    * @return void
    */
-  public function variations_table($searchStr) {
+  public function variations_table_variant_pos_search($searchStr) {
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	$this->printToScreen($variants);
   	
