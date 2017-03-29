@@ -604,6 +604,7 @@ class Variations extends MY_Controller {
 		} else {
 			$this->pos_search_variations_table($variants);
 // 			$this->pos_search_letter($variants);
+			$this->printToScreen($variants);
 		}
   	
   	} else {
