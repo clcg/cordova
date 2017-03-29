@@ -92,6 +92,7 @@ $(document).ready(function(){
 //          var temp = parts[i].split("=");
 //          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
 //      }
+    	  alert(parts[1]);
     	  var loadURL = "../geneVariantPos/" + parts[1]; //providing the position searched here
 	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
       } else {	  
