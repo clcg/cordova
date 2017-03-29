@@ -490,17 +490,18 @@ class Variations extends MY_Controller {
   	$this->load->model('genes_model');
   	$this->load->helper('genes');
   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
-  
+  	
   	//narrowing results to just the $variants related genes
   	$tempGenes = Array();
   	$genesKeys = array_keys($data['genes']);
   	foreach ($genesKeys as $key) {
   		foreach ($variants as $variant) {
   			if(strcmp($variant->gene, $key) == 0){
-  				array_push($tempGenes,$data['genes'][$key]);
+  				$tempGenes[$key] = $data['genes'][$key];
   			}
   		}
   	}
+  	ksort($tempGenes);
   	$data['genes'] = $tempGenes;
 //   	$this->printToScreen($data);
   	
