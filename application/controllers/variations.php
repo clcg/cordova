@@ -502,7 +502,7 @@ class Variations extends MY_Controller {
   		}
   	}
   	$data['genes'] = $tempGenes;
-  	$this->printToScreen($data);
+//   	$this->printToScreen($data);
   	
   	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
   	$data['display_names'] = Array();
