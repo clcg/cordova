@@ -83,6 +83,19 @@ $(document).ready(function(){
         '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
         '    </div>' +
         '</div>';
+      
+      //Rob Marini Edits here for searchPos functionality....my edits will preserve legacy variant by id look up.
+      var parts = window.location.search.substr(1).split("=");
+      var $_GET = {};
+      for (var i = 0; i < parts.length; i++) {
+          var temp = parts[i].split("=");
+          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+      }
+
+      alert($_GET);
+      
+	  //end of Rob Marini Edits
+    	  
       var loadURL = "../gene/"+this.id;
       //variations_table.html(loading_modal).load(loadURL);
       variations_table.html(loading_modal).load(loadURL, function(){
