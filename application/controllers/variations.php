@@ -609,25 +609,26 @@ class Variations extends MY_Controller {
 		}
   	
   	} 
-//   	else {
-//   		foreach ($variants as $aVariant) {
-//   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-//   			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
-//   				$variant = $aVariant;
-//   				break;
-//   			}
+  	else {
+  		//this is accessed if a single variant is returned from the position search
+  		foreach ($variants as $aVariant) {
+  			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
+  			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
+  				$variant = $aVariant;
+  				break;
+  			}
   			 
-//   		}
+  		}
   		
-//   		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
-//   		$data['title'] = $data['variation'];
-//   		$content = 'variations/variant/index';
+  		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
+  		$data['title'] = $data['variation'];
+  		$content = 'variations/variant/index';
   		
-//   		// Set display style for frequency data
-//   		$freqs = $this->config->item('frequencies');
+  		// Set display style for frequency data
+  		$freqs = $this->config->item('frequencies');
   		
-//   		$this->load->view($content, $data);
-//   	}
+  		$this->load->view($content, $data);
+  	}
   	
   }
   
