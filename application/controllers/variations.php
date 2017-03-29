@@ -579,6 +579,8 @@ class Variations extends MY_Controller {
   	if(strpos($positionAndAllele['allele'],'NA') !== false){ 
   		//takes user/viewer straight to the variant's page associated with that single position (ie. only 1 result returned)
 		if(count($variants) == 1){
+			//a single variant found
+			
 			$variant = json_decode(json_encode($variants[0]),true);
 // 			foreach ($variants as $aVariant) {
 // 				$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
@@ -599,13 +601,18 @@ class Variations extends MY_Controller {
 			$this->load->view($content, $data);
 			
 		} elseif (count($variants) < 1){
-			//display that no vairant or gene was found
+			//display that no variant or gene was found
+			
 			$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
 		  
 		} else {
-			$this->pos_search_variations_table($variants);
-// 			$this->pos_search_letter($variants);
-// 			$this->printToScreen($variants);
+			//multiple variants found from search result
+			
+			$this['searchPosVariants'] = $variants;
+			$letter = $variations[0]->gene[0];
+			$this->load->view('variations/letter',$letter);
+			
+// 			$this->pos_search_variations_table($variants); //worked for crude/ugly display
 		}
   	
   	} elseif ($variants === NULL) {
