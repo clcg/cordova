@@ -483,6 +483,7 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function searchPosLetter($variants) {
+  	$this->printToScreen($variants);
   	$data['title'] = $variants[0]->gene;
   	$data['content'] = 'variations/letter'; //may need to change this
   	$letter = $variants[0]->gene[0];
