@@ -448,6 +448,7 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function letter($letter) {
+  	$this->printToScreen($letter);
     $data['title'] = $letter;
     $data['content'] = 'variations/letter';
 
