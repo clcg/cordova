@@ -608,7 +608,7 @@ class Variations extends MY_Controller {
 		} else {
 			//multiple variants found from search result
 			
-			$this['searchPosVariants'] = $variants;
+			$this->searchPosVariants = $variants;
 			$letter = $variations[0]->gene[0];
 			$this->load->view('variations/letter',$letter);
 			
