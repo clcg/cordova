@@ -787,6 +787,8 @@ class Variations extends MY_Controller {
 
   		$data['content'] = 'variations/gene'; //change for presentation
   		
+  		$this->printToScreen($data); //////////////////////////
+  		
 		$this->load->view($this->public_layout, $data);
 //   		$this->load->view('variations/gene', $data);
 //   		$this->load->view($this->, $data);
