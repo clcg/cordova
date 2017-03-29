@@ -95,6 +95,7 @@ $(document).ready(function(){
     	  var loadURL = "../"
 	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
       } else {	  
+    	  alert(this.id);
 	      var loadURL = "../gene/"+this.id;
       }
       
