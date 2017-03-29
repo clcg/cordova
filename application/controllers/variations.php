@@ -468,6 +468,54 @@ class Variations extends MY_Controller {
 
     $this->load->view($this->public_layout, $data);
   }
+  
+  /**
+   * searchPosLetter
+   *
+   * Display all genes start with a certain letter based on the variants passed to the function
+   * 	This allows for multiple genes' results to be displayed implicitly though it was not designed with that in mind.
+   * 	Being that this is true, the functionality is there but it may need some tweaking for purposeful use of that functionality
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  array? $variants
+   *    The variants returned from position search
+   * @return void
+   */
+  public function searchPosLetter($variants) {
+  	$data['title'] = $variants[0]->gene;
+  	$data['content'] = 'variations/letter'; //may need to change this
+  	$letter = $variants[0]->gene[0];
+  
+  	$this->load->model('genes_model');
+  	$this->load->helper('genes');
+  	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+  
+  	//narrowing results to just the $variants related genes
+  	$this->printToScreen($data['genes']);
+  	$tempGenes = Array();
+  	foreach ($data['genes'] as $gene) {
+  		foreach ($variants as $variant) {
+  			if($variant->gene == $gene){
+  				array_push($tempGenes,$gene);
+  			}
+  		}
+  	}
+  	$data['genes'] = $tempGenes;
+  	
+  	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+  	$data['display_names'] = Array();
+  	foreach ($data['genes'] as $gene => $alias) {
+  		if ($alias !== NULL) {
+  			$data['display_names'][$gene] = "$gene ($alias)";
+  		}
+  		else {
+  			$data['display_names'][$gene] = $gene;
+  		}
+  	}
+  
+  	$this->load->view($this->public_layout, $data);
+  }
 
   /** 
    * Variations_table
@@ -547,6 +595,8 @@ class Variations extends MY_Controller {
    * 	can be fuzzy searched, see variations_model.php function 
    * 	'get_variants_with_position'
    * @return void
+   * 
+   * @Note: also provides legacy support for variant by id lookup
    * 
    * dev notes:
    * 	iterate through query->result
