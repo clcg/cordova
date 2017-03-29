@@ -576,7 +576,8 @@ class Variations extends MY_Controller {
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	
-  	if(strpos($positionAndAllele['allele'],'NA') !== false){
+  	if(strpos($positionAndAllele['allele'],'NA') !== false){ 
+  		//takes user/viewer straight to the variant's page associated with that single position (ie. only 1 result returned)
 		if(count($variants) == 1){
 			$variant = json_decode(json_encode($variants[0]),true);
 // 			foreach ($variants as $aVariant) {
@@ -607,25 +608,26 @@ class Variations extends MY_Controller {
 // 			$this->printToScreen($variants);
 		}
   	
-  	} else {
-  		foreach ($variants as $aVariant) {
-  			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-  			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
-  				$variant = $aVariant;
-  				break;
-  			}
+  	} 
+//   	else {
+//   		foreach ($variants as $aVariant) {
+//   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
+//   			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
+//   				$variant = $aVariant;
+//   				break;
+//   			}
   			 
-  		}
+//   		}
   		
-  		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
-  		$data['title'] = $data['variation'];
-  		$content = 'variations/variant/index';
+//   		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
+//   		$data['title'] = $data['variation'];
+//   		$content = 'variations/variant/index';
   		
-  		// Set display style for frequency data
-  		$freqs = $this->config->item('frequencies');
+//   		// Set display style for frequency data
+//   		$freqs = $this->config->item('frequencies');
   		
-  		$this->load->view($content, $data);
-  	}
+//   		$this->load->view($content, $data);
+//   	}
   	
   }
   
