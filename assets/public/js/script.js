@@ -85,13 +85,16 @@ $(document).ready(function(){
         '</div>';
       
       //Rob Marini Edits here for searchPos functionality....my edits will preserve legacy variant by id look up.
-      var parts = window.location.search.substr(1).split("=");
+      var parts = window.location.search.substr(1).split("&");
       var $_GET = {};
       for (var i = 0; i < parts.length; i++) {
           var temp = parts[i].split("=");
           $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
       }
 
+      alert($_GET);
+      alert($_GET[0]);
+      alert($_GET[1]);
       alert(parts);
       
 	  //end of Rob Marini Edits
