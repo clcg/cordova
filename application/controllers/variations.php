@@ -492,16 +492,16 @@ class Variations extends MY_Controller {
   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
   
   	//narrowing results to just the $variants related genes
-  	$this->printToScreen($data['genes']);
   	$tempGenes = Array();
   	foreach ($data['genes'] as $gene) {
   		foreach ($variants as $variant) {
-  			if($variant->gene == $gene){
+  			if(strcmp($variant->gene, $gene) == 0){
   				array_push($tempGenes,$gene);
   			}
   		}
   	}
   	$data['genes'] = $tempGenes;
+  	$this->printToScreen($data);
   	
   	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
   	$data['display_names'] = Array();
