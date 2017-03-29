@@ -604,7 +604,7 @@ class Variations extends MY_Controller {
 		} else {
 			$this->pos_search_variations_table($variants);
 // 			$this->pos_search_letter($variants);
-			$this->printToScreen($variants);
+// 			$this->printToScreen($variants);
 		}
   	
   	} else {
@@ -787,7 +787,8 @@ class Variations extends MY_Controller {
 
   		$data['content'] = 'variations/gene'; //change for presentation
   		
-		$this->load->view($this->public_layout, $data);
+// 		$this->load->view($this->public_layout, $data);
+  		$this->load->view('variations/gene', $data);
 //   		$this->load->view($this->, $data);
     }
   
