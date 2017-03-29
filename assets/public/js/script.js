@@ -92,7 +92,7 @@ $(document).ready(function(){
           $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
       }
 
-      alert($_GET);
+      alert(parts);
       
 	  //end of Rob Marini Edits
     	  
