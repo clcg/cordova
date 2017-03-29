@@ -85,21 +85,19 @@ $(document).ready(function(){
         '</div>';
       
       //Rob Marini Edits here for searchPos functionality....my edits will preserve legacy variant by id look up.
-      var parts = window.location.search.substr(1).split("&");
-      var $_GET = {};
-      for (var i = 0; i < parts.length; i++) {
-          var temp = parts[i].split("=");
-          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+      var parts = window.location.search.substr(1).split("=");
+      if(parts[0].localeCompare('searchStr') == 0){
+//      var $_GET = {};
+//      for (var i = 0; i < parts.length; i++) {
+//          var temp = parts[i].split("=");
+//          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+//      }
+    	  var loadURL = "../"
+	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
+      } else {	  
+	      var loadURL = "../gene/"+this.id;
       }
-
-      alert($_GET);
-      alert($_GET[0]);
-      alert($_GET[1]);
-      alert(parts);
       
-	  //end of Rob Marini Edits
-    	  
-      var loadURL = "../gene/"+this.id;
       //variations_table.html(loading_modal).load(loadURL);
       variations_table.html(loading_modal).load(loadURL, function(){
         tablesort();

@@ -536,7 +536,9 @@ class Variations extends MY_Controller {
     // Columns to select for this page
     $columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
     $data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
-
+	
+    $this->printToScreen($data['variations']);
+	
     $this->load->view('variations/gene', $data);
   }
 
