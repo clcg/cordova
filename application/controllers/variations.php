@@ -608,9 +608,12 @@ class Variations extends MY_Controller {
 // 			$this->printToScreen($variants);
 		}
   	
+  	} elseif ($variants === NULL) {
+  		//display that no vairant or gene was found
+  		$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
+  		
   	} else {
-  		//this is legacy for variation id lookup/support....i think
-  		$this->printToScreen($variants);
+  		//this is legacy for variation id lookup/support keep the foreach because it allows for flexible accessing of the array that is provided
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
   			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
