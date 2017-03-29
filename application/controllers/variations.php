@@ -608,9 +608,9 @@ class Variations extends MY_Controller {
 // 			$this->printToScreen($variants);
 		}
   	
-  	} 
-  	else {
-  		//this is accessed if a single variant is returned from the position search
+  	} else {
+  		//this is legacy for variation id lookup/support....i think
+  		$this->printToScreen($variants);
   		foreach ($variants as $aVariant) {
   			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
   			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
