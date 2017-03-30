@@ -80,8 +80,8 @@ $(document).ready(function(){
       var loading_modal = '' +
         '<div id="loading-modal">' +
         '    <div>' +
-//        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
-        '        <img src="http://cordova-dev.eng.uiowa.edu/cordova_rjm/assets/public/img/loading.gif" alt="Loading icon">' +
+        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+//        '        <img src="http://cordova-dev.eng.uiowa.edu/cordova_rjm/assets/public/img/loading.gif" alt="Loading icon">' +
         '    </div>' +
         '</div>';
       
