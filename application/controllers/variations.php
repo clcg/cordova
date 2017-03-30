@@ -553,7 +553,7 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function variations_table_variant_pos_search($searchStr) {
-  	$searchStr = $this->format_position_from_url_safe($searchStr);
+//   	$searchStr = $this->format_position_from_url_safe($searchStr);
   	$this->printToScreen($searchStr); //checking to see if it makes it this far..
   	$variants = $this->variations_model->get_variants_by_position($searchStr); //hard code test case: 'chr10:89623197'
   	$this->printToScreen($variants);
