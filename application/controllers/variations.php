@@ -555,16 +555,39 @@ class Variations extends MY_Controller {
   public function variations_table_variant_pos_search($searchStr) {
   	$positionAndAllele = $this->format_position_from_url_safe($searchStr);
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
-  	$this->printToScreen($variants);
+//   	$this->printToScreen($variants);
 
   	
   	$data['title'] = $positionAndAllel['position'];
   	$data['content'] = 'variations/gene';
   
-  	$data['gene'] = $gene;
-  	// Columns to select for this page
+  	$data['gene'] = $variants[0]->gene;
+  	
+  	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
-  	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
+  	$columnArray = explode(',',$columns);
+  	
+  	//slim $variations into array of only the columns
+  	$rows = array(); //empty array
+  	foreach ($variants as $variation) {
+  		$tempRow = new stdClass;
+  		foreach ($columnArray as $column) {
+  			$tempRow->$column = $variation->$column;
+  		}
+  		
+  		$rows[] = $tempRow;
+  	}
+  	
+  	$data['rows'] = $rows;
+  	$data['columns'] = $columns;
+  	
+  	$data['variations'] = $variants; //$variationsColumns;
+  	
+  	
+  	
+//   	// Columns to select for this page
+//   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+//   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
   
   	$this->printToScreen($data['variations']);
   
