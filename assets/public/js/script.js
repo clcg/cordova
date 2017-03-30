@@ -92,7 +92,7 @@ $(document).ready(function(){
 //          var temp = parts[i].split("=");
 //          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
 //      }
-    	  alert(this.id);
+
     	  var loadURL = "../geneVariantPos/" + this.id; //providing the position searched here
 //    	  var loadURL = "../gene/"+parts[1];
     	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
