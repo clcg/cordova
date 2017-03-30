@@ -119,8 +119,19 @@ $(document).ready(function(){
 	
 	// Modal popup for variant data
 	$('.showinfo .showinfo-popup').live('click', function(){
-	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-"
-    var src='../variant/' + parent_id; 
+	  alert($(this).closest("tr"));
+	  var parts = window.location.search.substr(1).split("=");
+      if(parts[0].localeCompare('searchStr') == 0){
+    	  //for searchPos page
+          var parent_variant = $(this).closest("tr").attr("").substring(9);
+    	  var src='./variant/'+ parent_variant;
+      } else {
+    	  //for by letter page
+//    	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-" //legacy search by id
+//    	  var src='../variant/' + parent_id; //legacy search by id
+    	  var parent_variant = $(this).closest("tr").attr("").substring(9);
+    	  var src='../variant/' + parent_variant;
+      }
     var viewport_height =  $(window).height();
 		$.modal('<iframe id="variant-pane" src="' + src + '" height="650" width="670" style="border:0">', {
     	containerCss:{
