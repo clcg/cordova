@@ -102,8 +102,6 @@ $(document).ready(function(){
 	      var loadURL = "../gene/"+this.id; //this.id is the gene name
       }
       
-	  alert(loadURL);
-      
       //variations_table.html(loading_modal).load(loadURL);
       variations_table.html(loading_modal).load(loadURL, function(){
         tablesort();
