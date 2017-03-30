@@ -80,7 +80,8 @@ $(document).ready(function(){
       var loading_modal = '' +
         '<div id="loading-modal">' +
         '    <div>' +
-        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+//        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+        '        <img src="http://cordova-dev.eng.uiowa.edu/cordova_rjm/assets/public/img/loading.gif" alt="Loading icon">' +
         '    </div>' +
         '</div>';
       
@@ -93,7 +94,7 @@ $(document).ready(function(){
 //          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
 //      }
 
-    	  var loadURL = "/geneVariantPos/" + parts[1]; //providing the position searched here
+    	  var loadURL = "http://cordova-dev.eng.uiowa.edu/cordova_rjm/geneVariantPos/" + parts[1]; //providing the position searched here
 //    	  var loadURL = "../gene/"+parts[1];
 //    	  var loadURL = "../gene/" + this.id;
     	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
