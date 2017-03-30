@@ -557,17 +557,19 @@ class Variations extends MY_Controller {
   	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
   	$this->printToScreen($variants);
   	
-  	$data['title'] = $gene;
-  	$data['content'] = 'variations/gene';
+  	$this->pos_search_variations_table($variants);
+  	
+//   	$data['title'] = $positionAndAllel['position'];
+//   	$data['content'] = 'variations/gene';
   
-  	$data['gene'] = $gene;
-  	// Columns to select for this page
-  	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
-  	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
+//   	$data['gene'] = $gene;
+//   	// Columns to select for this page
+//   	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+//   	$data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
   
-  	$this->printToScreen($data['variations']);
+//   	$this->printToScreen($data['variations']);
   
-  	$this->load->view('variations/gene', $data);
+//   	$this->load->view('variations/gene', $data);
   }
 
   /** 
@@ -881,7 +883,7 @@ class Variations extends MY_Controller {
 
   		$data['content'] = 'variations/gene'; //change for presentation
   		
-  		$this->printToScreen($data); //////////////////////////
+//   		$this->printToScreen($data); //////////////////////////
   		
 		$this->load->view($this->public_layout, $data);
 //   		$this->load->view('variations/gene', $data);
