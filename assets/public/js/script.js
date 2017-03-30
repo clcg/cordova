@@ -77,28 +77,28 @@ $(document).ready(function(){
       // Load and display variations table for the first time
       $(this).addClass("loaded");
       $("#table-"+$(this).attr('id')).toggle();
-      var loading_modal = '' +
-        '<div id="loading-modal">' +
-        '    <div>' +
-        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
-//        '        <img src="http://cordova-dev.eng.uiowa.edu/cordova_rjm/assets/public/img/loading.gif" alt="Loading icon">' +
-        '    </div>' +
-        '</div>';
       
-      //Rob Marini Edits here for searchPos functionality....my edits will preserve legacy variant by id look up.
+      //Rob Marini Edits here for searchPos functionality...my edits will preserve legacy/previous functionality
       var parts = window.location.search.substr(1).split("=");
       if(parts[0].localeCompare('searchStr') == 0){
-//      var $_GET = {};
-//      for (var i = 0; i < parts.length; i++) {
-//          var temp = parts[i].split("=");
-//          $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-//      }
-
-    	  var loadURL = "http://cordova-dev.eng.uiowa.edu/cordova_rjm/geneVariantPos/" + parts[1]; //providing the position searched here
-//    	  var loadURL = "../gene/"+parts[1];
-//    	  var loadURL = "../gene/" + this.id;
-    	  //end of Rob Marini Edits (includes this if-structure. Originally only the else clause existed without the if-structure
-      } else {	  
+    	  //searchPos
+    	  var loading_modal = '' +
+	        '<div id="loading-modal">' +
+	        '    <div>' +
+	        '        <img src="./assets/public/img/loading.gif" alt="Loading icon">' +
+	        '    </div>' +
+	        '</div>';
+    	  
+    	  var loadURL = "./geneVariantPos/" + parts[1]; //providing the position searched here
+      
+      } else {
+	      var loading_modal = '' +
+	        '<div id="loading-modal">' +
+	        '    <div>' +
+	        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+	        '    </div>' +
+	        '</div>';
+  
 	      var loadURL = "../gene/"+this.id; //this.id is the gene name
       }
       
