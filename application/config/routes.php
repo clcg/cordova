@@ -83,6 +83,7 @@ $route['pdf/(:any)'] = 'variations/download_variant_pdf/$1';
 $route['api'] = 'api/index';
 $route['email'] = 'email/index';
 $route['posSearch'] = 'variations/search_bar_pos';
+$route['viewer/(:any)'] = 'variations/viewer/$1';
 
 /* Controller/function route (w/ 2 parameters) */
 $route['(:any)/(:any)/(:any)/(:any)'] = '$1/$2/$3/$4';
