@@ -1,0 +1,10 @@
+#!/bin/bash
+#$ -V                     # Inherit current environment
+#$ -cwd                   # Start job in submission directory
+#$ -N TJP2_511            # Job Name
+#$ -j y                   # Combine stderr and stdout
+#$ -q MS                  # Queue
+#$ -pe 16cpn 16           # Request 16 tasks/node
+#$ -o $JOB_NAME.$JOB_ID.log  # Name of output file
+#$ -l h_rt=48:00:00       # Run Time
+/Dedicated/schnieders/mrtollefson/mpMinTest/mpMin.sh TJP2_511-887.pdb_4
