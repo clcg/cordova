@@ -586,6 +586,26 @@ class Variations extends MY_Controller {
   	$this->load->view('variations/gene', $data);
   }
 
+  /**
+   * viewer for pv
+   * 
+   * load a pv viewer for each pdb file for the specified gene and redirect to the viewer page
+   * 
+   * @author Matt Andress
+   * @access public
+   * @param string $gene Gene name
+   * @return void
+   * 
+   */
+  public function viewer($gene){
+  	
+  	$data['title'] = $gene;
+  	$data['content'] = 'viewer/viewer';
+  	$data['gene'] = $gene;
+  	$this->load->view('viewer/viewer',$data);
+  
+  }
+  
   /** 
    * Show Variant
    *
