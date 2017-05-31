@@ -1,107 +1,139 @@
 <noscript>
   <style type="text/css">
-    .proteinViewer {display: none;}
+    #viewers-container {display: none;}
   </style>
-  <div class="noScriptMsg" style="color: red">
+  <div class="noScriptMsg" style="color: red;">
     <h1><strong>You need to have Javascript enabled to use PV</strong></h1>
   </div>
 </noscript>
-<script type='text/javascript' src='<?php echo base_url("assets/public/js/bio-pv.js"); ?>'></script>
-<div class="proteinViewer">
-  <?php if(is_dir("assets/public/pdb/dvd_structures/$gene")) { ?>
-  <h1><?php echo $gene; ?></h1> 
-    <?php $proDirs = glob("assets/public/pdb/dvd_structures/$gene/*", GLOB_ONLYDIR); 
-    $viewerArr = array();
-    foreach($proDirs as $subDir) { 
-      $nameParts = explode("/", $subDir); 
-      $protName = $nameParts[count($nameParts)-1];
-      $viewerArr[] = str_replace("-", "_", $protName); 
-    ?>
-      <h3><?php echo $protName; ?> </h3>
-      <div id="picked_atom_name_<?php echo str_replace("-", "_", $protName); ?>">&nbsp;</div>
-      <div id="view<?php echo str_replace("-", "_", $protName); ?>" style="border: solid; width: 600px"></div>
-    <?php } ?>
-  <?php } ?>
-  
+
+<div id="viewers-container">
+  <?php if(isset($error)): ?>
+    <h2 style="color: red;"><?= $error; ?></h2>
+  <?php else: ?>
+    <h1><?= $title; ?>
+    <?php foreach ($structures as $currStruct): ?>
+      <div id="<?= $gene.'-'.$currStruct['name']; ?>-contatiner" style="display: block; width: 48%; margin-bottom: 1%; text-align: center;">
+        <h5><?= $currStruct['name']; ?></h5>
+        <div class="viewer-inputs" style="text-align: center; margin-bottom: 1%;">
+          <button onclick="changeRenderMode('<?= $gene."_".str_replace("-", "_", $currStruct['name']); ?>', 'cartoon')" style="display: inline-block;">Cartoon</button>
+          <button onclick="changeRenderMode('<?= $gene."_".str_replace("-", "_", $currStruct['name']); ?>', 'ballsAndSticks')" style="display: inline-block;">Ball and Sticks</button>
+          <button onclick="changeRenderMode('<?= $gene."_".str_replace("-", "_", $currStruct['name']); ?>', 'spheres')" style="display: inline-block;">Spheres</button>
+          <br>
+          <label for="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-index" style="font-size: .5em;">Desired residue index: </label>
+          <input type="number" id="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-index" min="0" max="<?= (count($currStruct['residues'])-1); ?>"></input>
+          <button id="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-button" onclick="selectResidue('<?= $gene."_".str_replace("-", "_", $currStruct['name']); ?>', 'spheres')">Select</button>
+        </div>
+        <div id="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-viewer" style="border-style: solid; border-width: .1%;"></div>
+        <div class="viewer-output" style="text-align: center;">
+          <label for="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-res-name" style="font-size: .5em;">Picked residue name: </label>
+          <div id="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-res-name" style="display: inline-block; font-size: .5em;">&nbsp;</div>
+          <label for="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-res-score" style="font-size: .5em;">Picked residue score: </label>
+          <div id="<?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?>-select-res-score" style="display: inline-block; font-size: .5em;">&nbsp;</div>
+        </div>
+      </div <?= (array_search($currStruct, $structures) < count($structures)-1)?("style='border-bottom: 5px solid;'"):(""); ?>>
+    <?php endforeach; ?>
+  <?php endif; ?>
 </div>
-<script type='text/javascript'>
-	
-  var options = 
-  {
-    width: 600,
-    height: 600,
-    antialias: true,
-    quality: 'medium'
-  };
-	
-  <?php foreach($viewerArr as $protName): ?>
-  var <?php echo "parent".$protName; ?>     = document.getElementById('<?php echo "view".$protName; ?>');
-  var <?php echo "viewer".$protName; ?>     = pv.Viewer(document.getElementById('<?php echo "view".$protName; ?>'), options);
-  var <?php echo "prevPicked".$protName; ?> = null;
+
+<script type='text/javascript' src='<?php echo base_url("assets/public/js/bio-pv.js"); ?>'></script>
+<script type="text/javascript">
+  <?php foreach($structures as $currStruct): ?>
+    var <?= $gene.'_'.str_replace("-", "_", $currStruct['name']); ?> = {
+      viewer: null,
+      structure: null,
+      geom: null,
+      renderMode: null,
+      name: "<?= $currStruct['name']; ?>",
+      residues: [
+        <?php for($i=0;$i < count($currStruct['residues']); $i++): ?>
+          {start_index: <?= intval($currStruct['residues'][$i]['start_index']); ?>, name: "<?= $currStruct['residues'][$i]['name']; ?>", residue_index: <?= intval($currStruct['residues'][$i]['residue_index']); ?>}<?= ($i < (count($currStruct['residues'])-1)?(",\n"):("\n")); ?>
+        <?php endfor; ?>
+      ]
+    };
   <?php endforeach; ?>
-
-  function setColorForAtom(go, atom, color)
-  {
-    var view = go.structure().createEmptyView();
-    view.addAtom(atom);
-    go.colorBy(pv.color.uniform(color), view);
-    console.log(go);
+  function initViewer(viewer, viewerParent, pdbFile) {
+    var parent = document.getElementById(viewerParent);
+    viewer.viewer = pv.Viewer(parent, {width: parent.offsetWidth, height: parent.offsetWidth, antialias: true, quality: "medium", selectionColor: "#dd00ff"});
+    pv.io.fetchPdb(pdbFile, function(structure) {
+      viewer.structure = structure;
+      viewer.renderMode = "cartoon";
+      viewer.geom = viewer.viewer.cartoon(viewer.name, viewer.structure, {color: color.ssSuccession()});
+      viewer.viewer.centerOn(viewer.structure);
+      viewer.viewer.autoZoom();
+    });
   }
-	
-	
-  function loadStructs()
-  {
-    <?php foreach($viewerArr as $protName){ ?>
-      pv.io.fetchPdb('<?php echo site_url("assets/public/pdb/dvd_structures/$gene/".str_replace("_", "-", $protName)."/".$gene."_".str_replace("_", "-", $protName)."_FFX.pdb"); ?>', function(structure)
-        {
-          <?php echo "viewer".$protName; ?>.cartoon('protein', structure, { color : color.ssSuccession() });
-          //<?php echo "viewer".$protName; ?>.ballsAndSticks('protein', structure, { color: color.ssSuccession() });
-          <?php echo "viewer".$protName; ?>.centerOn(structure);
-	  <?php echo "viewer".$protName; ?>.autoZoom();
-	  //<?php echo "viewer".str_replace("-", "_", $protName); ?>.spin(true);
-        }
-      );
-    <?php } ?>
+  function selectResidue(proteinId) {
+    var currViewer = eval(proteinId);
+    var selectedIndex = document.getElementById(proteinId+"-select-index").value;
+    var selectedRes = currViewer.residues[selectedIndex];
+    var currentAtom = selectedRes["start_index"];
+    var newSelection = currViewer.structure.createEmptyView(); 
+    currViewer.viewer.clear();
+    while(currViewer.structure.atoms()[currentAtom].residue().num() == selectedRes["residue_index"]) {
+      newSelection.addAtom(currViewer.structure.atoms()[currentAtom]);
+      currentAtom++;
+    }
+    currViewer.geom.setSelection(newSelection);
+    if(currViewer.renderMode == "cartoon") {
+      currViewer.geom = currViewer.viewer.cartoon(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+    } else if(currViewer.renderMode == "ballsAndSticks") {
+      currViewer.geom = currViewer.viewer.ballsAndSticks(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+    } else if(currViewer.renderMode == "spheres") {
+      currViewer.geom = currViewer.viewer.spheres(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+    } else {
+      console.log("Unknown rendering mode: "+currViewer.renderMode);
+      currViewer.geom = currViewer.viewer.cartoon(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+    }
+    //var labelPos = newSelection.atoms()[0].pos();
+    //labelPos[0] += 10;
+    //labelPos[1] += 10;
+    //currViewer.viewer.label(proteinId+"-label", selectedRes["name"]+" CADD: "+newSelection.atoms()[0].tempFactor(), labelPos, labelOptions);
+    currViewer.geom.setSelection(newSelection);
+    currViewer.viewer.centerOn(newSelection);
+    //currViewer.viewer.autoZoom();
+    console.log(newSelection.atoms()[0].pos()+"wow");
+    document.getElementById(proteinId+"-select-res-name").innerHTML = selectedRes["name"];
+    document.getElementById(proteinId+"-select-res-score").innerHTML = newSelection.atoms()[0].tempFactor();
   }
-
-  <?php foreach($viewerArr as $protName){ ?>
-    <?php echo "parent".$protName; ?>.addEventListener('mousemove', function(event)
-      {
-        var rect   = <?php echo "viewer".$protName; ?>.boundingClientRect();
-        var picked = <?php echo "viewer".$protName; ?>.pick({x: event.clientX - rect.left,
-                                                             y: event.clientY - rect.top});
-        console.log(picked);
-        //console.log(event.clientX - rect.left);     
-        if(<?php echo "prevPicked".$protName; ?> !== null &&
-           picked !== null &&
-           picked.target() === <?php echo "prevPicked".$protName; ?>.atom)
-        {
-          return;
-        }
-
-        if(<?php echo "prevPicked".str_replace("-", "_", $protName); ?> !== null)
-        {
-          setColorForAtom(<?php echo "prevPicked".$protName; ?>.node, <?php echo "prevPicked".$protName; ?>.atom, <?php echo "prevPicked".$protName; ?>.color);
-        }
-
-        if(picked !== null)
-        {
-          var atom = picked.target();
-          document.getElementById('picked_atom_name_<?php echo $protName; ?>').innerHTML = atom.qualifiedName();
-          var color = [0, 0, 0, 0];
-          picked.node().getColorForAtom(atom, color);
-          <?php echo "prevPicked".$protName; ?> = {atom: atom, color: color, node: picked.node()};
-          setColorForAtom(picked.node(), atom, 'red');
-        }
-        else
-        {
-          document.getElementById('picked_atom_name_<?php echo $protName; ?>').innerHTML = '&nbsp;';
-          <?php echo "prevPicked".$protName; ?> = null;
-        }
-
-        <?php echo "viewer".$protName; ?>.requestRedraw();
+  function changeRenderMode(proteinId, newRenderMode) {
+    var currViewer = eval(proteinId);
+    var oldSelection = currViewer.geom.selection();
+    
+    currViewer.viewer.clear();
+    currViewer.renderMode = newRenderMode;
+    switch (newRenderMode) {
+      case "cartoon":
+        currViewer.geom = currViewer.viewer.cartoon(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+        break;
+      case "ballsAndSticks":
+        currViewer.geom = currViewer.viewer.ballsAndSticks(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+        break;
+      case "spheres":
+        currViewer.geom = currViewer.viewer.spheres(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+        break;
+      default:
+        console.log("Unknown rendering mode: "+newRenderMode);
+        currViewer.geom = currViewer.viewer.cartoon(currViewer.name, currViewer.structure, {color: color.ssSuccession()});
+        break;
+    }
+    if(oldSelection && oldSelection.length > 0) {
+      currViewer.geom.setSelection(oldSelection);
+      var labelPos = oldSelection.atoms()[0].pos();
+      labelPos[0] += 10;
+      labelPos[1] += 10;
+      currViewer.viewer.label(proteinId+"-label", oldSelection.atoms()[0].residue().name()+" CADD: "+oldSelection.atoms()[0].tempFactor(), oldSelection.atoms()[0].pos(), labelOptions);
+    }
+  }
+  <?php foreach($structures as $currStruct): ?>
+    document.getElementById("<?= $gene.'_'.str_replace('-', '_', $currStruct['name']); ?>-select-index").addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if(event.keyCode === 13) {
+        document.getElementById("<?= $gene.'_'.str_replace('-', '_', $currStruct['name']); ?>-select-button").click();
       }
-    );
-  <?php } ?>
-  document.addEventListener('DOMContentLoaded', loadStructs);
+    });
+  <?php endforeach; ?>
+  <?php foreach($structures as $currStruct): ?>
+    document.addEventListener("DOMContentLoaded", initViewer(<?= $gene.'_'.str_replace('-', '_', $currStruct['name']); ?>, "<?= $gene.'_'.str_replace('-', '_', $currStruct['name']); ?>-viewer", "<?= base_url($path.$currStruct['name'].'/'.$gene.'_'.$currStruct['name'].$suffix); ?>"));
+  <?php endforeach; ?>
 </script>
