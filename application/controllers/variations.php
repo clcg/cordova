@@ -588,22 +588,51 @@ class Variations extends MY_Controller {
 
   /**
    * viewer for pv
-   * 
-   * load a pv viewer for each pdb file for the specified gene and redirect to the viewer page
-   * 
+   *
+   * Load a PV viewer for each PDB file for the specified gene and redirect
+   * to the viewer page.
+   *
    * @author Matt Andress
    * @access public
-   * @param string $gene Gene name
-   * @return void
-   * 
+   * @param  string $gene Gene name
+   * @retrun void
    */
-  public function viewer($gene){
-  	
-  	$data['title'] = $gene;
-  	$data['content'] = 'viewer/viewer';
+  public function viewer($gene) {
+  	$data['title'] = "$gene Protein Structure(s)";
+  	$data['content'] = 'variations/viewer';
   	$data['gene'] = $gene;
-  	$this->load->view('viewer/viewer',$data);
-  
+  	
+  	$genePath = "assets/public/pdb/dvd_structures/$gene/";
+  	if (is_dir($genePath)) {
+  		$structures = array();
+  		
+  		$structureDirs = glob("$genePath*", GLOB_ONLYDIR);
+  		foreach ($structureDirs as $dir) {
+  			$pathParts = explode("/", $dir);
+  			$structureRange = $pathParts[count($pathParts)-1];
+  			
+  			$prevRes = "";
+  			$structureRes = array();
+  			$structFile = fopen("$dir/".$gene."_".$structureRange."_FFX.pdb", "r");
+  			while($line = fgets($structFile)) {
+  				$pregLine = preg_replace("/[\s]+/", " ", $line);
+  				$lineArr = explode(" ", $pregLine);
+  				if(($lineArr[0] == "ATOM") && ($lineArr[5] != $prevRes)) {
+  					$structureRes[] = array("start_index" => intval($lineArr[1]), "name" => $lineArr[3], "residue_index" => intval($lineArr[5]));
+  					$prevRes = $lineArr[5];
+  				}
+  			}
+  			fclose($structFile);
+  			$structures[] = array("name" => $structureRange, "residues" => $structureRes);
+  		}
+  		$data['structures'] = $structures;
+  		$data['suffix'] = '_FFX.pdb';
+  		$data['path'] = $genePath;
+  	}
+  	else {
+  		$data['error'] = "Unable to find structures for $gene";
+  	}
+  	$this->load->view($this->public_layout, $data);
   }
   
   /** 
