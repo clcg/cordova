@@ -602,6 +602,7 @@ class Variations extends MY_Controller {
   	$data['content'] = 'variations/viewer';
   	$data['gene'] = $gene;
   	
+  	
   	$genePath = "assets/public/pdb/dvd_structures/$gene/";
   	if (is_dir($genePath)) {
   		$structures = array();
@@ -632,6 +633,8 @@ class Variations extends MY_Controller {
   	else {
   		$data['error'] = "Unable to find structures for $gene";
   	}
+  	
+  	
   	$this->load->view($this->public_layout, $data);
   }
   
