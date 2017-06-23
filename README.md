@@ -318,25 +318,23 @@ Cordova depends on the following third party, open source software:
 
 1. In your server's HTTPD configuration (e.g. `httpd.conf`), you need to change `AllowOverride None` to `AllowOverride All`. You also need to have `FollowSymLinks` as one of the `Options`. Example:
         
-    ```` 
-<Directory />
-      Options FollowSymLinks             # <-- HERE
-      AllowOverride All                  # <-- HERE
-</Directory>
-<Directory "/var/www/html">
-      Options Indexes FollowSymLinks     # <-- HERE
-      AllowOverride All                  # <-- HERE
-      Order allow,deny
-      Allow from all
-</Directory>
-    ````
+        <Directory />
+              Options FollowSymLinks             # <-- HERE
+              AllowOverride All                  # <-- HERE
+        </Directory>
+        <Directory "/var/www/html">
+              Options Indexes FollowSymLinks     # <-- HERE
+              AllowOverride All                  # <-- HERE
+              Order allow,deny
+              Allow from all
+        </Directory>
         
 1. Enable `mod_rewrite` for Apache.
 
 Here are a few nice guides for doing this:
 
 * [Fixing this problem on Ubuntu](http://www.jarrodoberto.com/articles/2011/11/enabling-mod-rewrite-on-ubuntu)
-* [Fixing this problem on a Mac](http://www.noppanit.com/apache-enable-mod_rewrite-on-macosx/)
+* [Fixing this problem on a Mac](https://web.archive.org/web/20120416051921/http://www.noppanit.com:80/apache-enable-mod_rewrite-on-macosx/)
 
 ---
 
