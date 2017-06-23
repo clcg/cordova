@@ -96,6 +96,7 @@ class Pages extends MY_Controller {
                     'tg_pur_*' => 'Puerto Rican in Puerto Rico',
                     'tg_tsi_*' => 'Toscani in Italia',
                     'tg_yri_*' => 'Yoruba in Ibadan, Nigeria ',
+                    'otoscope_*' => 'OtoSCOPE&#174;',
     );
     $data['pop_keys'] = array_keys($data['pop_fields']);
     $this->load->view($this->public_layout, $data);
