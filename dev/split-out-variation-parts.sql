@@ -6,6 +6,7 @@
 #		However, if not implemented in other code, this script will need to be run on every respin of the DVD.
 #
 
+USE cordova_msa;
 CREATE TABLE variations_7b1_backup LIKE variations_7b1;
 INSERT variations_7b1_backup AS SELECT * FROM variations_7b1;
 
