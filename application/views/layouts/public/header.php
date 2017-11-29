@@ -26,13 +26,13 @@
               <li><a href="<?php echo site_url('doc'); ?>" id="api">API Documentation</a></li>
               <li><a href="javascript://" class="contact-popup">Contact Us</a></li>
               <li>
-              	<!-- trying to make search bar -->
               	<br/><br/>
-		        <form name="positionSearchBar" method="get" action= "<?php echo base_url() . 'posSearch'; ?>">
-		      		Search for Variant by Position: <input name="searchStr" value="" type="text" size="20" maxlength="40"/>
-		      		<br/>
-		      	</form>
-		        <!-- end of trying ot make searc bar section -->
+              	<center>
+			        <form name="positionSearchBar" method="get" action= "<?php echo base_url() . 'posSearch'; ?>">
+			      		Search for Variant by Position: <input name="searchStr" value="" type="text" size="20" maxlength="40"/>
+			      		<br/>
+			      	</form>
+		      	</center>
               </li>
             </ul>
             <ul id="sidebar-version">

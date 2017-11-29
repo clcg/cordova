@@ -4,9 +4,7 @@
         <legend class="genename" id="<?php echo $gene ?>">
         	<strong><?php echo $display_names[$gene] ?></strong> 
         	<span>
-        	<!-- <a href="<?php echo site_url('controller/function/uri') ?>">Link</a> -->
-        		<?php if(is_dir("assets/public/pdb/dvd_structures/$gene")){ ?><a href="<?php echo site_url('variations/viewer/'.$gene); ?>">Protein Viewer</a><?php } ?> <!-- originally its viewer/ instead of variations/viewer -->
-        		<!-- <a href="<?php echo site_url('variations/viewer/'+$gene)?>">Protein Viewer</a> -->
+        		<?php if(is_dir("assets/public/pdb/dvd-structures/$gene")){ ?><a href="<?php echo site_url('viewer/'.$gene); ?>">PV</a><?php } ?>	
         		<a href="<?php echo gene_link_to_api($gene, 'csv') ?>">CSV</a> 
         		<a href="<?php echo gene_link_to_api($gene, 'tab') ?>">Tab</a> 
         		<a href="<?php echo gene_link_to_api($gene, 'json') ?>">JSON</a> 
