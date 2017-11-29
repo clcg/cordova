@@ -603,7 +603,7 @@ class Variations extends MY_Controller {
   	$data['gene'] = $gene;
   	
   	
-  	$genePath = "assets/public/pdb/dvd_structures/$gene/";
+  	$genePath = "assets/public/pdb/dvd-structures/$gene/";
   	if (is_dir($genePath)) {
   		$structures = array();
   		
@@ -751,8 +751,11 @@ class Variations extends MY_Controller {
 			
 		} elseif (count($variants) < 1){
 			//display that no variant or gene was found
-			
-			$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
+			$data['title'] = "Variant Search By Position: $positionUrlSafe ";
+			$data['variantSearchTerm'] = $positionUrlSafe;
+			$data['content'] = 'variations/variant-search-404';
+			$data['error'] = "Unable to find variant based on the following input: $positionUrlSafe";
+			$this->load->view($this->public_layout, $data);
 		  
 		} else {
 			//multiple variants found from search result
@@ -766,7 +769,8 @@ class Variations extends MY_Controller {
   	
   	} elseif ($variants === NULL) {
   		//display that no vairant or gene was found
-  		$this->printToScreen("Nothing Found."); //this will have to be changed so that it fits in with the page more easily
+  		$data['error'] = "Unable to find variant for your search of $positionUrlSafe";
+  		$this->load->view($this->public_layout, $data);
   		
   	} else {
   		//this is legacy for variation id lookup/support keep the foreach because it allows for flexible accessing of the array that is provided
@@ -788,6 +792,8 @@ class Variations extends MY_Controller {
   		
   		$this->load->view($content, $data);
   	}
+  	
+  	
   	
   }
   
