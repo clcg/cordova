@@ -807,7 +807,7 @@ class Variations extends MY_Controller {
    * @access public
    * @param string $content
    * 	anything really
-   */
+   
   public function printToScreen($somethingToSee) {
   
   	print "<pre>";
@@ -816,6 +816,7 @@ class Variations extends MY_Controller {
   	die();
   	
   }
+  */
   
   /**
    * format_position
@@ -835,35 +836,66 @@ class Variations extends MY_Controller {
   	$positionOrig = str_replace('%3E', '>',$positionOrig);
   	$positionOrig = str_replace('%7F', '',$positionOrig);
   	$explodedPosition = explode(':',$positionOrig);
-  	$allele = $explodedPosition[count($explodedPosition) - 1];
-  	$position = '';
-  	$first = true;
   	
-  	foreach ($explodedPosition as $posPiece){
-  		if(strpos($posPiece,'>') == false) {
-  			if($first) {
-  				$position .= $posPiece;
-  				$first = false;
-  			} else {
-  				$position .= ':' . $posPiece;
-  			}
-  			
-  		} else {
-  			break;
-  		}
-  		
-  	}
-  	
-  	if(strpos($allele,'>') == false) {
-  		$allele = 'NA';
-  	}
-  	
-  	$formattedAndAllele = array(
-  			"position" => $position,
-  			"allele" => $allele,
+  	$searchSplitOut = array(
+  			"chr" => "NA",
+  			"pos" => "NA",
+  			"ref" => "NA",
+  			"alt" => "NA",
+  			"format_error" => "NA",
   	);
   	
-  	return $formattedAndAllele;
+//   	$this->printToScreen($explodedPosition);
+  	
+  	//run through explodedPosition looking for 'chr' substring, and '>', a 2nd element (pos). IN THAT ORDER
+  	// save chr as chr
+  	// split '>' into ref and alt
+  	// save 2nd element as pos
+  	if(count($explodedPosition) > 3){
+  		//error, incorrect format of search string....too many fields
+  		$searchSplitOut['format_error'] = "Incorrect format of search string: Too Many Fields. Correct format: chromosome:position:reference>alternate";
+  	} else {
+	  	foreach ($explodedPosition as $posPiece){
+	  		if(substr_count(strtolower($posPiece),'chr') > 0){
+	  			$searchSplitOut['chr'] = $posPiece;
+	  		} elseif(strpos($posPiece,'>') === true){
+	  			$refAlt = explode('>',$posPiece);
+	  			$searchSplitOut['ref'] = $refAlt[0];
+	  			$searchSplitOut['alt'] = $refAlt[1];
+	  		} else {
+	  			$searchSplitOut['pos'] = $posPiece;
+	  		}
+	  	}
+  	}
+  	
+//   	$this->printToScreen($searchSplitOut);
+  	
+//   	foreach ($explodedPosition as $posPiece){
+//   		if(strpos($posPiece,'>') == false) {
+//   			if($first) {
+//   				$position .= $posPiece;
+//   				$first = false;
+//   			} else {
+//   				$position .= ':' . $posPiece;
+//   			}
+  			
+//   		} else {
+//   			break;
+//   		}
+  		
+//   	}
+  	
+//   	if(strpos($allele,'>') == false) {
+//   		$allele = 'NA';
+//   	}
+  	
+//   	$formattedAndAllele = array(
+//   			"position" => $position,
+//   			"allele" => $allele,
+//   	);
+  	
+//   return $formattedAndAllele;
+  	return $searchSplitOut;
   	
   }
   

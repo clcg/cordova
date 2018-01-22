@@ -35,6 +35,26 @@ class MY_Controller extends CI_Controller {
     }
     $this->load->vars($data); // Load variables for all views
   }
+
+  /**
+   * printToScreen
+   *
+   * prints argument to file to act as a mock console
+   *
+   * @author Robert Marini
+   * @access public
+   * @param string $content
+   *    anything really
+   */
+  public function printToScreen($somethingToSee) {
+  
+        print "<pre>";
+        print_r($somethingToSee);
+        print "</pre>";
+        die();
+        
+  }
+
 }
 
 /* End of file MY_Controller.php */
