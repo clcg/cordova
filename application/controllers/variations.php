@@ -482,7 +482,8 @@ class Variations extends MY_Controller {
    *    The variants returned from position search
    * @return void
    */
-  public function searchPosLetter($variants) {
+  public function searchPosLetter($variants) {	
+  	
   	$data['title'] = $variants[0]->gene;
   	$data['content'] = 'variations/letter'; //may need to change this
   	$letter = $variants[0]->gene[0];
@@ -490,6 +491,7 @@ class Variations extends MY_Controller {
   	$this->load->model('genes_model');
   	$this->load->helper('genes');
   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+//   	$this->printToScreen($data);
   	
   	//narrowing results to just the $variants related genes
   	$tempGenes = Array();
@@ -503,9 +505,9 @@ class Variations extends MY_Controller {
   	}
   	ksort($tempGenes);
   	$data['genes'] = $tempGenes;
-//   	$this->printToScreen($data);
+//    	$this->printToScreen($data);
   	
-  	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+  	// Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
   	$data['display_names'] = Array();
   	foreach ($data['genes'] as $gene => $alias) {
   		if ($alias !== NULL) {
@@ -515,7 +517,10 @@ class Variations extends MY_Controller {
   			$data['display_names'][$gene] = $gene;
   		}
   	}
+  	
   	$this->load->view($this->public_layout, $data);
+
+  	
   }
 
   /** 
@@ -553,12 +558,12 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function variations_table_variant_pos_search($searchStr) {
-  	$positionAndAllele = $this->format_position_from_url_safe($searchStr);
-  	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
+  	$positionAndAllele = $this->format_position_from_url_safe($searchStr); 
+  	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); //hard code test case: 'chr10:89623197'
 //   	$this->printToScreen($variants);
 
   	
-  	$data['title'] = $positionAndAllele['position'];
+  	$data['title'] = $positionAndAllele['pos'];
   	$data['content'] = 'variations/gene';
   
   	$data['gene'] = $variants[0]->gene;
@@ -723,67 +728,15 @@ class Variations extends MY_Controller {
   	}
   
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
-  	$variants = $this->variations_model->get_variants_by_position($positionAndAllele['position']); //hard code test case: 'chr10:89623197'
-  	
-  	if(strpos($positionAndAllele['allele'],'NA') !== false){ 
-  		//takes user/viewer straight to the variant's page associated with that single position (ie. only 1 result returned)
-		if(count($variants) == 1){
-			//a single variant found
-			
-			$variant = json_decode(json_encode($variants[0]),true);
-// 			foreach ($variants as $aVariant) {
-// 				$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-// 				if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
-// 					$variant = $aVariant;
-// 					break;
-// 				}
-			
-// 			}
-			
-			$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
-			$data['title'] = $data['variation'];
-			$content = 'variations/variant/index';
-			
-			// Set display style for frequency data
-			$freqs = $this->config->item('frequencies');
-			
-			$this->load->view($content, $data);
-			
-		} elseif (count($variants) < 1){
-			//display that no variant or gene was found
-			$data['title'] = "Variant Search By Position: $positionUrlSafe ";
-			$data['variantSearchTerm'] = $positionUrlSafe;
-			$data['content'] = 'variations/variant-search-404';
-			$data['error'] = "Unable to find variant based on the following input: $positionUrlSafe";
-			$this->load->view($this->public_layout, $data);
-		  
-		} else {
-			//multiple variants found from search result
-			
-			$this->searchPosVariants = $variants;
-			$letter = $variants[0]->gene[0];
-			$this->searchPosLetter($variants); //////////////////////
-			
-// 			$this->pos_search_variations_table($variants); //worked for crude/ugly display
-		}
-  	
-  	} elseif ($variants === NULL) {
-  		//display that no vairant or gene was found
-  		$data['error'] = "Unable to find variant for your search of $positionUrlSafe";
-  		$this->load->view($this->public_layout, $data);
+  	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); 
+	
+  	if(count($variants) === 1){
+  		//a single variant found
   		
-  	} else {
-  		//this is legacy for variation id lookup/support keep the foreach because it allows for flexible accessing of the array that is provided
-  		foreach ($variants as $aVariant) {
-  			$aVariant = json_decode(json_encode($aVariant),True); //this should convert the stdObject type to an array type
-  			if(strpos($aVariant['variation'], $positionAndAllele['allele']) !== false) {
-  				$variant = $aVariant;
-  				break;
-  			}
-  			 
-  		}
+  		$variant = json_decode(json_encode($variants[0]),true);
   		
-  		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']);
+  		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
+
   		$data['title'] = $data['variation'];
   		$content = 'variations/variant/index';
   		
@@ -791,32 +744,25 @@ class Variations extends MY_Controller {
   		$freqs = $this->config->item('frequencies');
   		
   		$this->load->view($content, $data);
+  		
+  	} elseif (count($variants) < 1){
+  			//display that no variant or gene was found
+  			$data['title'] = "Variant Search By Position: $positionUrlSafe ";
+  			$data['variantSearchTerm'] = $positionUrlSafe;
+  			$data['content'] = 'variations/variant-search-404';
+  			$data['error'] = "Unable to find variant based on the following input: $positionUrlSafe";
+  			$this->load->view($this->public_layout, $data);
+  			
+  	} else {
+  			//multiple variants found from search result
+  			
+  			$this->searchPosVariants = $variants;
+  			$letter = $variants[0]->gene[0];
+  			$this->searchPosLetter($variants); //////////////////////
+  			
   	}
   	
-  	
-  	
   }
-  
-  
-  /**
-   * printToScreen
-   *
-   * prints argument to file to act as a mock console
-   *
-   * @author Robert Marini
-   * @access public
-   * @param string $content
-   * 	anything really
-   
-  public function printToScreen($somethingToSee) {
-  
-  	print "<pre>";
-  	print_r($somethingToSee);
-  	print "</pre>";
-  	die();
-  	
-  }
-  */
   
   /**
    * format_position
@@ -855,46 +801,34 @@ class Variations extends MY_Controller {
   		//error, incorrect format of search string....too many fields
   		$searchSplitOut['format_error'] = "Incorrect format of search string: Too Many Fields. Correct format: chromosome:position:reference>alternate";
   	} else {
-	  	foreach ($explodedPosition as $posPiece){
-	  		if(substr_count(strtolower($posPiece),'chr') > 0){
-	  			$searchSplitOut['chr'] = $posPiece;
-	  		} elseif(strpos($posPiece,'>') === true){
-	  			$refAlt = explode('>',$posPiece);
-	  			$searchSplitOut['ref'] = $refAlt[0];
-	  			$searchSplitOut['alt'] = $refAlt[1];
-	  		} else {
-	  			$searchSplitOut['pos'] = $posPiece;
-	  		}
-	  	}
+  		
+//   		$this->printToScreen($explodedPosition);
+  		
+  		if(substr_count(strtolower($explodedPosition[0]),'chr') > 0){
+  			$searchSplitOut['chr'] = $explodedPosition[0];
+  		}
+  		
+  		if(count($explodedPosition) > 2 && (strpos($explodedPosition[2],'>') !== false)){
+  			$refAlt = explode('>',$explodedPosition[2]);
+  			$searchSplitOut['ref'] = $refAlt[0];
+  			$searchSplitOut['alt'] = $refAlt[1];
+  		}
+  		
+  		$searchSplitOut['pos'] = $explodedPosition[1];
+  		
+// 	  	foreach ($explodedPosition as $posPiece){
+// 	  		if(substr_count(strtolower($posPiece),'chr') > 0){
+// 	  			$searchSplitOut['chr'] = $posPiece;
+// 	  		} elseif(strpos($posPiece,'>') !== false){
+// 	  			$refAlt = explode('>',$posPiece);
+// 	  			$searchSplitOut['ref'] = $refAlt[0];
+// 	  			$searchSplitOut['alt'] = $refAlt[1];
+// 	  		} else {
+// 	  			$searchSplitOut['pos'] = $posPiece;
+// 	  		}
+// 	  	}
   	}
   	
-//   	$this->printToScreen($searchSplitOut);
-  	
-//   	foreach ($explodedPosition as $posPiece){
-//   		if(strpos($posPiece,'>') == false) {
-//   			if($first) {
-//   				$position .= $posPiece;
-//   				$first = false;
-//   			} else {
-//   				$position .= ':' . $posPiece;
-//   			}
-  			
-//   		} else {
-//   			break;
-//   		}
-  		
-//   	}
-  	
-//   	if(strpos($allele,'>') == false) {
-//   		$allele = 'NA';
-//   	}
-  	
-//   	$formattedAndAllele = array(
-//   			"position" => $position,
-//   			"allele" => $allele,
-//   	);
-  	
-//   return $formattedAndAllele;
   	return $searchSplitOut;
   	
   }

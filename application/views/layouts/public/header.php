@@ -29,7 +29,7 @@
               	<br/><br/>
               	<center>
 			        <form name="positionSearchBar" method="get" action= "<?php echo base_url() . 'posSearch'; ?>">
-			      		Search for Variant by Position: <input name="searchStr" value="" type="text" size="20" maxlength="40"/>
+			      		Search for Variant by Hg19 Position: <input name="searchStr" value="" type="text" size="20" maxlength="40"/>
 			      		<br/>
 			      	</form>
 		      	</center>
