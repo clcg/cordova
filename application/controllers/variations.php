@@ -1,7 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Variations extends MY_Controller {
-  
+
+	
   /**
    * Array of strings for views, filenames, etc.
    *
@@ -467,6 +468,60 @@ class Variations extends MY_Controller {
 
     $this->load->view($this->public_layout, $data);
   }
+  
+  /**
+   * searchPosLetter
+   *
+   * Display all genes start with a certain letter based on the variants passed to the function
+   * 	This allows for multiple genes' results to be displayed implicitly though it was not designed with that in mind.
+   * 	Being that this is true, the functionality is there but it may need some tweaking for purposeful use of that functionality
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  array $variants, specifically, $variants is an array of stdClass Objects
+   *    The variants returned from position search
+   * @return void
+   */
+  public function searchPosLetter($variants) {	
+  	
+  	$data['title'] = $variants[0]->gene;
+  	$data['content'] = 'variations/letter'; //may need to change this
+  	$letter = $variants[0]->gene[0];
+  
+  	$this->load->model('genes_model');
+  	$this->load->helper('genes');
+  	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+//   	$this->printToScreen($data);
+  	
+  	//narrowing results to just the $variants related genes
+  	$tempGenes = Array();
+  	$genesKeys = array_keys($data['genes']);
+  	foreach ($genesKeys as $key) {
+  		foreach ($variants as $variant) {
+  			if(strcmp($variant->gene, $key) == 0){
+  				$tempGenes[$key] = $data['genes'][$key];
+  			}
+  		}
+  	}
+  	ksort($tempGenes);
+  	$data['genes'] = $tempGenes;
+//    	$this->printToScreen($data);
+  	
+  	// Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+  	$data['display_names'] = Array();
+  	foreach ($data['genes'] as $gene => $alias) {
+  		if ($alias !== NULL) {
+  			$data['display_names'][$gene] = "$gene ($alias)";
+  		}
+  		else {
+  			$data['display_names'][$gene] = $gene;
+  		}
+  	}
+  	
+  	$this->load->view($this->public_layout, $data);
+
+  	
+  }
 
   /** 
    * Variations_table
@@ -486,10 +541,108 @@ class Variations extends MY_Controller {
     // Columns to select for this page
     $columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
     $data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
-
+	
+//     $this->printToScreen($data['variations']);
+	
     $this->load->view('variations/gene', $data);
   }
+  
+  /**
+   * variations_table_variant_pos_search
+   *
+   * Load all variations for a specific position based search string
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  string $searchStr, a string of the chr:pos
+   * @return void
+   */
+  public function variations_table_variant_pos_search($searchStr) {
+  	$positionAndAllele = $this->format_position_from_url_safe($searchStr); 
+  	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); //hard code test case: 'chr10:89623197'
+//   	$this->printToScreen($variants);
 
+  	
+  	$data['title'] = $positionAndAllele['pos'];
+  	$data['content'] = 'variations/gene';
+  
+  	$data['gene'] = $variants[0]->gene;
+  	
+  	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
+  	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+  	$columnArray = explode(',',$columns);
+  	
+  	//slim $variations into array of only the columns
+  	$rows = array(); //empty array
+  	foreach ($variants as $variation) {
+  		$tempRow = new stdClass;
+  		foreach ($columnArray as $column) {
+  			$tempRow->$column = $variation->$column;
+  		}
+  		
+  		$rows[] = $tempRow;
+  	}
+  	
+  	$data['rows'] = $rows;
+  	$data['columns'] = $columns;
+  	
+  	$data['variations'] = $variants; //$variationsColumns;
+  
+  	$this->load->view('variations/gene', $data);
+  }
+
+  /**
+   * viewer for pv
+   *
+   * Load a PV viewer for each PDB file for the specified gene and redirect
+   * to the viewer page.
+   *
+   * @author Matt Andress
+   * @access public
+   * @param  string $gene Gene name
+   * @retrun void
+   */
+  public function viewer($gene) {
+  	$data['title'] = "$gene Protein Structure(s)";
+  	$data['content'] = 'variations/viewer';
+  	$data['gene'] = $gene;
+  	
+  	
+  	$genePath = "assets/public/pdb/dvd-structures/$gene/";
+  	if (is_dir($genePath)) {
+  		$structures = array();
+  		
+  		$structureDirs = glob("$genePath*", GLOB_ONLYDIR);
+  		foreach ($structureDirs as $dir) {
+  			$pathParts = explode("/", $dir);
+  			$structureRange = $pathParts[count($pathParts)-1];
+  			
+  			$prevRes = "";
+  			$structureRes = array();
+  			$structFile = fopen("$dir/".$gene."_".$structureRange."_FFX.pdb", "r");
+  			while($line = fgets($structFile)) {
+  				$pregLine = preg_replace("/[\s]+/", " ", $line);
+  				$lineArr = explode(" ", $pregLine);
+  				if(($lineArr[0] == "ATOM") && ($lineArr[5] != $prevRes)) {
+  					$structureRes[] = array("start_index" => intval($lineArr[1]), "name" => $lineArr[3], "residue_index" => intval($lineArr[5]));
+  					$prevRes = $lineArr[5];
+  				}
+  			}
+  			fclose($structFile);
+  			$structures[] = array("name" => $structureRange, "residues" => $structureRes);
+  		}
+  		$data['structures'] = $structures;
+  		$data['suffix'] = '_FFX.pdb';
+  		$data['path'] = $genePath;
+  	}
+  	else {
+  		$data['error'] = "Unable to find structures for $gene";
+  	}
+  	
+  	
+  	$this->load->view($this->public_layout, $data);
+  }
+  
   /** 
    * Show Variant
    *
@@ -531,6 +684,250 @@ class Variations extends MY_Controller {
 
     $this->load->view($content, $data);
   }
+  
+  /**
+   * show_variant_with_position
+   *
+   * Display the variant data page by providing the target gene and position of the target variant.
+   * pChart is required to load the frequencies.
+   * For more info, refer to the frequency() function.
+   *
+   * @author Robert Marini
+   * @access public
+   * @param  string $position
+   * 	position as a string, chr14_12345
+   * 	can be fuzzy searched, see variations_model.php function 
+   * 	'get_variants_with_position'
+   * @return void
+   * 
+   * @Note: also provides legacy support for variant by id lookup
+   * 
+   * dev notes:
+   * 	iterate through query->result
+   * 	do a print statement thorugh all of records in result
+   * 		create a basic output html to write dev output to
+   * 
+   */
+  public function show_variant_with_position($positionUrlSafe) {
+  	// Install pChart (if it's missing)
+  	if (!file_exists(APPPATH.'third_party/pChart')) {
+  		$dir = APPPATH."third_party/";
+  		// Download pChart
+  		file_put_contents($dir."pChart.tar.gz", file_get_contents("http://www.pchart.net/release/pChart2.1.4.tar.gz"));
+  		// Decompress from gz
+  		$p = new PharData($dir.'pChart.tar.gz');
+  		$p->decompress(); // creates pChart.tar
+  		// Unarchive from the tar
+  		$p = new PharData($dir.'pChart.tar');
+  		$p->extractTo($dir.'pChart_temp');
+  		rename($dir.'pChart_temp/pChart2.1.4', $dir.'pChart');
+  		// Remove unwanted files/directories
+  		unlink($dir.'pChart.tar.gz');
+  		unlink($dir.'pChart.tar');
+  		rmdir($dir.'pChart_temp');
+  	}
+  
+  	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
+  	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); 
+	
+  	if(count($variants) === 1){
+  		//a single variant found
+  		
+  		$variant = json_decode(json_encode($variants[0]),true);
+  		
+  		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
+
+  		$data['title'] = $data['variation'];
+  		$content = 'variations/variant/index';
+  		
+  		// Set display style for frequency data
+  		$freqs = $this->config->item('frequencies');
+  		
+  		$this->load->view($content, $data);
+  		
+  	} elseif (count($variants) < 1){
+  			//display that no variant or gene was found
+  			$data['title'] = "Variant Search By Position: $positionUrlSafe ";
+  			$data['variantSearchTerm'] = $positionUrlSafe;
+  			$data['content'] = 'variations/variant-search-404';
+  			$data['error'] = "Unable to find variant based on the following input: $positionUrlSafe";
+  			$this->load->view($this->public_layout, $data);
+  			
+  	} else {
+  			//multiple variants found from search result
+  			
+  			$this->searchPosVariants = $variants;
+  			$letter = $variants[0]->gene[0];
+  			$this->searchPosLetter($variants); //////////////////////
+  			
+  	}
+  	
+  }
+  
+  /**
+   * format_position
+   * 
+   * formats argument string into one that would be searchable i mysql tables
+   * 
+   * @author Robert Marini
+   * @access public
+   * @param string $position
+   * 	position as a url compliant string using underscores to separate pieces
+   * 	chr10:89623197:T>G would be chr10_89623197_T%3EG
+   * @return string $formattedPosition
+   */
+  public function format_position_from_url_safe($positionUrlSafe) {
+  	
+  	$positionOrig = str_replace('%3A', ':',$positionUrlSafe);
+  	$positionOrig = str_replace('%3E', '>',$positionOrig);
+  	$positionOrig = str_replace('%7F', '',$positionOrig);
+  	$explodedPosition = explode(':',$positionOrig);
+  	
+  	$searchSplitOut = array(
+  			"chr" => "NA",
+  			"pos" => "NA",
+  			"ref" => "NA",
+  			"alt" => "NA",
+  			"format_error" => "NA",
+  	);
+  	
+//   	$this->printToScreen($explodedPosition);
+  	
+  	//run through explodedPosition looking for 'chr' substring, and '>', a 2nd element (pos). IN THAT ORDER
+  	// save chr as chr
+  	// split '>' into ref and alt
+  	// save 2nd element as pos
+  	if(count($explodedPosition) > 3){
+  		//error, incorrect format of search string....too many fields
+  		$searchSplitOut['format_error'] = "Incorrect format of search string: Too Many Fields. Correct format: chromosome:position:reference>alternate";
+  	} else {
+  		
+//   		$this->printToScreen($explodedPosition);
+  		
+  		if(substr_count(strtolower($explodedPosition[0]),'chr') > 0){
+  			$searchSplitOut['chr'] = $explodedPosition[0];
+  		}
+  		
+  		if(count($explodedPosition) > 2 && (strpos($explodedPosition[2],'>') !== false)){
+  			$refAlt = explode('>',$explodedPosition[2]);
+  			$searchSplitOut['ref'] = $refAlt[0];
+  			$searchSplitOut['alt'] = $refAlt[1];
+  		}
+  		
+  		$searchSplitOut['pos'] = $explodedPosition[1];
+  		
+// 	  	foreach ($explodedPosition as $posPiece){
+// 	  		if(substr_count(strtolower($posPiece),'chr') > 0){
+// 	  			$searchSplitOut['chr'] = $posPiece;
+// 	  		} elseif(strpos($posPiece,'>') !== false){
+// 	  			$refAlt = explode('>',$posPiece);
+// 	  			$searchSplitOut['ref'] = $refAlt[0];
+// 	  			$searchSplitOut['alt'] = $refAlt[1];
+// 	  		} else {
+// 	  			$searchSplitOut['pos'] = $posPiece;
+// 	  		}
+// 	  	}
+  	}
+  	
+  	return $searchSplitOut;
+  	
+  }
+  
+  /**
+   * position by search bar
+   *
+   * formats argument string into one that would be searchable i mysql tables
+   *
+   * @author Robert Marini
+   * @access public
+   * @param string $searchStrPos
+   * 	position as a url compliant string:
+   * 		chr14%3A23440404%3AG>A would be chr14:23440404:G>A
+   * @return [void]
+   */
+  public function search_bar_pos () {
+  	
+  	$this->show_variant_with_position($_GET["searchStr"]); //searchPosition
+  		
+  }
+  
+  
+  /**
+   * pos_search_variations_table
+   *
+   * Load all variations for a specific position search.
+   *
+   * @author Robert Marini
+   * @access public
+   * @description
+   * 	parallels show_variants($gene) function by Sean but works in arguments of already collected 
+   * 		information of variations.
+   * @param  stdobj $variations variation previously loaded
+   * @return void
+   */
+    public function pos_search_variations_table($variations) {
+  
+    	$data['title'] = 'Variations - ' . strtoupper($variations[0]->gene);
+    	$letter = $variations[0]->gene[0];
+    	$data['content'] = 'variations/letter';
+    	
+    	//from letter function
+    	$this->load->model('genes_model'); //from letter
+    	$this->load->helper('genes'); //from letter
+    	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+    	# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+    	$data['display_names'] = Array();
+    	foreach ($data['genes'] as $gene => $alias) {
+    		if (strcmp($gene, $variations[0]->gene) == 0) {
+	    		if ($alias !== NULL) {
+	    			$data['display_names'][$gene] = "$gene ($alias)";
+	    		}
+	    		else {
+	    			$data['display_names'][$gene] = $gene;
+	    		}
+    		} else {
+    			unset($data['genes'][$gene]);
+    		}
+    	}
+    	//end from letter function
+    	
+    	$data['gene'] = $variations[0]->gene;
+    	// Columns to select for this page....HERE WE CAN ADJUST THE TABLE FOR DISPLAY
+    	$columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
+    	$columnArray = explode(',',$columns);
+    	
+    	//slim $variations into array of only the columns
+    	$rows = array(); //empty array 
+    	foreach ($variations as $variation) { 
+    		$tempRow = new stdClass;
+    		foreach ($columnArray as $column) {
+    			$tempRow->$column = $variation->$column;
+    		}
+
+    		$rows[] = $tempRow;
+    	}
+    	
+//     	$data['genes'] = $rows; //testing this
+    	
+    	$data['rows'] = $rows;
+    	$data['columns'] = $columns;
+    	
+  		$data['variations'] = $variations; //$variationsColumns;
+  		
+  		//trying some things out
+  		$data['geneTable'] = 'variations/gene';
+//   		$data['content'] = 'variations/letter_searchPos';
+// 		$data['content'] = 'variations/gene';
+
+  		$data['content'] = 'variations/gene'; //change for presentation
+  		
+//   		$this->printToScreen($data); //////////////////////////
+  		
+		$this->load->view($this->public_layout, $data);
+//   		$this->load->view('variations/gene', $data);
+//   		$this->load->view($this->, $data);
+    }
+  
 
   /** 
    * Download Variant PDF

@@ -13,8 +13,8 @@
             </thead>
             <tbody>
                 <?php foreach ($variations as $variation): ?>
-                <tr class="$zebra showinfo" id="mutation-<?php echo $variation->id; ?>">
-                    <td class="external-link"><a href="<?php echo site_url('variant/' . $variation->id . '?full'); ?>"><span>More Information &raquo;</span></a></td>
+                <tr class="$zebra showinfo" id="mutation-<?php echo $variation->variation; ?>"> <!-- $variation->variation allows for the position url to be opened -->
+                    <td class="external-link"><a href="<?php echo site_url('variant/' . $variation->variation); ?>"><span>More Information &raquo;</span></a></td>
                     <td class="showinfo-popup"><a><code><?php echo format_table_cell('hgvs_protein_change', $variation->hgvs_protein_change); ?></code></a></td>
                     <td class="showinfo-popup"><code><?php echo format_table_cell('hgvs_nucleotide_change', $variation->hgvs_nucleotide_change); ?></code></td>
                     <td class="showinfo-popup"><?php echo format_table_cell('variantlocale', $variation->variantlocale); ?></td>

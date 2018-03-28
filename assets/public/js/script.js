@@ -77,13 +77,31 @@ $(document).ready(function(){
       // Load and display variations table for the first time
       $(this).addClass("loaded");
       $("#table-"+$(this).attr('id')).toggle();
-      var loading_modal = '' +
-        '<div id="loading-modal">' +
-        '    <div>' +
-        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
-        '    </div>' +
-        '</div>';
-      var loadURL = "../gene/"+this.id;
+      
+      //Rob Marini Edits here for searchPos functionality...my edits will preserve legacy/previous functionality
+      var parts = window.location.search.substr(1).split("=");
+      if(parts[0].localeCompare('searchStr') == 0){
+    	  //searchPos
+    	  var loading_modal = '' +
+	        '<div id="loading-modal">' +
+	        '    <div>' +
+	        '        <img src="./assets/public/img/loading.gif" alt="Loading icon">' +
+	        '    </div>' +
+	        '</div>';
+    	  
+    	  var loadURL = "./geneVariantPos/" + parts[1]; //providing the position searched here
+      
+      } else {
+	      var loading_modal = '' +
+	        '<div id="loading-modal">' +
+	        '    <div>' +
+	        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+	        '    </div>' +
+	        '</div>';
+  
+	      var loadURL = "../gene/"+this.id; //this.id is the gene name
+      }
+      
       //variations_table.html(loading_modal).load(loadURL);
       variations_table.html(loading_modal).load(loadURL, function(){
         tablesort();
@@ -101,8 +119,22 @@ $(document).ready(function(){
 	
 	// Modal popup for variant data
 	$('.showinfo .showinfo-popup').live('click', function(){
-	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-"
-    var src='../variant/' + parent_id; 
+		
+	//Rob Marini Edits to expand functionality for searchPos. updated things to work with new url input of position and search bar for position functionality
+	  var parts = window.location.search.substr(1).split("=");
+      if(parts[0].localeCompare('searchStr') == 0){
+    	  //for searchPos page
+          var parent_variant = $(this).closest("tr").attr("id").substring(9);
+    	  var src='./variant/'+ parent_variant;
+      } else {
+    	  //for by letter page
+//    	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-" //legacy search by id
+//    	  var src='../variant/' + parent_id; //legacy search by id
+    	  var parent_variant = $(this).closest("tr").attr("id").substring(9);
+    	  var src='../variant/' + parent_variant;
+      }
+      //Rob Marini edits end here
+      
     var viewport_height =  $(window).height();
 		$.modal('<iframe id="variant-pane" src="' + src + '" height="650" width="670" style="border:0">', {
     	containerCss:{

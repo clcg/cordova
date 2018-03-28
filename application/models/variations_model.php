@@ -611,6 +611,97 @@ class Variations_model extends MY_Model {
     return $query->row();
   }
 
+  
+  /**
+   * Get Variants by Position Array
+   * 
+   * Get all data for variants at the position. The data in
+   * the queue takes precedence over the current data, therefore
+   * if the variant exists in the queue, it will be returned.
+   * If you don't want to query the queue table, then specify the name
+   * of the table you want to query as the second parameter. 
+   * 
+   * @author Rob Marini
+   * @access public
+   * @param   mixed   $position is an array with fields chr, pos, ref, alt, format_error
+   * 			['chr'] is a string indicating the genomic chromosome (ie. chr4). Should never be NA
+   * 			['pos'] is a string indicating the genomic position (ie. 88529765). Should never be NA
+   * 			['ref'] is a string indicating the reference allele
+   * 			['alt'] is a string indicating the alternate allele
+   * 			['format_error'] is a string where anything other than NA indicates a format error
+   * @param   string   $table DB table to query
+   * @return  mixed    Variant data array or NULL
+   * 
+   */
+  public function get_variants_by_position_array($position, $table = NULL, $fuzzy_search = FALSE)
+  {
+  	if ($table === NULL) {
+  		$table = $this->tables['vd_queue'];
+  	}
+  	
+	$queryString = $this->fuzzy_position_array_search_or_not($position, $table);
+  	
+  	$query = $this->db->query($queryString);
+  	
+  	if ($query->num_rows() === 0) {
+  		#try variations_8_1 instead of queue
+  		$table = $this->tables['vd_live'];
+  		$queryString = $this->fuzzy_position_array_search_or_not($position, $table);
+  	}
+  	
+  	$query = NULL;
+  	$query = $this->db->query($queryString);
+  	
+  	// Still no result? This chr:pos:ref>alt doesn't exist!
+  	if ($query->num_rows() === 0) {
+  		return NULL;
+  	}
+  	
+  	return $query->result();
+  	
+  }
+  
+  /**
+   * Fuzzy Possition Array search or not?
+   * 
+   * This function provides some logic to assemble a query string
+   * given a genomic position array.
+   * 
+   * @author Rob Marini
+   * @access  public
+   * @param   mixed   $position is an array with fields chr, pos, ref, alt, format_error
+   * 			['chr'] is a string indicating the genomic chromosome (ie. chr4). Should never be NA
+   * 			['pos'] is a string indicating the genomic position (ie. 88529765). Should never be NA
+   * 			['ref'] is a string indicating the reference allele
+   * 			['alt'] is a string indicating the alternate allele
+   * 			['format_error'] is a string where anything other than NA indicates a format error
+   * @param	string	$table is a string indicating which table for the 'WHERE' clause
+   * @return  string    a query string
+   */
+  public function fuzzy_position_array_search_or_not($position, $table)
+  {
+  	if($position['ref'] !== 'NA'){
+  		if($position['alt'] !== 'NA'){
+  			$chr = $position['chr'];
+  			$pos = $position['pos'];
+  			$ref = $position['ref'];
+  			$alt = $position['alt'];
+  			$queryString = "SELECT * FROM $table WHERE chr = '$chr' AND pos = '$pos' AND ref = '$ref' AND alt = '$alt'";
+  		} else {
+  			$chr = $position['chr'];
+  			$pos = $position['pos'];
+  			$ref = $position['ref'];
+  			$queryString = "SELECT * FROM $table WHERE chr = '$chr' AND pos = '$pos' AND ref = '$ref'";
+  		}
+  	} else { # the 'fuzzy' search
+  		$chr = $position['chr'];
+  		$pos = $position['pos'];
+  		$queryString = "SELECT * FROM $table WHERE chr = '$chr' AND pos = '$pos'";
+  	}
+  	
+  	return $queryString;
+  }
+  
   /**
    * Get Variants By Position
    *
@@ -648,12 +739,12 @@ class Variations_model extends MY_Model {
       // Query the live DB instead
       return $this->get_variants_by_position($position, $this->tables['vd_live']);
     }
-
+    
     // Still no result? This ID doesn't exist!
     if ($query->num_rows() === 0) {
       return NULL;
     }
-
+	
     return $query->result();
   }
 
@@ -1800,6 +1891,26 @@ EOF;
   public function num_unreleased() {
     return $this->db->count_all($this->tables['reviews']);
   }
+  
+  /**
+   * printToScreen
+   *
+   * prints argument to file to act as a mock console
+   *
+   * @author Robert Marini
+   * @access public
+   * @param string $content
+   * 	anything really
+   */
+   public function printToScreen($somethingToSee) {
+   
+   print "<pre>";
+   print_r($somethingToSee);
+   print "</pre>";
+   die();
+   
+   }
+  
 }
 
 /* End of file variations_model.php */
