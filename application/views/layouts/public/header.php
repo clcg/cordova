@@ -36,8 +36,8 @@
               </li>
             </ul>
             <ul id="sidebar-version">
-              <li>Database Version <?php echo $versionId; ?></li> <!-- $version -->
-              <li>Updated <?php echo $update_date ; ?></li>
+              <li>Database Version: <?php echo $versionId; ?></li> <!-- $version -->
+              <li>Release Date: <?php echo $update_date ; ?></li>
             </ul>
           </div>
           

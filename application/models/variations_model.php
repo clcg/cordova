@@ -524,7 +524,7 @@ class Variations_model extends MY_Model {
   }
 
   /**
-   * Get Variants By Gene
+   * Get Variants By Gene count
    *
    * Get all variants for a gene.
    *
@@ -534,20 +534,58 @@ class Variations_model extends MY_Model {
    *    Gene name
    * @param string $columns
    *    (optional) Columns to select from the database; defaults to all
-   * @return object Gene variations
+   * @return object CI_DB_Mysql Object
    */
-  public function get_variants_by_gene($gene, $columns=NULL)
+  public function count_variants_by_gene($gene, $columns=NULL)
   {
-    // Optionally select specific columns (otherwise select *)
-    if ($columns !== NULL && $columns !== '') {
-      $this->db->select($columns);
-    }
-
-    $query = $this->db
-                  ->where('gene', $gene)
-                  ->order_by('variation', 'asc')
-                  ->get($this->tables['vd_live']);
-    return $query->result();
+  		// Optionally select specific columns (otherwise select *)
+  		if ($columns !== NULL && $columns !== '') {
+  			$this->db->select($columns);
+  		}
+  		
+  		$query = $this->db
+	  		->select('COUNT(id)')
+	  		->where('gene', $gene)
+	  		->order_by('variation', 'asc')
+	  		->get($this->tables['vd_live']);
+  		return $query->result_array()[0]['COUNT(id)'] * 580.0; //580 is a rough estimate of bytes per row, TODO: get this from config as the mem_to_row ratio
+  }
+  
+  /**
+   * Get Variants By Gene
+   *
+   * Get all variants for a gene.
+   *
+   * @author Sean Ephraim
+   * @author Rob Marini
+   * @access public
+   * @param string $gene
+   *    Gene name
+   * @param string $columns
+   *    (optional) Columns to select from the database; defaults to all
+   * @return object CI_DB_mysql Object with results OR if $size is TRUE, then just the query/connection object with no data (CI_DB_mysql_driver)
+   */
+  public function get_variants_by_gene($gene, $columns=NULL, $size=FALSE)
+  {
+  		if($size){
+  			$query = $this->db
+  										->where('gene',$gene)
+  										->order_by('variation','asc')
+  										->from($this->tables['vd_live']);
+//   			dev_print_stop($query,"variations_model.php/get_variants_by_gene @ line 575");
+  		}else{
+  			
+	    // Optionally select specific columns (otherwise select *)
+	    if ($columns !== NULL && $columns !== '') {
+	      $this->db->select($columns);
+	    }
+	
+	    $query = $this->db
+	                  ->where('gene', $gene)
+	                  ->order_by('variation', 'asc')
+	                  ->get($this->tables['vd_live']);
+  		}
+  		return $query;
   }
 
   /**
@@ -1890,26 +1928,7 @@ EOF;
    */
   public function num_unreleased() {
     return $this->db->count_all($this->tables['reviews']);
-  }
-  
-  /**
-   * printToScreen
-   *
-   * prints argument to file to act as a mock console
-   *
-   * @author Robert Marini
-   * @access public
-   * @param string $content
-   * 	anything really
-   */
-   public function printToScreen($somethingToSee) {
-   
-   print "<pre>";
-   print_r($somethingToSee);
-   print "</pre>";
-   die();
-   
-   }
+  }  
   
 }
 

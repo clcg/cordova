@@ -37,7 +37,7 @@ class MY_Model extends CI_Model {
 	}
 
   /**
-   * Get DB Version Id
+   * Get DB Version
    *
    * Returns the id  number for the latest database if
    * $config['vd_version'] is set to 0. Otherwise the specified
@@ -62,20 +62,23 @@ class MY_Model extends CI_Model {
    *    Correct version id of the variation database
    */
 
-  public function get_db_version_id($use_point = FALSE) {
+  public function get_db_version($use_point = FALSE) {
     $versionId = $this->config->item("vd_version");
     if($versionId === 0) {
       //Automatically determine latest versionId
       $tables = $this->config->item("tables");
       $query = $this->db
-		    ->select_max('id')
+		    ->select('version')
 		    ->limit(1)
+		    ->order_by("updated","desc")
 		    ->get($tables['versions']);
-      $versionId = (string) $query->row()->id;
-      if ( ! $use_point) {
-	// Use underscore instead of point
-	$versionId = str_replace('.','_', $versionId);
-      }
+      
+      $versionId = (string) $query->row()->version;
+      if ( $use_point ) {
+		// Use underscore instead of point
+		$versionId = str_replace('_','.', $versionId);
+	   }
+	   
       return $versionId;
     }
     else {
@@ -83,7 +86,7 @@ class MY_Model extends CI_Model {
       $this->session->set_flashdata('warning', $html);
       if ( ! $use_point) {
 	// Use underscore instead of point
-	$versionId = str_replace('.','_', $versionId);
+	$versionId = str_replace('_','.', $versionId);
       }
       return $versionId;
     }

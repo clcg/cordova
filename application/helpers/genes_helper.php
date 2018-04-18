@@ -8,6 +8,7 @@ if ( ! function_exists('gene_link_to_api'))
   * Returns a URI to the API
   *
   * @author   Sean Ephraim
+  * @author   Rob Marini
   * @access   public
   * @param    string  $gene
   *    Gene name
@@ -15,9 +16,9 @@ if ( ! function_exists('gene_link_to_api'))
   *    API output format (e.g. csv, tab, json, xml)
   * @return   string   HTML string
   */
-  function gene_link_to_api($gene, $format)
+  function gene_link_to_api($gene, $format, $method = 'plain')
   {
-    return site_url("api?type=gene&amp;terms=$gene&amp;format=$format");
+    return site_url("api?type=gene&amp;terms=$gene&amp;method=$method&amp;format=$format");
   }
 }
 

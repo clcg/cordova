@@ -491,7 +491,6 @@ class Variations extends MY_Controller {
   	$this->load->model('genes_model');
   	$this->load->helper('genes');
   	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
-//   	$this->printToScreen($data);
   	
   	//narrowing results to just the $variants related genes
   	$tempGenes = Array();
@@ -505,7 +504,6 @@ class Variations extends MY_Controller {
   	}
   	ksort($tempGenes);
   	$data['genes'] = $tempGenes;
-//    	$this->printToScreen($data);
   	
   	// Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
   	$data['display_names'] = Array();
@@ -540,10 +538,7 @@ class Variations extends MY_Controller {
     $data['gene'] = $gene;
     // Columns to select for this page
     $columns = 'id,hgvs_protein_change,hgvs_nucleotide_change,variantlocale,variation,pathogenicity,disease';
-    $data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns);
-	
-//     $this->printToScreen($data['variations']);
-	
+    $data['variations'] = $this->variations_model->get_variants_by_gene($gene, $columns)->result();
     $this->load->view('variations/gene', $data);
   }
   
@@ -558,9 +553,13 @@ class Variations extends MY_Controller {
    * @return void
    */
   public function variations_table_variant_pos_search($searchStr) {
-  	$positionAndAllele = $this->format_position_from_url_safe($searchStr); 
+  	
+	$search_array = array();
+	$search_array[] = $searchStr;
+	$searchStr = filter_intput_array($search_array,FILTER_SANITIZE_STRING)[0];	
+	//dev_print_stop($searchStr,'filtered search string');
+	$positionAndAllele = $this->format_position_from_url_safe($searchStr); 
   	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); //hard code test case: 'chr10:89623197'
-//   	$this->printToScreen($variants);
 
   	
   	$data['title'] = $positionAndAllele['pos'];
@@ -791,8 +790,6 @@ class Variations extends MY_Controller {
   			"format_error" => "NA",
   	);
   	
-//   	$this->printToScreen($explodedPosition);
-  	
   	//run through explodedPosition looking for 'chr' substring, and '>', a 2nd element (pos). IN THAT ORDER
   	// save chr as chr
   	// split '>' into ref and alt
@@ -801,8 +798,6 @@ class Variations extends MY_Controller {
   		//error, incorrect format of search string....too many fields
   		$searchSplitOut['format_error'] = "Incorrect format of search string: Too Many Fields. Correct format: chromosome:position:reference>alternate";
   	} else {
-  		
-//   		$this->printToScreen($explodedPosition);
   		
   		if(substr_count(strtolower($explodedPosition[0]),'chr') > 0){
   			$searchSplitOut['chr'] = $explodedPosition[0];
@@ -914,18 +909,11 @@ class Variations extends MY_Controller {
     	
   		$data['variations'] = $variations; //$variationsColumns;
   		
-  		//trying some things out
   		$data['geneTable'] = 'variations/gene';
-//   		$data['content'] = 'variations/letter_searchPos';
-// 		$data['content'] = 'variations/gene';
 
-  		$data['content'] = 'variations/gene'; //change for presentation
-  		
-//   		$this->printToScreen($data); //////////////////////////
+  		$data['content'] = 'variations/gene';
   		
 		$this->load->view($this->public_layout, $data);
-//   		$this->load->view('variations/gene', $data);
-//   		$this->load->view($this->, $data);
     }
   
 
