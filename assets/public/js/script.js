@@ -78,7 +78,7 @@ $(document).ready(function(){
       $(this).addClass("loaded");
       $("#table-"+$(this).attr('id')).toggle();
       
-      //Rob Marini Edits here for searchPos functionality...my edits will preserve legacy/previous functionality
+      //searchPos functionality...preserves legacy/previous functionality
       var parts = window.location.search.substr(1).split("=");
       if(parts[0].localeCompare('searchStr') == 0){
     	  //searchPos

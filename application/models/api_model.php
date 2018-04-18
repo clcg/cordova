@@ -380,8 +380,6 @@ class API_model extends MY_Model {
   	
   		if($prog_load){
   			
-  			//THOUGHTS to continue: generate the header, then return, use the prog_load_query_results here in loop so that the model api's can be used then exit; when finished
-  			
   			$this->load->helper('download');
   			
   			$filename = "";

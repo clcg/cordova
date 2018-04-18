@@ -133,12 +133,7 @@ if ( ! function_exists('force_prog_dload'))
 			//valid bounds
 			
 			//start stream
-// 			$dloadsize = strval($dload_filesize); //this is hard set here for dev-testing, needs to be calculated for actual implementation
 			$extension = end(explode($filename,"."));
-				
-// 			$filename = $dload_filename;
-// 			$extension = $suffix;
-// 			$filesize = $dload_size;
 			
 			// Load the mime types
 			@include(APPPATH.'config/mimes'.EXT);
@@ -166,7 +161,6 @@ if ( ! function_exists('force_prog_dload'))
 				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 				header("Content-Transfer-Encoding: binary");
 				header('Pragma: no-cache'); //public
-// 				header("Content-Length: ".$filesize);
 			}
 			else
 			{
@@ -175,9 +169,7 @@ if ( ! function_exists('force_prog_dload'))
 				header("Content-Transfer-Encoding: binary");
 				header('Expires: ' . $expire_str);
 				header('Pragma: no-cache');
-// 				header("Content-Length: ".$filesize);
 			}
-			
 				
 			//******************************
 			
@@ -191,13 +183,10 @@ if ( ! function_exists('force_prog_dload'))
 					//getting the last results
 					$i = $bounds[1];
 					$continue_loop = FALSE;
-					
-// 					dev_print_stop([$i,$bounds,$chunk_size], "MY_download_helper.php/force_prog_dload @ line 196");
 				} elseif ($i > $bounds[1]){
 					//done getting results
 					$i = $bounds[1];
 					$continue_loop = FALSE;
-// 					dev_print_stop([$i,$bounds,$chunk_size], "MY_download_helper.php/force_prog_dload @ line 200");
 					break;
 				}
 				
