@@ -1,30 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * get_query_result_size
- * 
- * tests a query to see how many rows will be returned if the query was
- * made in full.
- * 
- * @author	Rob Marini
- * @access	public
- * @param	CI_DB_Query object
- * @return	array of integers
- */
-
-if ( ! function_exists('get_query_result_size'))
-{
-	function get_query_result_size($query){
-		$result_sizes = array();
-		foreach($query->select('COUNT(id)')->get()->result_array()[0] as $key => $value){
-			$result_sizes[] = $value;
-		}
-		
-		return($result_sizes);
-	}
-}
-
-/**
  * generate_download_header
  *
  * Generates headers that force a download to happen with chunking

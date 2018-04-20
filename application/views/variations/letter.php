@@ -8,7 +8,7 @@
 	        		<!-- Commented out the below line for PR to cordova/dev. uncomment it for PV stuff -->
 	        		<!-- <?php if(is_dir("assets/public/pdb/dvd-structures/$gene")){ ?><a href="<?php echo site_url('viewer/'.$gene); ?>">PV</a><?php } ?>	-->
 				
-				Download variant table:
+				Download variant list:
 	        		<a href="<?php echo gene_link_to_api($gene, 'csv', 'download') ?>">CSV</a> 
 	        		<a href="<?php echo gene_link_to_api($gene, 'tab', 'download') ?>">Tab</a>
 	        	</span>
