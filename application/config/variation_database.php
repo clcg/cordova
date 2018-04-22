@@ -4,6 +4,7 @@
  * PLEASE READ THROUGH EVERYTHING THOROUGHLY BEFORE EDITING!
  */
 
+
 /*
  |--------------------------------------------------------------------------
  | Chunk size for Limiting Memory Load
@@ -38,7 +39,7 @@ $config['mem_per_row_ratio'] = 300;
 | If users have questions, who should they contact?
 |
 */
-$config['contact_email'] = 'admin@example.com';
+$config['contact_email'] = 'morl@uiowa.edu';
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,7 @@ $config['contact_email'] = 'admin@example.com';
 | website headers, etc.
 |
 */
-$config['vd_prefix'] = 'vd'; // i.e. dvd (for Deafness Variation Database)
+$config['vd_prefix'] = 'dvd'; // i.e. dvd (for Deafness Variation Database)
 
 /*
 |--------------------------------------------------------------------------
@@ -73,9 +74,9 @@ $config['vd_version'] = 0; // i.e. 0, 3, 7, etc.
 | Common strings used for views, naming of downloadable files, etc.
 |
 */
-$config['strings']['site_full_name']        = 'The Variation Database'; // i.e Deafness Variation Database
+$config['strings']['site_full_name']        = 'Deafness Variation Database'; // i.e Deafness Variation Database
 $config['strings']['site_short_name']        = strtoupper($config['vd_prefix']); // i.e. DVD
-$config['strings']['footer_info']        = 'University of Iowa'; // Insert any HTML if needed
+$config['strings']['footer_info']        = '<span>&copy; 2011&ndash;'.date('Y').'</span> <a href="http://www.medicine.uiowa.edu/morl/" title="MORL Homepage">The Molecular Otolaryngology and Renal Research Laboratory</a> at <a href="http://www.uiowa.edu" title="University of Iowa Homepage">The University of Iowa</a>'; // Insert any HTML if needed 
 
 /*
 | -------------------------------------------------------------------------
@@ -110,7 +111,7 @@ $config['strings']['footer_info']        = 'University of Iowa'; // Insert any H
  * Unless you have a good reason to change it, it is best just to leave 
  * this alone.
  */
-$config['tables']['vd_live'] = 'variations'; // READ ABOVE before changing
+$config['tables']['vd_live'] = 'variations_8_1_1_dev'; // READ ABOVE before changing
 
 /**
  * Variation data that has been edited with the editor interface will
@@ -127,7 +128,7 @@ $config['tables']['vd_live'] = 'variations'; // READ ABOVE before changing
  * Unless you have a good reason to change it, it is best just to leave 
  * this alone.
  */
-$config['tables']['vd_queue'] = 'variations_queue'; // READ ABOVE before changing
+$config['tables']['vd_queue'] = 'variations_queue_8_dev'; // READ ABOVE before changing
 
 /**
  * This table holds data on the number of variants in each gene.
@@ -195,7 +196,7 @@ $config['frequencies'] = array(
    'evs',         // Exome Variant Server (EVS)
    '1000genomes', // 1000 Genomes
    'exac',        // ExAC
-//   'otoscope',    // OtoSCOPE
+   'otoscope',    // OtoSCOPE
 );
 
 /*
@@ -380,7 +381,7 @@ $config['activity_log_path'] = APPPATH . 'logs/activity.log'; // i.e. APPPATH . 
 | external authentication.
 */
 $config['external_auth'] = array(
-//  'uiowa' => 'Log in with HawkID',
+  'uiowa' => 'Log in with HawkID',
 );
 
 /* End of file variation_database.php */
