@@ -61,6 +61,7 @@ $route['auth/ext/(:any)'] = 'auth/external_auth/$1';
 $route['genes/letters'] = 'genes/letters';
 $route['genes/(:any)'] = 'genes/show_genes/$1';
 $route['genes'] = 'genes/show_genes';
+$route['gene_page/(:any)'] = 'genes/gene_page/$1'; //continue from here
 /* Variations Editor */
 $route['variations/view/(:any)'] = 'variations/view/$1';
 $route['variations/edit/(:any)'] = 'variations/edit/$1';

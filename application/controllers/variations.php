@@ -441,7 +441,7 @@ class Variations extends MY_Controller {
    *
    * Display all genes start with a certain letter
    *
-   * @author Sean Ephraim
+   * @author Sean Ephraim 
    * @access public
    * @param  string $letter
    *    The gene's starting letter
@@ -465,7 +465,7 @@ class Variations extends MY_Controller {
         $data['display_names'][$gene] = $gene;
       }
     }
-
+    
     $this->load->view($this->public_layout, $data);
   }
   
@@ -557,7 +557,6 @@ class Variations extends MY_Controller {
 	$search_array = array();
 	$search_array[] = $searchStr;
 	$searchStr = filter_intput_array($search_array,FILTER_SANITIZE_STRING)[0];	
-	//dev_print_stop($searchStr,'filtered search string');
 	$positionAndAllele = $this->format_position_from_url_safe($searchStr); 
   	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); //hard code test case: 'chr10:89623197'
 
@@ -841,6 +840,9 @@ class Variations extends MY_Controller {
    * @return [void]
    */
   public function search_bar_pos () {
+  	
+  	// Prevent XSS
+  	$_GET   = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
   	
   	$this->show_variant_with_position($_GET["searchStr"]); //searchPosition
   		
