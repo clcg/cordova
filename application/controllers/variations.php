@@ -726,15 +726,16 @@ class Variations extends MY_Controller {
   	}
   
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
-  	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); 
-	
+  	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele);
+  
+  	
   	if(count($variants) === 1){
   		//a single variant found
   		
   		$variant = json_decode(json_encode($variants[0]),true);
   		
   		$data = $this->variations_model->get_variant_display_variables($variant['id'], $this->tables['vd_live']); //$variant changed to $aVariant
-
+  		
   		$data['title'] = $data['variation'];
   		$content = 'variations/variant/index';
   		
@@ -798,9 +799,10 @@ class Variations extends MY_Controller {
   		$searchSplitOut['format_error'] = "Incorrect format of search string: Too Many Fields. Correct format: chromosome:position:reference>alternate";
   	} else {
   		
-  		if(substr_count(strtolower($explodedPosition[0]),'chr') > 0){
-  			$searchSplitOut['chr'] = $explodedPosition[0];
-  		}
+//   		if((substr_count(strtolower($explodedPosition[0]),'chr') || ) > 0){
+//   			$searchSplitOut['chr'] = $explodedPosition[0];
+//   		}
+  		$searchSplitOut['chr'] = str_replace('chr','',$explodedPosition[0]);
   		
   		if(count($explodedPosition) > 2 && (strpos($explodedPosition[2],'>') !== false)){
   			$refAlt = explode('>',$explodedPosition[2]);

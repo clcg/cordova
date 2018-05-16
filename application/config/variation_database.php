@@ -111,7 +111,7 @@ $config['strings']['footer_info']        = '<span>&copy; 2011&ndash;'.date('Y').
  * Unless you have a good reason to change it, it is best just to leave 
  * this alone.
  */
-$config['tables']['vd_live'] = 'variations_8_1_1_dev'; // READ ABOVE before changing
+$config['tables']['vd_live'] = 'variations_8_1_2'; // READ ABOVE before changing, variations_8_1_1_dev
 
 /**
  * Variation data that has been edited with the editor interface will
