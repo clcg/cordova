@@ -120,7 +120,6 @@ $(document).ready(function(){
 	// Modal popup for variant data
 	$('.showinfo .showinfo-popup').live('click', function(){
 		
-	//Rob Marini Edits to expand functionality for searchPos. updated things to work with new url input of position and search bar for position functionality
 	  var parts = window.location.search.substr(1).split("=");
       if(parts[0].localeCompare('searchStr') == 0){
     	  //for searchPos page
@@ -128,12 +127,9 @@ $(document).ready(function(){
     	  var src='./variant/'+ parent_variant;
       } else {
     	  //for by letter page
-//    	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-" //legacy search by id
-//    	  var src='../variant/' + parent_id; //legacy search by id
     	  var parent_variant = $(this).closest("tr").attr("id").substring(9);
     	  var src='../variant/' + parent_variant;
       }
-      //Rob Marini edits end here
       
     var viewport_height =  $(window).height();
 		$.modal('<iframe id="variant-pane" src="' + src + '" height="650" width="670" style="border:0">', {
@@ -157,7 +153,7 @@ $(document).ready(function(){
 		$("#section-contact").modal({opacity:90,overlayClose:true});
 	});
   // Contact CBCB is unchecked by default
-  $("#contact-cbcb").prop("checked", false);
+    $("#contact-cbcb").prop("checked", false);
   // Automatically Contact CBCB on click
 	$('.contact-cbcb').click(function(){ 
     $("#contact-cbcb").prop("checked", true);
