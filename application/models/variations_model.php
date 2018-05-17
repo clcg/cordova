@@ -572,7 +572,6 @@ class Variations_model extends MY_Model {
   										->where('gene',$gene)
   										->order_by('variation','asc')
   										->from($this->tables['vd_live']);
-//   			dev_print_stop($query,"variations_model.php/get_variants_by_gene @ line 575");
   		}else{
   			
 	    // Optionally select specific columns (otherwise select *)
@@ -731,7 +730,7 @@ class Variations_model extends MY_Model {
   			$ref = $position['ref'];
   			$queryString = "SELECT * FROM $table WHERE chr = '$chr' AND pos = '$pos' AND ref = '$ref'";
   		}
-  	} else { # the 'fuzzy' search
+  	} else { # the 'fuzziest' search
   		$chr = $position['chr'];
   		$pos = $position['pos'];
   		$queryString = "SELECT * FROM $table WHERE chr = '$chr' AND pos = '$pos'";

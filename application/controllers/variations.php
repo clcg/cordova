@@ -814,30 +814,23 @@ class Variations extends MY_Controller {
   		$searchSplitOut['format_error'] = "Incorrect format of search string: Too Many Fields. Correct format: chromosome:position:reference>alternate";
   	} else {
   		
-//   		if((substr_count(strtolower($explodedPosition[0]),'chr') || ) > 0){
-//   			$searchSplitOut['chr'] = $explodedPosition[0];
-//   		}
   		$searchSplitOut['chr'] = str_replace('chr','',$explodedPosition[0]);
   		
-  		if(count($explodedPosition) > 2 && (strpos($explodedPosition[2],'>') !== false)){
-  			$refAlt = explode('>',$explodedPosition[2]);
-  			$searchSplitOut['ref'] = $refAlt[0];
-  			$searchSplitOut['alt'] = $refAlt[1];
+  		if(count($explodedPosition) > 2){
+  			
+  			if(strpos($explodedPosition[2],'>') !== false){
+  				$refAlt = explode('>',$explodedPosition[2]);
+  				$searchSplitOut['ref'] = $refAlt[0];
+  				$searchSplitOut['alt'] = $refAlt[1];
+  			} else {
+  				$searchSplitOut['ref'] = $explodedPosition[2];
+  			}
+  		
   		}
   		
   		$searchSplitOut['pos'] = $explodedPosition[1];
   		
-// 	  	foreach ($explodedPosition as $posPiece){
-// 	  		if(substr_count(strtolower($posPiece),'chr') > 0){
-// 	  			$searchSplitOut['chr'] = $posPiece;
-// 	  		} elseif(strpos($posPiece,'>') !== false){
-// 	  			$refAlt = explode('>',$posPiece);
-// 	  			$searchSplitOut['ref'] = $refAlt[0];
-// 	  			$searchSplitOut['alt'] = $refAlt[1];
-// 	  		} else {
-// 	  			$searchSplitOut['pos'] = $posPiece;
-// 	  		}
-// 	  	}
+
   	}
   	
   	return $searchSplitOut;
