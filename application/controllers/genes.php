@@ -80,6 +80,7 @@ class Genes extends MY_Controller {
 			$data['display_name'] = $gene;
 		}
 		
+// 		dev_print_stop($data,"controller/genes.php/gene_page");
 		$this->load->view($this->public_layout,$data);
 	}
   
