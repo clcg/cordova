@@ -485,13 +485,13 @@ class Variations extends MY_Controller {
   public function searchPosLetter($variants) {	
   	
   	$data['title'] = $variants[0]->gene;
-  	$data['content'] = 'variations/letter'; //may need to change this
   	$letter = $variants[0]->gene[0];
-  
+  	
   	$this->load->model('genes_model');
   	$this->load->helper('genes');
-  	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
   	
+  	$data['genes'] = $this->genes_model->get_genes_and_aliases($letter, FALSE);
+  		
   	//narrowing results to just the $variants related genes
   	$tempGenes = Array();
   	$genesKeys = array_keys($data['genes']);
@@ -505,14 +505,31 @@ class Variations extends MY_Controller {
   	ksort($tempGenes);
   	$data['genes'] = $tempGenes;
   	
-  	// Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
-  	$data['display_names'] = Array();
-  	foreach ($data['genes'] as $gene => $alias) {
-  		if ($alias !== NULL) {
-  			$data['display_names'][$gene] = "$gene ($alias)";
-  		}
-  		else {
-  			$data['display_names'][$gene] = $gene;
+  	if(count($data['genes']) > 1){
+  		$data['content'] = 'variations/letter';
+	  	
+	  	// Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+	  	$data['display_names'] = Array();
+	  	foreach ($data['genes'] as $gene => $alias) {
+	  		if ($alias !== NULL) {
+	  			$data['display_names'][$gene] = "$gene ($alias)";
+	  		}
+	  		else {
+	  			$data['display_names'][$gene] = $gene;
+	  		}
+	  	}
+  	} else { //all variants found in a single gene
+  		
+  		$gene = $variants[0]->gene;
+  		$data['gene'] = $gene;
+  		$data['content'] = 'genes/gene_page';
+  		$alias = $this->genes_model->get_gene_alias($gene);
+  		
+  		# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+  		if($alias !== NULL){
+  			$data['display_name'] = "$gene ($alias)";
+  		} else {
+  			$data['display_name'] = $gene;
   		}
   	}
   	
@@ -554,12 +571,11 @@ class Variations extends MY_Controller {
    */
   public function variations_table_variant_pos_search($searchStr) {
   	
+  	
 	$search_array = array();
 	$search_array[] = $searchStr;
-	$searchStr = filter_intput_array($search_array,FILTER_SANITIZE_STRING)[0];	
-	$positionAndAllele = $this->format_position_from_url_safe($searchStr); 
+	$positionAndAllele = $this->format_position_from_url_safe($searchStr);
   	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele); //hard code test case: 'chr10:89623197'
-
   	
   	$data['title'] = $positionAndAllele['pos'];
   	$data['content'] = 'variations/gene';
@@ -727,7 +743,6 @@ class Variations extends MY_Controller {
   
   	$positionAndAllele = $this->format_position_from_url_safe($positionUrlSafe);
   	$variants = $this->variations_model->get_variants_by_position_array($positionAndAllele);
-  
   	
   	if(count($variants) === 1){
   		//a single variant found
