@@ -1,0 +1,13 @@
+#$ -V                        # Inherit current environment
+#$ -cwd                      # Start job in submission directory
+#$ -N TJP2_511-887           # Job Name
+#$ -j y                      # Combine stderr and stdout
+#$ -q UI                     # Queue
+#$ -pe 16cpn 16              # Request 16 tasks/node, 16 total
+#$ -o $JOB_NAME.$JOB_ID.log  # Name of output file
+#$ -l h_rt=196:00:00         # Run Time
+#$ -S /bin/bash              # Shell to use
+#ffxc scheduler -p 16 -m 8G dummy > scheduler.log & sleep 30s
+ffxc minimize -e 1.0 TJP2_511-887.pdb
+ffxc rotamer -a 5 -bL 5 -bB 1.5 -x 1 -l 2 -t false TJP2_511-887.pdb_2
+ffxc minimize -e 0.8 TJP2_511-887.pdb_3

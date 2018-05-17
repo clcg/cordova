@@ -50,6 +50,39 @@ class Genes extends MY_Controller {
 
     $this->load->view($this->editor_layout, $data);
   }
+  
+  /**
+   * Gene Page
+   * 
+   * Display a gene of interest and its information including its 
+   * 	variant list.
+   * 
+   * @author Rob Marini
+   * @access public
+   * @param string $gene
+   * 	The gene
+   * @return void
+   * 
+   */
+	public function gene_page($gene) {
+		$data['title'] = $gene;
+		$data['content'] = 'genes/gene_page';
+		
+		$data['gene'] = $gene;
+		$this->load->model('genes_model');
+		$this->load->helper('genes');
+		$alias = $this->genes_model->get_gene_alias($gene);
+		
+		# Format genes names to display as "GENE (ALIAS)", or just "GENE" if no alias
+		if($alias !== NULL){
+			$data['display_name'] = "$gene ($alias)";
+		} else {
+			$data['display_name'] = $gene;
+		}
+		
+		$this->load->view($this->public_layout,$data);
+	}
+  
 }
 
 

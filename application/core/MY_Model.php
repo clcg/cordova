@@ -3,6 +3,7 @@
 class MY_Model extends CI_Model {
 
   public $version;
+  public $versionId;
 
   /**
    * @ignore
@@ -36,6 +37,62 @@ class MY_Model extends CI_Model {
 	}
 
   /**
+   * Get DB Version
+   *
+   * Returns the id  number for the latest database if
+   * $config['vd_version'] is set to 0. Otherwise the specified
+   * version will be used. This is necessary because the version
+   * does not accurately reflect the version of database implemented
+   *
+   * For point releases, the name of a table will be like 'dvd_2_1',
+   * not 'dvd_2.1'. Therefore, this function returns the underscored 
+   * format (e.g. 'dvd_2_1') by default. To return the point format
+   * (e.g. 'dvd_2.1'), specify the first parameter to be TRUE.
+   *
+   *This has been templated from Sean's original get_db_version function.
+   *Instead of returning the version field, as Sean's function does, this
+   *function instead returns the id. This id is more repesentative of the
+   *database's version.
+   *
+   * @author Rob Marini
+   * @access public
+   * @param boolean $use_point
+   *    Return a point (.) format instead of a underscore (_) format
+   * @return int
+   *    Correct version id of the variation database
+   */
+
+  public function get_db_version($use_point = FALSE) {
+    $versionId = $this->config->item("vd_version");
+    if($versionId === 0) {
+      //Automatically determine latest versionId
+      $tables = $this->config->item("tables");
+      $query = $this->db
+		    ->select('version')
+		    ->limit(1)
+		    ->order_by("updated","desc")
+		    ->get($tables['versions']);
+      
+      $versionId = (string) $query->row()->version;
+      if ( $use_point ) {
+		// Use underscore instead of point
+		$versionId = str_replace('_','.', $versionId);
+	   }
+	   
+      return $versionId;
+    }
+    else {
+      $html = 'WARNING: your database has not been configured to automatically use the latest version. Until this is hcanged, you may be useing an older version of the database.';
+      $this->session->set_flashdata('warning', $html);
+      if ( ! $use_point) {
+	// Use underscore instead of point
+	$versionId = str_replace('_','.', $versionId);
+      }
+      return $versionId;
+    }
+  }
+
+  /**
    * Get DB Version Num
    *
    * Returns the version number for the latest database if
@@ -57,17 +114,21 @@ class MY_Model extends CI_Model {
   public function get_db_version_num($use_point = FALSE) {
     $version = $this->config->item("vd_version");
     if ($version === 0) {
-      // Automatically determine latest version
+      
+      // Automatically determine latest version and versionId
       $tables = $this->config->item("tables");
+
       $query = $this->db
-                    ->select_max('version')
+                    ->select_max('version') //id; //version
                     ->limit(1)
                     ->get($tables['versions']);
-      $version = $query->row()->version;
+      $version = $query->row()->version; //id; //version;      
+      
       if ( ! $use_point) {
         // Use underscore instead of point
         $version = str_replace('.', '_', $version);
       }
+      
       return $version;
     }
     else {
@@ -213,7 +274,7 @@ class MY_Model extends CI_Model {
     $tables = $this->config->item("tables");
     $version = $this->get_db_version_num(TRUE);
     $query = $this->db
-                  ->get_where($tables['versions'], array('version' => $version), 1);
+                  ->get_where($tables['versions'], array('version' => $version), 1); //id; //version;
     return $query->row()->updated;
   }
 

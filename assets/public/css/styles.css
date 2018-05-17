@@ -316,11 +316,33 @@ padding:10px 0 10px 0;
 border:0;
 padding:5px 0 10px 3px;
 }
-#mutation-tables fieldset legend {
+#mutation-tables fieldset span {
+float:right;
+font:normal 9.6px/100% "lucida grande", "lucida sans unicode", lucida, helvetica, arial, sans-serif;
+margin:7px 0 0 0;
+background:white;
+}
+#mutation-tables fieldset span a {
+text-decoration:none;
+color:#999;
+padding:0 3px;
+border: 0px;
+align:right;
+}
+#mutation-tables fieldset a legend {
+float:left;
 font:1.5em/100% helvetica, arial, sans-serif;
 color:#FF0000;
 cursor:pointer;
-width:99%;
+width: 85%;
+background:url(../img/legend-collapsible-back.png) center left no-repeat !important;
+}
+#mutation-tables fieldset legend {
+float:left;
+font:1.5em/100% helvetica, arial, sans-serif;
+color:#FF0000;
+cursor:pointer;
+width: 85%;
 background:url(../img/legend-collapsible-back.png) center left no-repeat !important;
 }
 #mutation-tables fieldset legend strong {
@@ -471,6 +493,8 @@ color:#000;
 /* Loading modal */
 #loading-modal {
   text-align: center;
+  width:100%;
+  float:left;
 }
 #loading-modal div {
   padding: 8px;

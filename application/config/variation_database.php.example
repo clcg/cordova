@@ -5,6 +5,32 @@
  */
 
 /*
+ |--------------------------------------------------------------------------
+ | Chunk size for Limiting Memory Load
+ |--------------------------------------------------------------------------
+ |
+ | Dictates how large a query from the database can be at any one time.
+ | This is primarily used for downloads currently. 
+ | 1000 = 1000 bytes or 1 kilobyte.
+ |
+ */
+$config['chunk_load_limit'] = 1000 * 1000; //1Mb
+
+/*
+ |--------------------------------------------------------------------------
+ | mem_per_row_ratio
+ |--------------------------------------------------------------------------
+ |
+ | Estimation of how much memory a row of data may occupy in bytes. 
+ | This is used, in combination with chunk_load_limit, to chunk query 
+ | results thereby limiting memory consumption by the results of queries. 
+ | For example, 100 implies that 1 result row ~= 100 bytes, 
+ | aka. 100bytes / 1row
+ |
+ */
+$config['mem_per_row_ratio'] = 300;
+
+/*
 |--------------------------------------------------------------------------
 | Contact Email
 |--------------------------------------------------------------------------

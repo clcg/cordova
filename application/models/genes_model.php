@@ -141,9 +141,44 @@ class Genes_model extends MY_Model {
       }
     }
 
+    
     ksort($genes);
     return $genes;
   }
+  
+  /**
+   * Get Gene's Alias
+   *
+   * Get a gene's alias. If a gene has no alias, returns a NULL.
+   *
+   * Example return: '' or 'NULL'
+   *
+   * @author Rob Marini
+   * @access public
+   * @param string $gene
+   *    a gene name
+   * @param boolean $include_queue_genes
+   *    Include/exclude the genes that are only in the queue
+   * @param string $table
+   *    Table from which to retrieve genes (default: 'variant_count')
+   * @return string alias
+   */
+  public function get_gene_alias($gene, $table = NULL) {
+  	// Only get genes of a certain letter
+  	
+  	if ($table === NULL) {
+  		$table = $this->tables['variant_count'];
+  	}
+  	
+  	$query = $this->db->distinct()
+  	->select('gene_alias')
+  	->get_where($table,array('gene'=>$gene));
+  	
+  	$alias = $query->result()[0]->gene_alias;
+  	
+  	return $alias;
+  }
+  
 }
 
 /* End of file genes_model.php */

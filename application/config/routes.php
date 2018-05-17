@@ -61,6 +61,7 @@ $route['auth/ext/(:any)'] = 'auth/external_auth/$1';
 $route['genes/letters'] = 'genes/letters';
 $route['genes/(:any)'] = 'genes/show_genes/$1';
 $route['genes'] = 'genes/show_genes';
+$route['gene_page/(:any)'] = 'genes/gene_page/$1';
 /* Variations Editor */
 $route['variations/view/(:any)'] = 'variations/view/$1';
 $route['variations/edit/(:any)'] = 'variations/edit/$1';
@@ -75,11 +76,15 @@ $route['variations'] = 'variations/index';
 $route['doc'] = 'pages/doc';
 $route['letter/(:any)'] = 'variations/letter/$1';
 $route['gene/(:any)'] = 'variations/variations_table/$1';
+$route['geneVariantPos/(:any)'] = 'variations/variations_table_variant_pos_search/$1'; //variant by position search, Rob Marini edit
 $route['variant/freq'] = 'variations/frequency';
-$route['variant/(:any)'] = 'variations/show_variant/$1';
+//$route['variant/(:any)'] = 'variations/show_variant/$1';
+$route['variant/(:any)'] = 'variations/show_variant_with_position/$1'; //$1 as the position of variant
 $route['pdf/(:any)'] = 'variations/download_variant_pdf/$1';
 $route['api'] = 'api/index';
 $route['email'] = 'email/index';
+$route['posSearch'] = 'variations/search_bar_pos';
+$route['viewer/(:any)'] = 'variations/viewer/$1';
 
 /* Controller/function route (w/ 2 parameters) */
 $route['(:any)/(:any)/(:any)/(:any)'] = '$1/$2/$3/$4';

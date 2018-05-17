@@ -25,12 +25,24 @@
               <li><a href="<?php echo site_url('help'); ?>" id="help">How to use this site</a></li>
               <li><a href="<?php echo site_url('doc'); ?>" id="api">API Documentation</a></li>
               <li><a href="javascript://" class="contact-popup">Contact Us</a></li>
+              <li>
+              	<br/><br/>
+              	<center>
+			        <form name="positionSearchBar" method="get" action= "<?php echo base_url() . 'posSearch'; ?>">
+			      		Search for Variant by Hg19 Position: <input name="searchStr" value="" type="text" size="20" maxlength="40"/>
+			      		<br/>
+			      	</form>
+		      	</center>
+              </li>
             </ul>
             <ul id="sidebar-version">
-              <li>Database Version <?php echo $version; ?></li>
-              <li>Updated <?php echo $update_date ; ?></li>
+              <li>Database Version: <?php echo $versionId; ?></li> <!-- $version -->
+              <li>Release Date: <?php echo $update_date ; ?></li>
             </ul>
           </div>
+          
+          
+          
         </fieldset>
       </div><!-- #sidebar-sorters -->
     </div><!-- #sidebar -->

@@ -77,13 +77,31 @@ $(document).ready(function(){
       // Load and display variations table for the first time
       $(this).addClass("loaded");
       $("#table-"+$(this).attr('id')).toggle();
-      var loading_modal = '' +
-        '<div id="loading-modal">' +
-        '    <div>' +
-        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
-        '    </div>' +
-        '</div>';
-      var loadURL = "../gene/"+this.id;
+      
+      //searchPos functionality...preserves legacy/previous functionality
+      var parts = window.location.search.substr(1).split("=");
+      if(parts[0].localeCompare('searchStr') == 0){
+    	  //searchPos
+    	  var loading_modal = '' +
+	        '<div id="loading-modal">' +
+	        '    <div>' +
+	        '        <img src="./assets/public/img/loading.gif" alt="Loading icon">' +
+	        '    </div>' +
+	        '</div>';
+    	  
+    	  var loadURL = "./geneVariantPos/" + parts[1]; //providing the position searched here
+      
+      } else {
+	      var loading_modal = '' +
+	        '<div id="loading-modal">' +
+	        '    <div>' +
+	        '        <img src="../assets/public/img/loading.gif" alt="Loading icon">' +
+	        '    </div>' +
+	        '</div>';
+  
+	      var loadURL = "../gene/"+this.id; //this.id is the gene name
+      }
+      
       //variations_table.html(loading_modal).load(loadURL);
       variations_table.html(loading_modal).load(loadURL, function(){
         tablesort();
@@ -101,8 +119,18 @@ $(document).ready(function(){
 	
 	// Modal popup for variant data
 	$('.showinfo .showinfo-popup').live('click', function(){
-	  var parent_id = $(this).closest("tr").attr("id").substring(9); // 9 = "mutation-"
-    var src='../variant/' + parent_id; 
+		
+	  var parts = window.location.search.substr(1).split("=");
+      if(parts[0].localeCompare('searchStr') == 0){
+    	  //for searchPos page
+          var parent_variant = $(this).closest("tr").attr("id").substring(9);
+    	  var src='./variant/'+ parent_variant;
+      } else {
+    	  //for by letter page
+    	  var parent_variant = $(this).closest("tr").attr("id").substring(9);
+    	  var src='../variant/' + parent_variant;
+      }
+      
     var viewport_height =  $(window).height();
 		$.modal('<iframe id="variant-pane" src="' + src + '" height="650" width="670" style="border:0">', {
     	containerCss:{
@@ -125,7 +153,7 @@ $(document).ready(function(){
 		$("#section-contact").modal({opacity:90,overlayClose:true});
 	});
   // Contact CBCB is unchecked by default
-  $("#contact-cbcb").prop("checked", false);
+    $("#contact-cbcb").prop("checked", false);
   // Automatically Contact CBCB on click
 	$('.contact-cbcb').click(function(){ 
     $("#contact-cbcb").prop("checked", true);
