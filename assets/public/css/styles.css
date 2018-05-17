@@ -329,12 +329,20 @@ padding:0 3px;
 border: 0px;
 align:right;
 }
+#mutation-tables fieldset a legend {
+float:left;
+font:1.5em/100% helvetica, arial, sans-serif;
+color:#FF0000;
+cursor:pointer;
+width: 85%;
+background:url(../img/legend-collapsible-back.png) center left no-repeat !important;
+}
 #mutation-tables fieldset legend {
 float:left;
 font:1.5em/100% helvetica, arial, sans-serif;
 color:#FF0000;
 cursor:pointer;
-width: 87%;
+width: 85%;
 background:url(../img/legend-collapsible-back.png) center left no-repeat !important;
 }
 #mutation-tables fieldset legend strong {

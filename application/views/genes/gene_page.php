@@ -9,9 +9,9 @@
 <div id="mutation-tables">
     <fieldset>
         <legend class="genename" id="<?php echo $gene ?>">
-	    	<strong><i>
+	    	<strong>
 	        	Variant List
-	        </i></strong>
+	        </strong>
         </legend>
         <span>
         	<!-- Commented out the below line for PR to cordova/dev. uncomment it for PV stuff -->
