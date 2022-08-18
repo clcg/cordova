@@ -208,7 +208,7 @@ The "About" page that comes standard with Cordova contains a generalized descrip
 For those who are familiar with HTML, you can modify this entire page however you'd like.
 
 ##### 2. Configure color scheme
-You can choose a different color scheme for your website by overriding the default cascading style sheets (CSS). 
+You can choose a different color scheme for your website by overriding the default [cascading style sheets (CSS)](https://www.scaler.com/topics/css/). 
 
 1. Find the hex value (e.g. #002B41, #580000) for your desired color. You can refer to this [list of hex values](http://www.w3schools.com/html/html_colors.asp) if you'd like.
 1. Open the `[cordova]/assets/public/css/override.css` file.
